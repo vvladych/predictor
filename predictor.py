@@ -1,6 +1,7 @@
 from gi.repository import Gtk
 
 from predictor.ui.ui_tools import toolbutton_factory
+from predictor.ui.publication_mask import PublicationMask
 
 
 class MainWindow(Gtk.Window):
@@ -65,8 +66,7 @@ class MainWindow(Gtk.Window):
             print("forecast")
             #self.working_area.pack_start(ForecastMask(self), False, False, 0)
         elif action == "publication":
-            print("publication")
-            #self.working_area.pack_start(PublicationMask(self), False, False, 0)
+            self.working_area.pack_start(PublicationMask(self), False, False, 0)
         else:
             print("unimplemented")
 
