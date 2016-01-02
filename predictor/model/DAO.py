@@ -15,7 +15,7 @@ class DAO(object):
     sql_dict={__LOAD_OBJECT_BY_UUID: "SELECT %s FROM %s WHERE uuid='%s'",
               __DELETE_OBJECT_BY_UUID: "DELETE FROM %s WHERE uuid='%s'",
               __UPDATE_OBJECT: "UPDATE %s SET %s WHERE uuid='%s'",
-              __INSERT_OBJECT: "INSERT INTO %s(%s) VALUES( %%s, %%s );"
+              __INSERT_OBJECT: "INSERT INTO %s(%s) VALUES( %s );"
               }    
     
     entity = None
@@ -84,11 +84,11 @@ class DAO(object):
         data = []
         for key in self.data_fields:
             fieldlist.append(key)
-            data.append(getattr(self,key))
-        sql_save=self.sql_dict[DAO.__INSERT_OBJECT] % (self.entity, ",".join(fieldlist))
+            data.append(getattr(self, key))
+        sql_save = self.sql_dict[DAO.__INSERT_OBJECT] % (self.entity, ",".join(fieldlist), ",".join(list(map(lambda x: "%s", data))))
         with dbcursor_wrapper(sql_save, data) as cursor:
             pass
-        self.__is_persisted=True
+        self.__is_persisted = True
         for join_object_list in self.join_objects_list.keys():
             for elem in self.join_objects_list.get(join_object_list):
                 elem.save()
@@ -124,7 +124,7 @@ class DAOList(set):
 
     __LOAD_LIST_SQL_KEY_NAME = "load"
         
-    sql_dict={__LOAD_LIST_SQL_KEY_NAME: "SELECT %s FROM %s"}
+    sql_dict = {__LOAD_LIST_SQL_KEY_NAME: "SELECT %s FROM %s"}
 
     def __str__(self):
         elems = []
@@ -151,10 +151,12 @@ class DAOList(set):
 
     @consistcheck("load")
     def load(self):
-        query=DAOList.sql_dict[DAOList.__LOAD_LIST_SQL_KEY_NAME] % (",".join(self.dao.data_fields), self.entity)
+        query = DAOList.sql_dict[DAOList.__LOAD_LIST_SQL_KEY_NAME] % (",".join(self.dao.data_fields), self.entity)
         with dbcursor_wrapper(query) as cursor:
-            rows=cursor.fetchall()
+            rows = cursor.fetchall()
             for row in rows:
-                self.add(self.dao(getattr(row,'uuid')))
+                dao = self.dao(getattr(row, 'uuid'))
+                dao.load()
+                self.add(dao)
         
 
