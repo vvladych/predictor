@@ -23,7 +23,6 @@ class PublicationMask(AbstractMask):
         self.overview_treeview.append_column(add_column_to_treeview("Title", 3, False))
         
     def populate_publications_treestore(self):
-        print("hhh")
         self.publications_treestore.clear()
         publications = DAOList(PublicationDAO)
         publications.load()

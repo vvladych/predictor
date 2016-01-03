@@ -110,7 +110,7 @@ class PublicationOverviewWindow(Gtk.Grid):
         publishers = DAOList(PublisherDAO)
         publishers.load()
         for p in publishers:
-            combobox_model.append(["%s" % p.uuid, p.common_name])
+            combobox_model.append(["%s" % p.uuid, p.commonname])
         return combobox_model  
     
     def set_active_publisher(self, publisher_uuid):
@@ -125,10 +125,10 @@ class PublicationOverviewWindow(Gtk.Grid):
         self.publication_url_textentry.set_text("%s" % self.publication.url)
         publicationtext = self.publication.get_publicationtext()
         if publicationtext is not None:
-            self.textview_widget.set_text(publicationtext.uuid)
+            self.textview_widget.set_text(publicationtext.text)
 
         self.publication_date_widget.set_date_from_string("%s" % self.publication.date)
-        self.publisher_combobox.set_active_id("%s" % self.publication.uuid)
+        #self.publisher_combobox.set_active_id("%s" % self.publication.uuid)
         #self.set_active_publisher(self.publication.publisher_sid)
     
     def save_publication_action(self, widget):

@@ -66,6 +66,16 @@ class PublicationDAO(DAO):
             publicationtext = PublicationtextDAO(publicationtext_uuid)
         return publicationtext
 
+    def get_publishers(self):
+        publishers = []
+        if len(self.join_objects_list["PublicationtoPublishers"])>0:
+            for publication_to_publisher in self.join_objects_list["PublicationtoPublishers"]:
+                publisher_uuid = publication_to_publisher.secDAO_uuid
+                publisher = PublisherDAO(publisher_uuid)
+                publishers.append(publisher)
+        return publishers
+
+
 
 class PublisherDAO(DAO):
     data_fields = ["uuid", "commonname", "url"]
