@@ -49,7 +49,7 @@ class PublicationDAO(DAO):
     join_objects_list = dict(PublicationtoPublisher=DAOtoDAOList(PublicationtoPublisher),
                              PublicationtoPublicationtext=DAOtoDAOList(PublicationtoPublicationtext))
 
-    def __init__(self, uuid, date=None, title=None, url=None):
+    def __init__(self, uuid=None, date=None, title=None, url=None):
         super(PublicationDAO, self).__init__(uuid)
         setattr(self, "date", date)
         setattr(self, "title", title)
@@ -57,6 +57,14 @@ class PublicationDAO(DAO):
 
     def add_publicationtext(self, publicationtext):
         self.join_objects_list["PublicationtoPublicationtext"].add(PublicationtoPublicationtext(self.uuid, publicationtext.uuid))
+
+    def get_publicationtext(self):
+        publicationtext = None
+        if len(self.join_objects_list["PublicationtoPublicationtext"])>0:
+            publication_to_publicationtext = next(iter(self.join_objects_list["PublicationtoPublicationtext"]))
+            publicationtext_uuid = publication_to_publicationtext.secDAO_uuid
+            publicationtext = PublicationtextDAO(publicationtext_uuid)
+        return publicationtext
 
 
 class PublisherDAO(DAO):

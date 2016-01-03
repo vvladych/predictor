@@ -22,14 +22,14 @@ class DAO(object):
     data_fields = ["uuid"]
     join_objects_list = {}
 
-    def __init__(self, uuid=None):
+    def __init__(self, uuid = None):
         self.__is_persisted = False
-        for p in self.data_fields:
-            setattr(self, p, None)
         if uuid is not None:
             self.uuid = uuid
             self.load()
         else:
+            for p in self.data_fields:
+                setattr(self, p, None)
             self.uuid = get_uuid_from_database()
 
     def __str__(self):
@@ -155,7 +155,8 @@ class DAOList(set):
         with dbcursor_wrapper(query) as cursor:
             rows = cursor.fetchall()
             for row in rows:
-                dao = self.dao(getattr(row, 'uuid'))
+                uuid = getattr(row, 'uuid')
+                dao = self.dao(uuid)
                 dao.load()
                 self.add(dao)
         

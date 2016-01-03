@@ -23,6 +23,7 @@ class PublicationMask(AbstractMask):
         self.overview_treeview.append_column(add_column_to_treeview("Title", 3, False))
         
     def populate_publications_treestore(self):
+        print("hhh")
         self.publications_treestore.clear()
         publications = DAOList(PublicationDAO)
         publications.load()
@@ -41,18 +42,17 @@ class PublicationMask(AbstractMask):
         menu_item_delete_publication.show()
         self.overview_treeview.connect("button_press_event", self.on_treeview_button_press_event,menu)
 
-    def on_menu_item_create_new_publication_click(self, widget):
-        self.publication = None
-        self.clear_main_middle_pane()
-        self.main_middle_pane.pack_start(PublicationOverviewWindow(self, self.publication, self.populate_publications_treestore), False, False, 0)
-        self.main_middle_pane.show_all()
-
     def on_menu_item_delete_publication_click(self, widget):
         assert isinstance(self.publication, object), "%r is not instance of publication"
         self.publication.delete()
         self.clear_main_middle_pane()
         show_info_dialog("Publication deleted")
         self.populate_publications_treestore()
+
+    def on_menu_item_create_new_publication_click(self, widget):
+        self.clear_main_middle_pane()
+        self.main_middle_pane.pack_start(PublicationOverviewWindow(self, None, self.populate_publications_treestore), False, False, 0)
+        self.main_middle_pane.show_all()
 
     def on_treeview_button_press_event(self, treeview, event, widget):
         x = int(event.x)
@@ -62,10 +62,14 @@ class PublicationMask(AbstractMask):
             if pthinfo is not None:
                 treeview.get_selection().select_path(pthinfo[0])    
                 publication_uuid = self.publications_treestore.get(self.publications_treestore.get_iter(pthinfo[0]), 0)
-                self.publication = PublicationDAO(publication_uuid[0])
-                self.publication.load()
                 self.clear_main_middle_pane()
-                self.main_middle_pane.pack_start(PublicationOverviewWindow(self, self.publication), False, False, 0)
+                publication = PublicationDAO(publication_uuid[0])
+                publication.load()
+                self.main_middle_pane.pack_start(PublicationOverviewWindow(self,
+                                                                           publication),
+                                                 False,
+                                                 False,
+                                                 0)
                 self.main_middle_pane.show_all()
         
         if event.button == 3:

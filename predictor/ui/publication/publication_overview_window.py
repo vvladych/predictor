@@ -12,6 +12,7 @@ from predictor.model.predictor_model import PublicationDAO
 from predictor.model.predictor_model import PublicationtextDAO
 from predictor.model.DAO import DAOList
 from predictor.helpers.transaction_broker import transactional
+from predictor.helpers.db_connection import get_uuid_from_database
 import datetime
 
 
@@ -74,7 +75,7 @@ class PublicationOverviewWindow(Gtk.Grid):
         publication_file_label.set_justify(Gtk.Justification.LEFT)
         self.attach(publication_file_label, 0, row, 1, 1)
 
-        self.publication_file_textentry=Gtk.Entry()
+        self.publication_file_textentry = Gtk.Entry()
         self.attach(self.publication_file_textentry, 1, row, 2, 1)
 
         row += 1
@@ -122,10 +123,13 @@ class PublicationOverviewWindow(Gtk.Grid):
     def load_publication(self):
         self.publication_title_textentry.set_text(self.publication.title)
         self.publication_url_textentry.set_text("%s" % self.publication.url)
-        ###self.textview_widget.set_text(self.publication.publication_text)
+        publicationtext = self.publication.get_publicationtext()
+        if publicationtext is not None:
+            self.textview_widget.set_text(publicationtext.uuid)
+
         self.publication_date_widget.set_date_from_string("%s" % self.publication.date)
         self.publisher_combobox.set_active_id("%s" % self.publication.uuid)
-        ###self.set_active_publisher(self.publication.publisher_sid)
+        #self.set_active_publisher(self.publication.publisher_sid)
     
     def save_publication_action(self, widget):
         if self.publication is not None:
@@ -141,7 +145,7 @@ class PublicationOverviewWindow(Gtk.Grid):
         publication_url = self.publication_url_textentry.get_text()
                 
         # insert publication
-        publication = PublicationDAO(publisher_uuid,
+        publication = PublicationDAO(None,
                                      datetime.date(int(self.publication_date_year_textentry.get_text()),
                                                    int(self.publication_date_month_textentry.get_text()),
                                                    int(self.publication_date_day_textentry.get_text())),
@@ -155,6 +159,7 @@ class PublicationOverviewWindow(Gtk.Grid):
 
         publication.save()
         show_info_dialog("Publication inserted")
+        self.publication = publication
         self.parent_callback()
 
     def get_active_publisher(self):
