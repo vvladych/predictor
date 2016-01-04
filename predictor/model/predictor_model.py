@@ -1,5 +1,5 @@
-from predictor.model.DAO import DAO, DAOList
-from predictor.model.DAOtoDAO import DAOtoDAO, DAOtoDAOList
+from predictor.model.DAO import DAO
+from predictor.model.DAOtoDAO import DAOtoDAO
 
 
 class PredictionDAO(DAO):
@@ -16,7 +16,7 @@ class PersontoPersonnamepart(DAOtoDAO):
 class PersonDAO(DAO):
     data_fields = ["uuid", "common_name", "birth_date"]
     entity = "person"
-    join_objects_list = dict(PersontoPersonnamepart=DAOtoDAOList(PersontoPersonnamepart))
+    join_objects = {"PersontoPersonnamepart": PersontoPersonnamepart}
 
     def __init__(self, uuid, common_name=None, birth_date=None):
         super(PersonDAO, self).__init__(uuid)
@@ -24,7 +24,7 @@ class PersonDAO(DAO):
         setattr(self, "birth_date", birth_date)
 
     def add_personnamepart(self, personnamepart):
-        self.join_objects_list["PersontoPersonnamepart"].add(PersontoPersonnamepart(self.uuid, personnamepart.uuid))
+        self.PersontoPersonnamepart.add(PersontoPersonnamepart(self.uuid, personnamepart.uuid))
 
 
 class PersonnamepartDAO(DAO):
@@ -46,8 +46,8 @@ class PublicationtoPublicationtext(DAOtoDAO):
 class PublicationDAO(DAO):
     data_fields = ["uuid", "date", "title", "url"]
     entity = "publication"
-    join_objects_list = dict(PublicationtoPublisher=DAOtoDAOList(PublicationtoPublisher),
-                             PublicationtoPublicationtext=DAOtoDAOList(PublicationtoPublicationtext))
+    join_objects = {"PublicationtoPublisher": PublicationtoPublisher,
+                    "PublicationtoPublicationtext": PublicationtoPublicationtext}
 
     def __init__(self, uuid=None, date=None, title=None, url=None):
         super(PublicationDAO, self).__init__(uuid)
@@ -56,20 +56,20 @@ class PublicationDAO(DAO):
         setattr(self, "url", url)
 
     def add_publicationtext(self, publicationtext):
-        self.join_objects_list["PublicationtoPublicationtext"].add(PublicationtoPublicationtext(self.uuid, publicationtext.uuid))
+        self.PublicationtoPublicationtext.add(PublicationtoPublicationtext(self.uuid, publicationtext.uuid))
 
     def get_publicationtext(self):
         publicationtext = None
-        if len(self.join_objects_list["PublicationtoPublicationtext"])>0:
-            publication_to_publicationtext = next(iter(self.join_objects_list["PublicationtoPublicationtext"]))
+        if len(self.PublicationtoPublicationtext)>0:
+            publication_to_publicationtext = next(iter(self.PublicationtoPublicationtext))
             publicationtext_uuid = publication_to_publicationtext.secDAO_uuid
             publicationtext = PublicationtextDAO(publicationtext_uuid)
         return publicationtext
 
     def get_publishers(self):
         publishers = []
-        if len(self.join_objects_list["PublicationtoPublishers"])>0:
-            for publication_to_publisher in self.join_objects_list["PublicationtoPublishers"]:
+        if len(self.PublicationtoPublishers)>0:
+            for publication_to_publisher in self.PublicationtoPublishers:
                 publisher_uuid = publication_to_publisher.secDAO_uuid
                 publisher = PublisherDAO(publisher_uuid)
                 publishers.append(publisher)
