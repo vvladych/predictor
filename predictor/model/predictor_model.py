@@ -66,15 +66,13 @@ class PublicationDAO(DAO):
             publicationtext = PublicationtextDAO(publicationtext_uuid)
         return publicationtext
 
-    def get_publishers(self):
-        publishers = []
-        if len(self.PublicationtoPublishers)>0:
-            for publication_to_publisher in self.PublicationtoPublishers:
-                publisher_uuid = publication_to_publisher.secDAO_uuid
-                publisher = PublisherDAO(publisher_uuid)
-                publishers.append(publisher)
-        return publishers
-
+    def get_publisher(self):
+        publisher = None
+        if len(self.PublicationtoPublisher)>0:
+            publication_to_publisher = next(iter(self.PublicationtoPublisher))
+            publisher_uuid = publication_to_publisher.secDAO_uuid
+            publisher = PublisherDAO(publisher_uuid)
+        return publisher
 
 
 class PublisherDAO(DAO):

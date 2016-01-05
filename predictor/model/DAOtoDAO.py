@@ -8,6 +8,8 @@ class DAOtoDAO(object):
     __INSERT_OBJECT = "insert"
     __DELETE_OBJECT = "delete"
 
+    entity = None
+
     sql_dict = {
                 __INSERT_OBJECT: "INSERT INTO %s(%s,%s) VALUES( %%s, %%s );",
                 __DELETE_OBJECT: "DELETE FROM %s WHERE %s"

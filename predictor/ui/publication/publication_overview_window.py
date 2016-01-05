@@ -1,8 +1,8 @@
-'''
+"""
 Created on 20.08.2015
 
 @author: vvladych
-'''
+"""
 
 from gi.repository import Gtk
 
@@ -12,7 +12,6 @@ from predictor.model.predictor_model import PublicationDAO
 from predictor.model.predictor_model import PublicationtextDAO
 from predictor.model.DAO import DAOList
 from predictor.helpers.transaction_broker import transactional
-from predictor.helpers.db_connection import get_uuid_from_database
 import datetime
 
 
@@ -112,9 +111,14 @@ class PublicationOverviewWindow(Gtk.Grid):
         for p in publishers:
             combobox_model.append(["%s" % p.uuid, p.commonname])
         return combobox_model  
-    
+
+    def ff(self, publisher_uuid):
+        print(publisher_uuid)
+
     def set_active_publisher(self, publisher_uuid):
+        self.combobox_model.foreach(self.ff, publisher_uuid)
         model_iter = self.publisher_model.get_iter_first()
+
         while self.publisher_model.iter_next(model_iter):
             if publisher_uuid == self.publisher_model.get_value(model_iter,0):
                 self.publisher_combobox.set_active_iter(model_iter)
@@ -128,8 +132,10 @@ class PublicationOverviewWindow(Gtk.Grid):
             self.textview_widget.set_text(publicationtext.text)
 
         self.publication_date_widget.set_date_from_string("%s" % self.publication.date)
-        #self.publisher_combobox.set_active_id("%s" % self.publication.uuid)
-        #self.set_active_publisher(self.publication.publisher_sid)
+        publisher = self.publication.get_publisher()
+        if publisher is not None:
+            #self.publisher_combobox.set_active_id("%s" % publisher.uuid)
+            self.set_active_publisher(publisher.uuid)
     
     def save_publication_action(self, widget):
         if self.publication is not None:
