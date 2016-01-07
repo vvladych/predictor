@@ -130,7 +130,6 @@ class PublicationOverviewWindow(Gtk.Grid):
         self.publication_date_widget.set_date_from_string("%s" % self.publication.date)
         publisher = self.publication.get_publisher()
         if publisher is not None:
-            #self.publisher_combobox.set_active_id("%s" % publisher.uuid)
             self.set_active_publisher(publisher.uuid)
     
     def save_publication_action(self, widget):
@@ -159,6 +158,10 @@ class PublicationOverviewWindow(Gtk.Grid):
         publication_text_DAO.save()
         publication.add_publicationtext(publication_text_DAO)
 
+        publisher_uuid = self.get_active_publisher()
+        publisher = PublisherDAO(publisher_uuid)
+        publication.add_publisher(publisher)
+
         publication.save()
         show_info_dialog("Publication inserted")
         self.publication = publication
@@ -168,8 +171,8 @@ class PublicationOverviewWindow(Gtk.Grid):
         tree_iter = self.publisher_combobox.get_active_iter()
         if tree_iter is not None:
             model = self.publisher_combobox.get_model()
-            publisher_sid = model[tree_iter][:2]
-            return publisher_sid[0]
+            publisher_uuid = model[tree_iter][:2]
+            return publisher_uuid[0]
         else:
             print("please choose a publisher!")
 

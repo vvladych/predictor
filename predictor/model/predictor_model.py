@@ -66,6 +66,9 @@ class PublicationDAO(DAO):
             publicationtext = PublicationtextDAO(publicationtext_uuid)
         return publicationtext
 
+    def add_publisher(self, publisher):
+        self.PublicationtoPublisher.add(PublicationtoPublisher(self.uuid, publisher.uuid))
+
     def get_publisher(self):
         publisher = None
         if len(self.PublicationtoPublisher)>0:
