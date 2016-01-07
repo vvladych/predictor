@@ -110,16 +110,12 @@ class PublicationOverviewWindow(Gtk.Grid):
         publishers.load()
         for p in publishers:
             combobox_model.append(["%s" % p.uuid, p.commonname])
-        return combobox_model  
-
-    def ff(self, publisher_uuid):
-        print(publisher_uuid)
+        return combobox_model
 
     def set_active_publisher(self, publisher_uuid):
-        self.combobox_model.foreach(self.ff, publisher_uuid)
         model_iter = self.publisher_model.get_iter_first()
 
-        while self.publisher_model.iter_next(model_iter):
+        while model_iter is not None and self.publisher_model.iter_is_valid(model_iter):
             if publisher_uuid == self.publisher_model.get_value(model_iter,0):
                 self.publisher_combobox.set_active_iter(model_iter)
             model_iter = self.publisher_model.iter_next(model_iter)
