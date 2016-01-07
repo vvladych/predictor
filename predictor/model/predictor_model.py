@@ -82,6 +82,11 @@ class PublisherDAO(DAO):
     data_fields = ["uuid", "commonname", "url"]
     entity = "publisher"
 
+    def __init__(self, uuid=None, commonname=None, url=None):
+        super(PublisherDAO, self).__init__(uuid)
+        setattr(self, "commonname", commonname)
+        setattr(self, "url", url)
+
 
 class PublicationtextDAO(DAO):
     data_fields = ["uuid", "text"]

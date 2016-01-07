@@ -67,7 +67,7 @@ class DAO(object):
             if row is not None:
                 for data_field in self.__class__.data_fields:
                     setattr(self, data_field, getattr(row, data_field))
-                self.__is_persisted=True
+                self.__is_persisted = True
             else:
                 raise BaseException("row with uuid %s doesn't exist" % self.uuid)
         # load daotodao objects
