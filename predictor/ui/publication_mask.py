@@ -30,23 +30,27 @@ class PublicationMask(AbstractMask):
             self.publications_treestore.append(None, [publication.uuid, "", "%s" % publication.date, publication.title])
 
     def add_context_menu_overview_treeview(self):
-        menu=Gtk.Menu()
-        menu_item_create_new_publication=Gtk.MenuItem("Add new publication...")
+        menu = Gtk.Menu()
+        menu_item_create_new_publication = Gtk.MenuItem("Add new publication...")
         menu_item_create_new_publication.connect("activate", self.on_menu_item_create_new_publication_click) 
         menu.append(menu_item_create_new_publication)
         menu_item_create_new_publication.show()
-        menu_item_delete_publication=Gtk.MenuItem("Delete publication...")
+        menu_item_delete_publication = Gtk.MenuItem("Delete publication...")
         menu_item_delete_publication.connect("activate", self.on_menu_item_delete_publication_click) 
         menu.append(menu_item_delete_publication)
         menu_item_delete_publication.show()
         self.overview_treeview.connect("button_press_event", self.on_treeview_button_press_event,menu)
 
     def on_menu_item_delete_publication_click(self, widget):
-        assert isinstance(self.publication, object), "%r is not instance of publication"
-        self.publication.delete()
-        self.clear_main_middle_pane()
-        show_info_dialog("Publication deleted")
-        self.populate_publications_treestore()
+        if self.publication is not None:
+            assert isinstance(self.publication, PublicationDAO), "%r is not instance of publication"
+            self.publication.delete()
+            self.publication = None
+            self.clear_main_middle_pane()
+            show_info_dialog("Publication deleted")
+            self.populate_publications_treestore()
+        else:
+            show_info_dialog("Please choose a publication")
 
     def on_menu_item_create_new_publication_click(self, widget):
         self.clear_main_middle_pane()
@@ -59,16 +63,9 @@ class PublicationMask(AbstractMask):
         pthinfo = treeview.get_path_at_pos(x, y)
         if event.button == 1:
             if pthinfo is not None:
-                treeview.get_selection().select_path(pthinfo[0])    
-                publication_uuid = self.publications_treestore.get(self.publications_treestore.get_iter(pthinfo[0]), 0)
                 self.clear_main_middle_pane()
-                publication = PublicationDAO(publication_uuid[0])
-                publication.load()
-                self.main_middle_pane.pack_start(PublicationOverviewWindow(self,
-                                                                           publication),
-                                                 False,
-                                                 False,
-                                                 0)
+                self.publication = self._get_selected_publication(treeview, pthinfo)
+                self.main_middle_pane.pack_start(PublicationOverviewWindow(self, self.publication), False, False, 0)
                 self.main_middle_pane.show_all()
         
         if event.button == 3:
@@ -76,3 +73,10 @@ class PublicationMask(AbstractMask):
                 treeview.get_selection().select_path(pthinfo[0])    
             widget.popup(None, None, None, None, event.button, event.time)    
         return True
+
+    def _get_selected_publication(self, treeview, pathinfo):
+        treeview.get_selection().select_path(pathinfo[0])
+        publication_uuid = self.publications_treestore.get(self.publications_treestore.get_iter(pathinfo[0]), 0)
+        publication = PublicationDAO(publication_uuid[0])
+        publication.load()
+        return publication

@@ -177,4 +177,8 @@ class PublicationOverviewWindow(Gtk.Grid):
             print("please choose a publisher!")
 
     def delete_action(self, widget):
-        print("not implemented")
+        if self.publication is not None:
+            self.publication.delete()
+            self.publication = None
+        else:
+            print("publication is None!")

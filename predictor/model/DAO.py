@@ -120,10 +120,10 @@ class DAO(object):
     @transactional
     @consistcheck("delete")
     def delete(self):
-        sql_query=self.sql_dict[DAO.__DELETE_OBJECT_BY_UUID] % (self.__class__.entity, self.uuid)
+        sql_query = self.sql_dict[DAO.__DELETE_OBJECT_BY_UUID] % (self.__class__.entity, self.uuid)
         with dbcursor_wrapper(sql_query) as cursor:
             pass
-        self.__is_persisted=False
+        self.__is_persisted = False
 
 
 class DAOList(set):
