@@ -7,7 +7,7 @@ class TreeviewColumn(object):
     
     def __init__(self, column_name, order_number, hidden=True, fixed_size=False):
         self.column_name = column_name
-        self.order_number = order_number
+        self.ordernum = order_number
         self.hidden = hidden
         self.fixed_size = fixed_size
 
