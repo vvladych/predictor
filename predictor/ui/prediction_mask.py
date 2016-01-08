@@ -31,7 +31,7 @@ class PredictionMask(AbstractMask):
 
     def add_context_menu_overview_treeview(self):
         menu = Gtk.Menu()
-        menu_item_create_new_prediction = Gtk.MenuItem("Add new fpredictions...")
+        menu_item_create_new_prediction = Gtk.MenuItem("Add new prediction...")
         menu_item_create_new_prediction.connect("activate", self.on_menu_item_create_new_prediction_click)
         menu.append(menu_item_create_new_prediction)
         menu_item_create_new_prediction.show()
@@ -61,7 +61,7 @@ class PredictionMask(AbstractMask):
         predictions = DAOList(PredictionDAO)
         predictions.load()
         for prediction in predictions:
-            self.predictions_treestore.append(None, [prediction.uuid, "%s" % prediction.created_date, prediction.commonname])
+            self.predictions_treestore.append(None, [prediction.uuid, "", "%s" % prediction.created_date, prediction.commonname])
 
     def on_menu_item_delete_prediction_click(self, widget):
         (model, tree_iter) = self.overview_treeview.get_selection().get_selected()
@@ -83,7 +83,7 @@ class PredictionMask(AbstractMask):
         if event.button == 1:
             if pthinfo is not None:
                 treeview.get_selection().select_path(pthinfo[0])    
-                prediction_uuid = self.predictions_treestore.get(self.predictions_treestore.get_iter(pthinfo[0]), 0)
+                prediction_uuid = self.predictions_treestore.get(self.predictions_treestore.get_iter(pthinfo[0]), 0)[0]
                 prediction = PredictionDAO(prediction_uuid)
                 prediction.load()
                 self.clear_main_middle_pane()

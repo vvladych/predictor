@@ -105,7 +105,7 @@ class PredictionDAO(DAO):
     join_objects = {"PredictiontoPublication": PredictiontoPublication}
 
     def __init__(self, uuid=None, commonname=None, short_description=None, created_date=None):
-        super(PublisherDAO, self).__init__(uuid)
+        super(PredictionDAO, self).__init__(uuid)
         setattr(self, "commonname", commonname)
         setattr(self, "short_description", short_description)
         setattr(self, "created_date", created_date)

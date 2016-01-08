@@ -53,8 +53,8 @@ class PredictionOverviewWindow(Gtk.Grid):
         self.attach(description_label, 0, row, 1, 1)
         
         short_desc_text = None
-        if self.forecast is not None:
-            short_desc_text = self.forecast.short_description
+        if self.prediction is not None:
+            short_desc_text = self.prediction.short_description
         
         self.desc_textview = Gtk.TextView()
         desc_textview_widget=TextViewWidget(self.desc_textview, short_desc_text)
@@ -69,8 +69,8 @@ class PredictionOverviewWindow(Gtk.Grid):
         
         row += 1
 
-        self.originator_overview_component.clean_and_populate_model()
-        row = self.originator_overview_component.create_layout(self, row)
+        ####self.originator_overview_component.clean_and_populate_model()
+        ####row = self.originator_overview_component.create_layout(self, row)
 
         row += 1
         button_add_originator_dialog = Gtk.Button("Edit originator(s)")
@@ -86,8 +86,8 @@ class PredictionOverviewWindow(Gtk.Grid):
         row += 1
         
         # project publications
-        self.publication_overview_component.clean_and_populate_model()
-        row = self.publication_overview_component.create_layout(self, row)
+        ####self.publication_overview_component.clean_and_populate_model()
+        ####row = self.publication_overview_component.create_layout(self, row)
         
         row += 1
         button_add_publication_dialog = Gtk.Button("Edit publication(s)")
