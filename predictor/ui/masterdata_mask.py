@@ -1,30 +1,30 @@
-'''
+"""
 Created on 14.03.2015
 
 @author: vvladych
-'''
+"""
 from gi.repository import Gtk
 from predictor.ui.masterdata.publisher_window import PublisherWindow
 
 
 class MasterdataMask(Gtk.Grid):
     
-    def __init__(self, main_window, person=None):
+    def __init__(self, main_window, publisher=None):
         Gtk.Grid.__init__(self)
 
         self.main_window = main_window
 
         # Main working pane: contains left pane with actions and working area pane 
-        self.main_working_pane = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL)
+        self.main_working_pane = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         self.main_working_pane.set_size_request(200, 600)
         self.add(self.main_working_pane)
 
         # the left pane: actions
-        self.main_left_pane = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL)
+        self.main_left_pane = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         self.main_left_pane.set_vexpand(True)
 
         # the middle pane: working area
-        self.main_middle_pane = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL)
+        self.main_middle_pane = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         self.main_middle_pane.set_vexpand(True)
 
         self.main_working_pane.pack_start(self.main_left_pane, False, False, 0)
@@ -58,7 +58,7 @@ class MasterdataMask(Gtk.Grid):
     
     def set_main_area(self, main_area_type="person"):
         self.main_working_pane.remove(self.main_middle_pane)
-        self.main_middle_pane = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL)
+        self.main_middle_pane = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         self.main_working_pane.pack_start(self.main_middle_pane, False, False, 0)
 
         if main_area_type == "person":

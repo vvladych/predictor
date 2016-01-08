@@ -91,3 +91,24 @@ class PublisherDAO(DAO):
 class PublicationtextDAO(DAO):
     data_fields = ["uuid", "text"]
     entity = "publicationtext"
+
+
+class PredictiontoPublication(DAOtoDAO):
+    entity = "prediction_to_publication"
+    primDAO_PK = "publication_uuid"
+    secDAO_PK = "prediction_uuid"
+
+
+class PredictionDAO(DAO):
+    data_fields = ["uuid", "commonname", "short_description", "created_date"]
+    entity = "prediction"
+    join_objects = {"PredictiontoPublication": PredictiontoPublication}
+
+    def __init__(self, uuid=None, commonname=None, short_description=None, created_date=None):
+        super(PublisherDAO, self).__init__(uuid)
+        setattr(self, "commonname", commonname)
+        setattr(self, "short_description", short_description)
+        setattr(self, "created_date", created_date)
+
+    def add_publication(self, publication):
+        self.PredictiontoPublication.add(publication)

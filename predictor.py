@@ -3,6 +3,7 @@ from gi.repository import Gtk
 from predictor.ui.ui_tools import toolbutton_factory
 from predictor.ui.publication_mask import PublicationMask
 from predictor.ui.masterdata_mask import MasterdataMask
+from predictor.ui.prediction_mask import PredictionMask
 
 
 class MainWindow(Gtk.Window):
@@ -37,7 +38,7 @@ class MainWindow(Gtk.Window):
 
     def create_toolbar(self) -> Gtk.Toolbar:
         toolbar = Gtk.Toolbar()
-        toolbar.add(toolbutton_factory(Gtk.STOCK_ABOUT, "prediction", self.on_toolbutton_forecast))
+        toolbar.add(toolbutton_factory(Gtk.STOCK_ABOUT, "prediction", self.on_toolbutton_prediction))
         toolbar.add(toolbutton_factory(Gtk.STOCK_EDIT, "publications", self.on_toolbutton_publication))
         toolbar.add(toolbutton_factory(Gtk.STOCK_EXECUTE, "master_data", self.on_toolbutton_masterdata))
         toolbar.add(toolbutton_factory(Gtk.STOCK_QUIT, "quit", self.on_menu_file_quit))
@@ -61,11 +62,9 @@ class MainWindow(Gtk.Window):
     def set_working_area(self, action="masterdata"):
         self.clean_working_area()
         if action == "masterdata":
-            print("masterdata")
             self.working_area.pack_start(MasterdataMask(self), False, False, 0)
-        elif action == "forecast":
-            print("forecast")
-            #self.working_area.pack_start(ForecastMask(self), False, False, 0)
+        elif action == "prediction":
+            self.working_area.pack_start(PredictionMask(self), False, False, 0)
         elif action == "publication":
             self.working_area.pack_start(PublicationMask(self), False, False, 0)
         else:
@@ -79,8 +78,8 @@ class MainWindow(Gtk.Window):
     def on_toolbutton_masterdata(self, widget):
         self.set_working_area("masterdata")
 
-    def on_toolbutton_forecast(self, widget):
-        self.set_working_area("forecast")
+    def on_toolbutton_prediction(self, widget):
+        self.set_working_area("prediction")
 
     def on_toolbutton_publication(self, widget):
         self.set_working_area("publication")
