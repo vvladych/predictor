@@ -1,4 +1,4 @@
-from predictor.model.DAO import DAO
+from predictor.model.DAO import DAO, VDAO
 from predictor.model.DAOtoDAO import DAOtoDAO
 
 
@@ -95,8 +95,8 @@ class PublicationtextDAO(DAO):
 
 class PredictiontoPublication(DAOtoDAO):
     entity = "prediction_to_publication"
-    primDAO_PK = "publication_uuid"
-    secDAO_PK = "prediction_uuid"
+    primDAO_PK = "prediction_uuid"
+    secDAO_PK = "publication_uuid"
 
 
 class PredictionDAO(DAO):
@@ -112,3 +112,8 @@ class PredictionDAO(DAO):
 
     def add_publication(self, publication):
         self.PredictiontoPublication.add(publication)
+
+
+class PredictionPublisherV(VDAO):
+    data_fields = ["uuid", "commonname", "title", "date", "url", "publication_uuid"]
+    entity = "public.\"prediction_publication_V\""

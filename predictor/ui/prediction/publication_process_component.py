@@ -9,7 +9,7 @@ from predictor.ui.prediction.abstract_data_process_component import AbstractData
 
 from predictor.ui.ui_tools import TreeviewColumn, show_info_dialog
 
-from predictor.model.predictor_model import PublicationDAO
+from predictor.model.predictor_model import PublicationDAO, PredictionPublisherV
 from predictor.model.predictor_model import PredictiontoPublication
 from predictor.model.DAO import DAOList
 
@@ -68,29 +68,29 @@ class PublicationManipulationComponent(AbstractDataManipulationComponent):
         publications = DAOList(PublicationDAO)
         publications.load()
         for p in publications:
-            combobox_model.append(["%s" % p.uuid, "%s %s %s" % (p.publisher.common_name, p.publishing_date.strftime('%d.%m.%Y'), p.title)])
+            combobox_model.append(["%s" % p.uuid, "%s %s %s" % ("Publisher", p.date, p.title)])
         return combobox_model
 
-    """
     def add_publication_action(self, widget):
-        (publication_sid,publication_info)=self.get_active_publication()
-        forecast_publication = ForecastPublication(forecast_sid=self.forecast.sid, publication_sid=publication_sid)
-        forecast_publication.insert()
+        publication_uuid = self.get_active_publication()
+        prediction_publication = PredictiontoPublication(self.prediction.uuid, publication_uuid)
+        prediction_publication.save()
         show_info_dialog("Add successful")
         self.overview_component.clean_and_populate_model()
-    """
 
     def get_active_publication(self):
         tree_iter = self.publication_combobox.get_active_iter()
         if tree_iter is not None:
             model = self.publication_combobox.get_model()
-            publication_uuid = model[tree_iter][:2]
+            publication_uuid = model[tree_iter][0]
             return publication_uuid
         else:
             print("please choose a publication!")
 
-    """
+
     def delete_action(self, widget):
+        pass
+    """
         (model, tree_iter) = self.overview_component.treeview.get_selection().get_selected()
         ForecastPublication(model[tree_iter][5]).delete()
         model.remove(tree_iter)
@@ -103,37 +103,21 @@ class PublicationOverviewComponent(AbstractDataOverviewComponent):
     def on_row_select(self, widget, path, data):
         pass
 
-    treecolumns = [TreeviewColumn("publication_uuid", 0, True),
+    treecolumns = [TreeviewColumn("prediction_uuid", 0, True),
                    TreeviewColumn("Publisher", 1, False),
                    TreeviewColumn("Title", 2, False, True),
                    TreeviewColumn("Date", 3, False),
-                   TreeviewColumn("URL", 4, False)
+                   TreeviewColumn("URL", 4, False),
+                   TreeviewColumn("publication_uuid", 5, False),
                    ]
     
-    def __init__(self, forecast):
-        self.forecast=forecast
+    def __init__(self, prediction):
+        self.prediction = prediction
         super(PublicationOverviewComponent, self).__init__(PublicationOverviewComponent.treecolumns)
 
     def populate_model(self):
-        pass
-
-    """
-    def populate_model(self):
         self.treemodel.clear()
-        cur=get_db_connection().cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
-        data=(self.forecast.sid,)
-        cur.execute(""\"SELECT
-                        fc_publication.sid as publication_sid, 
-                        fc_publisher.publisher_common_name, fc_publication.title, fc_publication.publishing_date,
-                         fc_publication.publication_url, fc_forecast_publication.sid  as forecast_publication_sid  
-                        FROM 
-                        fc_forecast_publication, fc_publication, fc_publisher 
-                        WHERE
-                        fc_forecast_publication.forecast_sid=%s AND
-                        fc_forecast_publication.publication_sid=fc_publication.sid AND  
-                        fc_publication.publisher_sid=fc_publisher.sid 
-                        \""",data)
-        for p in cur.fetchall():
-            self.treemodel.append([ "%s" % p.publication_sid, p.publisher_common_name, p.title, p.publishing_date.strftime('%d.%m.%Y'),p.publication_url, "%s" % p.forecast_publication_sid])
-        cur.close()
-    """
+        prediction_publications = DAOList(PredictionPublisherV)
+        prediction_publications.load()
+        for p in prediction_publications:
+            self.treemodel.append(["%s" % p.uuid, p.commonname, p.title, p.date.strftime('%d.%m.%Y'),p.url, "%s" % p.publication_uuid])

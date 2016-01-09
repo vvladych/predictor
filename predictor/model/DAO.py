@@ -126,6 +126,21 @@ class DAO(object):
         self.__is_persisted = False
 
 
+class VDAO(DAO):
+
+    def __init__(self, uuid):
+        super(VDAO, self).__init__(uuid)
+
+    def load(self):
+        super(VDAO, self).load()
+
+    def save(self):
+        pass
+
+    def delete(self):
+        pass
+
+
 class DAOList(set):
 
     __LOAD_LIST_SQL_KEY_NAME = "load"
