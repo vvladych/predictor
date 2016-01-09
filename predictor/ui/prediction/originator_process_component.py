@@ -22,10 +22,10 @@ import psycopg2.extras
 
 class OriginatorProcessComponent(AbstractDataProcessComponent):
     
-    def __init__(self, forecast):
-        super(OriginatorProcessComponent, self).__init__(OriginatorManipulationComponent(forecast, OriginatorOverviewComponent(forecast)))
-        
-        
+    def __init__(self, prediction):
+        super(OriginatorProcessComponent, self).__init__(OriginatorManipulationComponent(prediction, OriginatorOverviewComponent(prediction)))
+
+
 class OriginatorManipulationComponent(AbstractDataManipulationComponent):
     
     def __init__(self, forecast, overview_component):

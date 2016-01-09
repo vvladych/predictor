@@ -61,17 +61,24 @@ class PredictionMask(AbstractMask):
         predictions = DAOList(PredictionDAO)
         predictions.load()
         for prediction in predictions:
-            self.predictions_treestore.append(None, [prediction.uuid, "", "%s" % prediction.created_date, prediction.commonname])
+            self.predictions_treestore.append(None,
+                                              [prediction.uuid,
+                                               "",
+                                               "%s" % prediction.created_date,
+                                               prediction.commonname])
 
     def on_menu_item_delete_prediction_click(self, widget):
         (model, tree_iter) = self.overview_treeview.get_selection().get_selected()
         prediction_uuid = model.get_value(tree_iter, 0)
-        nd = Gtk.Dialog("Delete prediction?", self.main_window, 0, ("OK", Gtk.ResponseType.OK, "CANCEL", Gtk.ResponseType.CANCEL))
+        nd = Gtk.Dialog("Delete prediction?",
+                        self.main_window,
+                        0,
+                        ("OK", Gtk.ResponseType.OK, "CANCEL", Gtk.ResponseType.CANCEL))
         ret = nd.run()
         nd.destroy()
         if ret == Gtk.ResponseType.OK:
-            predictionDAO = PredictionDAO(prediction_uuid)
-            predictionDAO.delete()
+            prediction = PredictionDAO(prediction_uuid)
+            prediction.delete()
             self.__populate_predictions_treestore()
         else:
             show_info_dialog("Canceled")
