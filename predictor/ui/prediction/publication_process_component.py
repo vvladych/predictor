@@ -9,7 +9,7 @@ from predictor.ui.prediction.abstract_data_process_component import AbstractData
 
 from predictor.ui.ui_tools import TreeviewColumn, show_info_dialog
 
-from predictor.model.predictor_model import PublicationDAO, PredictionPublisherV
+from predictor.model.predictor_model import PublicationDAO, PredictionDAO, PredictionPublisherV
 from predictor.model.predictor_model import PredictiontoPublication
 from predictor.model.DAO import DAOList
 
@@ -87,15 +87,14 @@ class PublicationManipulationComponent(AbstractDataManipulationComponent):
         else:
             print("please choose a publication!")
 
-
     def delete_action(self, widget):
-        pass
-    """
         (model, tree_iter) = self.overview_component.treeview.get_selection().get_selected()
-        ForecastPublication(model[tree_iter][5]).delete()
+        prediction = PredictionDAO(model[tree_iter][0])
+        prediction.load()
+        prediction.remove_publication(PublicationDAO(model[tree_iter][5]))
+        prediction.save()
         model.remove(tree_iter)
         show_info_dialog("Delete successful")   
-    """
 
 
 class PublicationOverviewComponent(AbstractDataOverviewComponent):

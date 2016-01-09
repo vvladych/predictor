@@ -113,6 +113,9 @@ class PredictionDAO(DAO):
     def add_publication(self, publication):
         self.PredictiontoPublication.add(publication)
 
+    def remove_publication(self, publication):
+        self.PredictiontoPublication.remove(PredictiontoPublication(self.uuid, publication.uuid))
+
 
 class PredictionPublisherV(VDAO):
     data_fields = ["uuid", "commonname", "title", "date", "url", "publication_uuid"]
