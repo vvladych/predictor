@@ -12,7 +12,7 @@ from predictor.ui.prediction.publication_process_component import PublicationOve
 ####from predictor.ui.prediction.originator_process_component import OriginatorOverviewComponent
 #from forecastmgmt.ui.forecast.rawtext_add_dialog import RawTextAddDialog
 #from forecastmgmt.ui.forecast.model_add_dialog import ModelAddDialog
-#from forecastmgmt.ui.forecast.textmodel_add_dialog import TextModelAddDialog
+from predictor.ui.prediction.textmodel.textmodel_add_dialog import TextModelAddDialog
 from predictor.ui.ui_tools import TextViewWidget
 
 
@@ -144,7 +144,6 @@ class PredictionOverviewWindow(Gtk.Grid):
         pass
     
     def show_textmodel_dialog(self, widget):
-        #dialog=TextModelAddDialog(self, self.forecast)
-        #dialog.run()
-        #dialog.destroy()
-        pass
+        dialog = TextModelAddDialog(self, self.prediction)
+        dialog.run()
+        dialog.destroy()

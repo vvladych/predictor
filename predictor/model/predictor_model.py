@@ -99,10 +99,17 @@ class PredictiontoPublication(DAOtoDAO):
     secDAO_PK = "publication_uuid"
 
 
+class PredictiontoTextmodel(DAOtoDAO):
+    entity = "prediction_to_textmodel"
+    primDAO_PK = "prediction_uuid"
+    secDAO_PK = "textmodel_uuid"
+
+
 class PredictionDAO(DAO):
     data_fields = ["uuid", "commonname", "short_description", "created_date"]
     entity = "prediction"
-    join_objects = {"PredictiontoPublication": PredictiontoPublication}
+    join_objects = {"PredictiontoPublication": PredictiontoPublication,
+                    "PredictiontoTextmodel": PredictiontoTextmodel}
 
     def __init__(self, uuid=None, commonname=None, short_description=None, created_date=None):
         super(PredictionDAO, self).__init__(uuid)
@@ -116,7 +123,23 @@ class PredictionDAO(DAO):
     def remove_publication(self, publication):
         self.PredictiontoPublication.remove(PredictiontoPublication(self.uuid, publication.uuid))
 
+    def add_textmodel(self, textmodel):
+        self.PredictiontoTextmodel.add(textmodel)
+
+    def remove_publication(self, textmodel):
+        self.PredictiontoTextmodel.remove(PredictiontoTextmodel(self.uuid, textmodel.uuid))
+
 
 class PredictionPublisherV(VDAO):
     data_fields = ["uuid", "commonname", "title", "date", "url", "publication_uuid"]
     entity = "public.\"prediction_publication_V\""
+
+
+class TextmodelDAO(DAO):
+    data_fields = ["uuid", "date", "short_description"]
+    entity = "textmodel"
+
+    def __init__(self, uuid=None, date=None, short_description=None):
+        super(TextmodelDAO, self).__init__(uuid)
+        setattr(self, "date", date)
+        setattr(self, "short_description", short_description)

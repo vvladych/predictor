@@ -10,9 +10,9 @@ from predictor.ui.prediction.abstract_data_process_component import AbstractData
 
 from predictor.ui.ui_tools import TreeviewColumn, show_info_dialog
 
-from predictor.model.predictor_model import TextmodelDAO
+from predictor.model.predictor_model import TextmodelDAO, PredictiontoTextmodel
 
-from predictor.ui.prediction.textmodel.textmodel_statement_add_dialog import TextmodelStatementAddDialog
+#from predictor.ui.prediction.textmodel.textmodel_statement_add_dialog import TextmodelStatementAddDialog
 
 
 class TextModelProcessComponent(AbstractDataProcessComponent):
@@ -25,7 +25,7 @@ class TextModelManipulationComponent(AbstractDataManipulationComponent):
     
     def __init__(self, prediction, overview_component):
         super(TextModelManipulationComponent, self).__init__(overview_component)
-        self.forecast = prediction
+        self.prediction = prediction
         
     def create_layout(self, parent_layout_grid, row):
         self.parent_layout_grid = parent_layout_grid
@@ -52,7 +52,7 @@ class TextModelManipulationComponent(AbstractDataManipulationComponent):
 
         add_state_button = Gtk.Button("Add", Gtk.STOCK_ADD)
         parent_layout_grid.attach(add_state_button, 0, row, 1, 1)
-        self.add_state_button.connect("clicked", self.add_model_action)
+        add_state_button.connect("clicked", self.add_model_action)
                 
         delete_button = Gtk.Button("Delete", Gtk.STOCK_DELETE)
         delete_button.connect("clicked", self.delete_action)
@@ -67,15 +67,15 @@ class TextModelManipulationComponent(AbstractDataManipulationComponent):
         return row
 
     def add_model_action(self, widget):
-        pass
-        """
-        fc_textmodel = FCTextModel(forecast_sid=self.forecast.sid)
-        fc_textmodel.insert()
-        
+        textmodel = TextmodelDAO()
+        textmodel.short_description = self.model_short_desc_entry.get_text()
+        textmodel.save()
+        p_to_tm = PredictiontoTextmodel(self.prediction.uuid, textmodel.uuid)
+        self.prediction.add_textmodel(p_to_tm)
+        self.prediction.save()
         show_info_dialog("Add successful")
         self.overview_component.clean_and_populate_model()
-        """
-        
+
     def delete_action(self, widget):
         pass
         """
@@ -89,36 +89,34 @@ class TextModelManipulationComponent(AbstractDataManipulationComponent):
 
 class TextModelOverviewComponent(AbstractDataOverviewComponent):
     
-    treecolumns = [TreeviewColumn("forecast_sid", 0, True),
-                   TreeviewColumn("model_sid", 1, True),
+    treecolumns = [TreeviewColumn("prediction_uuid", 0, True),
+                   TreeviewColumn("model_uuid", 1, False),
                    TreeviewColumn("Date", 2, False),
-                   TreeviewColumn("Short desc.", 3, False),
-                   TreeviewColumn("UUID", 4, False)]
+                   TreeviewColumn("Short desc.", 3, False)]
     
-    def __init__(self, forecast):
-        self.forecast=forecast
+    def __init__(self, prediction):
+        self.prediction = prediction
         super(TextModelOverviewComponent, self).__init__(TextModelOverviewComponent.treecolumns)
 
     def create_layout(self, parent_layout_grid, row):
         row += 1
-        parent_layout_grid.attach(self.treeview,0,row,4,1)
+        parent_layout_grid.attach(self.treeview, 0, row, 4, 1)
         return row
-
         
     def populate_model(self):
         self.treemodel.clear()
-        for model in FCTextModel().get_all_for_foreign_key(self.forecast.sid):     
-            self.treemodel.append(["%s" % model.forecast_sid, "%s" % model.sid, model.textmodel_date, None, model.uuid])
-            
+        for p_to_tm in self.prediction.PredictiontoTextmodel:
+            textmodel = TextmodelDAO(p_to_tm.secDAO_uuid)
+            textmodel.load()
+            self.treemodel.append(["%s" % self.prediction.uuid, "%s" % textmodel.uuid, textmodel.date, textmodel.short_description])
 
-    def on_row_select(self,widget,path,data):
-        dialog=TextmodelStatementAddDialog(self, self.get_active_textmodel())
-        dialog.run()
-        dialog.destroy()        
-        
-        
+    def on_row_select(self, widget, path, data):
+        pass
+        #dialog = TextmodelStatementAddDialog(self, self.get_active_textmodel())
+        #dialog.run()
+        #dialog.destroy()
+
     def get_active_textmodel(self):
-        model,tree_iter=self.treeview.get_selection().get_selected()
-        textmodel_sid=model.get(tree_iter, 1)
-        return textmodel_sid
-    
+        (model, tree_iter) = self.treeview.get_selection().get_selected()
+        textmodel_uuid = model.get(tree_iter, 1)[1]
+        return textmodel_uuid
