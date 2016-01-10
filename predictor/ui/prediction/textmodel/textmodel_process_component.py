@@ -98,7 +98,7 @@ class TextModelOverviewComponent(AbstractDataOverviewComponent):
     def __init__(self, forecast):
         self.forecast=forecast
         super(TextModelOverviewComponent, self).__init__(TextModelOverviewComponent.treecolumns)
-    
+
     def create_layout(self, parent_layout_grid, row):
         row += 1
         parent_layout_grid.attach(self.treeview,0,row,4,1)
