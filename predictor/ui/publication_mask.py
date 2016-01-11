@@ -13,7 +13,7 @@ class PublicationMask(AbstractMask):
         self.publications_treestore = Gtk.TreeStore(str, str, str, str)
         self.overview_treeview = Gtk.TreeView(self.publications_treestore)
         super(PublicationMask, self).__init__(main_window)
-        self.publication=None
+        self.publication = None
 
     def create_overview_treeview(self):
         self.populate_publications_treestore()

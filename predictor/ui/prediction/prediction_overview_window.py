@@ -31,7 +31,7 @@ class PredictionOverviewWindow(Gtk.Grid):
         self.set_row_spacing(3)
 
         placeholder_label = Gtk.Label("")
-        placeholder_label.set_size_request(1,40)
+        placeholder_label.set_size_request(1, 40)
         self.attach(placeholder_label, 0, -1, 1, 1)
 
         row = 0
