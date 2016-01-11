@@ -143,3 +143,7 @@ class TextmodelDAO(DAO):
         super(TextmodelDAO, self).__init__(uuid)
         setattr(self, "date", date)
         setattr(self, "short_description", short_description)
+
+
+class TmstatementDAO(DAO):
+    data_fields = ["uuid"]

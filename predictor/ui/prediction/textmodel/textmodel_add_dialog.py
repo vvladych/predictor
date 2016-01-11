@@ -29,7 +29,7 @@ class TextModelAddDialog(Gtk.Dialog):
         box.add(self.layout_grid)
         
         row = 0
-        label = Gtk.Label("Forecast model(s)")
+        label = Gtk.Label("Prediction model(s)")
         self.layout_grid.attach(label, 0, row, 1, 1)
 
         row += 3

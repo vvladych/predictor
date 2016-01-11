@@ -12,7 +12,7 @@ from predictor.ui.ui_tools import TreeviewColumn, show_info_dialog
 
 from predictor.model.predictor_model import TextmodelDAO, PredictiontoTextmodel
 
-#from predictor.ui.prediction.textmodel.textmodel_statement_add_dialog import TextmodelStatementAddDialog
+from predictor.ui.prediction.textmodel.textmodel_statement_add_dialog import TextmodelStatementAddDialog
 
 
 class TextModelProcessComponent(AbstractDataProcessComponent):
@@ -111,12 +111,11 @@ class TextModelOverviewComponent(AbstractDataOverviewComponent):
             self.treemodel.append(["%s" % self.prediction.uuid, "%s" % textmodel.uuid, textmodel.date, textmodel.short_description])
 
     def on_row_select(self, widget, path, data):
-        pass
-        #dialog = TextmodelStatementAddDialog(self, self.get_active_textmodel())
-        #dialog.run()
-        #dialog.destroy()
+        dialog = TextmodelStatementAddDialog(self, self.get_active_textmodel())
+        dialog.run()
+        dialog.destroy()
 
     def get_active_textmodel(self):
         (model, tree_iter) = self.treeview.get_selection().get_selected()
-        textmodel_uuid = model.get(tree_iter, 1)[1]
+        textmodel_uuid = model.get(tree_iter, 1)[0]
         return textmodel_uuid
