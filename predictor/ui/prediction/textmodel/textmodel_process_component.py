@@ -111,7 +111,9 @@ class TextModelOverviewComponent(AbstractDataOverviewComponent):
             self.treemodel.append(["%s" % self.prediction.uuid, "%s" % textmodel.uuid, textmodel.date, textmodel.short_description])
 
     def on_row_select(self, widget, path, data):
-        dialog = TextmodelStatementAddDialog(self, self.get_active_textmodel())
+        tm = TextmodelDAO(self.get_active_textmodel())
+        tm.load()
+        dialog = TextmodelStatementAddDialog(self, tm)
         dialog.run()
         dialog.destroy()
 

@@ -4,7 +4,7 @@ Created on 29.07.2015
 @author: vvladych
 """
 from gi.repository import Gtk
-from predictor.ui.prediction.abstract_data_process_component import AbstractDataOverviewComponent, AbstractDataManipulationComponent, AbstractDataProcessComponent
+from predictor.ui.prediction.abstract_data_process_component import *
 from predictor.ui.ui_tools import TreeviewColumn, show_info_dialog, DateWidget, TextViewWidget
 import datetime
 from predictor.model.predictor_model import TmstatementDAO
@@ -47,11 +47,14 @@ class TextmodelStatementManipulationComponent(AbstractDataManipulationComponent)
         self.state_begin_date_day_textentry = Gtk.Entry()
         self.state_begin_date_month_textentry = Gtk.Entry()
         self.state_begin_date_year_textentry = Gtk.Entry()
-        
-        self.parent_layout_grid.attach(DateWidget(self.state_begin_date_day_textentry, self.state_begin_date_month_textentry, self.state_begin_date_year_textentry),2,row,1,1)
+
+        self.parent_layout_grid.attach(DateWidget(self.state_begin_date_day_textentry,
+                                                  self.state_begin_date_month_textentry,
+                                                  self.state_begin_date_year_textentry),
+                                       2, row, 1, 1)
 
         row += 1
-        
+
         end_pit_label=Gtk.Label("End")
         end_pit_label.set_justify(Gtk.Justification.LEFT)
         parent_layout_grid.attach(end_pit_label, 1, row, 1, 1)
@@ -59,18 +62,21 @@ class TextmodelStatementManipulationComponent(AbstractDataManipulationComponent)
         self.state_end_date_day_textentry = Gtk.Entry()
         self.state_end_date_month_textentry = Gtk.Entry()
         self.state_end_date_year_textentry = Gtk.Entry()
-        
-        self.parent_layout_grid.attach(DateWidget(self.state_end_date_day_textentry, self.state_end_date_month_textentry, self.state_end_date_year_textentry),2,row,1,1)
-                
+
+        self.parent_layout_grid.attach(DateWidget(self.state_end_date_day_textentry,
+                                                  self.state_end_date_month_textentry,
+                                                  self.state_end_date_year_textentry),
+                                       2, row, 1, 1)
+
         row += 2
 
-        self.add_statement_button = Gtk.Button("Add", Gtk.STOCK_ADD)
-        parent_layout_grid.attach(self.add_statement_button, 0, row, 1, 1)
-        self.add_statement_button.connect("clicked", self.add_statement_action)
-                
-        self.delete_button = Gtk.Button("Delete", Gtk.STOCK_DELETE)
-        self.delete_button.connect("clicked", self.delete_action)        
-        parent_layout_grid.attach(self.delete_button, 1, row, 1, 1)
+        add_statement_button = Gtk.Button("Add", Gtk.STOCK_ADD)
+        parent_layout_grid.attach(add_statement_button, 0, row, 1, 1)
+        add_statement_button.connect("clicked", self.add_statement_action)
+
+        delete_button = Gtk.Button("Delete", Gtk.STOCK_DELETE)
+        delete_button.connect("clicked", self.delete_action)
+        parent_layout_grid.attach(delete_button, 1, row, 1, 1)
 
         row += 3
         
@@ -91,31 +97,33 @@ class TextmodelStatementManipulationComponent(AbstractDataManipulationComponent)
                              int(self.state_end_date_day_textentry.get_text()))
         
     def get_textmodel_statement_text(self):
-        return self.forecast_model_textview_widget.get_textview_text()
+        return self.prediction_model_textview_widget.get_textview_text()
     
     def add_statement_action(self, widget):
-        pass
-        #FCTextmodelStatement(None,None,self.get_textmodel_statement_text(),self.get_point_in_time_begin(),self.get_point_in_time_end(), self.textmodel).insert()
-        #show_info_dialog("Add successful")
-        #self.overview_component.clean_and_populate_model()
+        tmstm = TmstatementDAO(None, self.get_textmodel_statement_text(),
+                               self.get_point_in_time_begin(), self.get_point_in_time_end())
+        tmstm.save()
+        self.textmodel.add_tmstatement(tmstm)
+        self.textmodel.save()
+        show_info_dialog("Add successful")
+        self.overview_component.clean_and_populate_model()
 
     def delete_action(self, widget):
-        pass
-        #model,tree_iter = self.overview_component.treeview.get_selection().get_selected()
-        #(textmodel_statement_sid)=model.get(tree_iter, 0)
-        #FCTextmodelStatement(textmodel_statement_sid).delete()
-        #model.remove(tree_iter)
-        #show_info_dialog("Delete successful")
+        model,tree_iter = self.overview_component.treeview.get_selection().get_selected()
+        tmstm = TmstatementDAO(model.get(tree_iter, 0)[0])
+        tmstm.delete()
+        model.remove(tree_iter)
+        self.textmodel.load()
+        show_info_dialog("Delete successful")
 
 
 class TextmodelStatementOverviewComponent(AbstractDataOverviewComponent):
     
-    treecolumns = [TreeviewColumn("textmodel_statement_sid", 0, True),
-                   TreeviewColumn("textmodel_statement_uuid", 1, True),
-                   TreeviewColumn("fc_textmodel_sid", 2, True),
-                   TreeviewColumn("State PIT begin", 3, False),
-                   TreeviewColumn("State PIT end", 4, False),
-                   TreeviewColumn("Statement", 5, False)]
+    treecolumns = [TreeviewColumn("textmodel_statement_uuid", 0, True),
+                   TreeviewColumn("textmodel_uuid", 1, True),
+                   TreeviewColumn("State PIT begin", 2, False),
+                   TreeviewColumn("State PIT end", 3, False),
+                   TreeviewColumn("Statement", 4, False)]
 
     def __init__(self, textmodel):
         self.textmodel = textmodel
@@ -130,8 +138,8 @@ class TextmodelStatementOverviewComponent(AbstractDataOverviewComponent):
         return row
 
     def populate_model(self):
-        pass
-        #self.treemodel.clear()
-        #textmodel_statements=FCTextmodelStatement().get_all_for_foreign_key(self.textmodel)
-        #for p in textmodel_statements:
-        #    self.treemodel.append(["%s" % p.sid, "%s" % p.uuid, "%s" % self.textmodel, "%s" % p.point_in_time_begin, "%s" % p.point_in_time_end, p.statement_text])
+        self.treemodel.clear()
+        for tm in self.textmodel.TextmodelToTmstatement:
+            tmstm = TmstatementDAO(tm.secDAO_uuid)
+            tmstm.load()
+            self.treemodel.append(["%s" % tmstm.uuid, "%s" % self.textmodel.uuid, "%s" % tmstm.tmbegin, "%s" % tmstm.tmend, tmstm.text])

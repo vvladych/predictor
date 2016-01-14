@@ -135,15 +135,36 @@ class PredictionPublisherV(VDAO):
     entity = "public.\"prediction_publication_V\""
 
 
+class TextmodelToTmstatement(DAOtoDAO):
+    entity = "textmodel_to_tmstatement"
+    primDAO_PK = "textmodel_uuid"
+    secDAO_PK = "tmstatement_uuid"
+
+
 class TextmodelDAO(DAO):
     data_fields = ["uuid", "date", "short_description"]
     entity = "textmodel"
+    join_objects = {"TextmodelToTmstatement": TextmodelToTmstatement}
 
     def __init__(self, uuid=None, date=None, short_description=None):
         super(TextmodelDAO, self).__init__(uuid)
         setattr(self, "date", date)
         setattr(self, "short_description", short_description)
 
+    def add_tmstatement(self, tmstatement):
+        self.TextmodelToTmstatement.add(TextmodelToTmstatement(self.uuid, tmstatement.uuid))
+
+    def remove_tmstatement(self, tmstatement):
+        self.TextmodelToTmstatement.remove(TextmodelToTmstatement(self.uuid, tmstatement.uuid))
+
+
 
 class TmstatementDAO(DAO):
-    data_fields = ["uuid"]
+    data_fields = ["uuid", "text", "tmbegin", "tmend"]
+    entity = "tmstatement"
+
+    def __init__(self, uuid=None, text=None, tmbegin=None, tmend=None):
+        super(TmstatementDAO, self).__init__(uuid)
+        setattr(self, "text", text)
+        setattr(self, "tmbegin", tmbegin)
+        setattr(self, "tmend", tmend)
