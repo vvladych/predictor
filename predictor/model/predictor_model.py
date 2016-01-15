@@ -2,11 +2,6 @@ from predictor.model.DAO import DAO, VDAO
 from predictor.model.DAOtoDAO import DAOtoDAO
 
 
-class PredictionDAO(DAO):
-    data_fields = ["uuid", "common_name", "short_description", "created_date"]
-    entity = "prediction"
-
-
 class PersontoPersonnamepart(DAOtoDAO):
     entity = "person_to_personnamepart"
     primDAO_PK = "person_uuid"
@@ -118,13 +113,13 @@ class PredictionDAO(DAO):
         setattr(self, "created_date", created_date)
 
     def add_publication(self, publication):
-        self.PredictiontoPublication.add(publication)
+        self.PredictiontoPublication.add(PredictiontoPublication(self.uuid, publication.uuid))
 
     def remove_publication(self, publication):
         self.PredictiontoPublication.remove(PredictiontoPublication(self.uuid, publication.uuid))
 
     def add_textmodel(self, textmodel):
-        self.PredictiontoTextmodel.add(textmodel)
+        self.PredictiontoTextmodel.add(PredictiontoTextmodel(self.uuid, textmodel.uuid))
 
     def remove_publication(self, textmodel):
         self.PredictiontoTextmodel.remove(PredictiontoTextmodel(self.uuid, textmodel.uuid))
@@ -156,7 +151,6 @@ class TextmodelDAO(DAO):
 
     def remove_tmstatement(self, tmstatement):
         self.TextmodelToTmstatement.remove(TextmodelToTmstatement(self.uuid, tmstatement.uuid))
-
 
 
 class TmstatementDAO(DAO):

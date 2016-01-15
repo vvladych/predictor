@@ -72,9 +72,9 @@ class PublicationManipulationComponent(AbstractDataManipulationComponent):
         return combobox_model
 
     def add_publication_action(self, widget):
-        publication_uuid = self.get_active_publication()
-        prediction_publication = PredictiontoPublication(self.prediction.uuid, publication_uuid)
-        prediction_publication.save()
+        publication = PublicationDAO(self.get_active_publication())
+        self.prediction.add_publication(publication)
+        self.prediction.save()
         show_info_dialog("Add successful")
         self.overview_component.clean_and_populate_model()
 

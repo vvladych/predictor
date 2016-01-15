@@ -10,7 +10,7 @@ from predictor.ui.prediction.abstract_data_process_component import AbstractData
 
 from predictor.ui.ui_tools import TreeviewColumn, show_info_dialog
 
-from predictor.model.predictor_model import TextmodelDAO, PredictiontoTextmodel
+from predictor.model.predictor_model import TextmodelDAO, PredictionDAO
 
 from predictor.ui.prediction.textmodel.textmodel_statement_add_dialog import TextmodelStatementAddDialog
 
@@ -70,21 +70,18 @@ class TextModelManipulationComponent(AbstractDataManipulationComponent):
         textmodel = TextmodelDAO()
         textmodel.short_description = self.model_short_desc_entry.get_text()
         textmodel.save()
-        p_to_tm = PredictiontoTextmodel(self.prediction.uuid, textmodel.uuid)
-        self.prediction.add_textmodel(p_to_tm)
+        self.prediction.add_textmodel(textmodel)
         self.prediction.save()
         show_info_dialog("Add successful")
         self.overview_component.clean_and_populate_model()
 
     def delete_action(self, widget):
-        pass
-        """
         model,tree_iter = self.overview_component.treeview.get_selection().get_selected()
-        (model_sid)=model.get(tree_iter, 1)
-        FCTextModel(model_sid).delete()
-        model.remove(tree_iter)   
-        show_info_dialog("Delete successful")   
-        """
+        tm = TextmodelDAO(model.get(tree_iter, 1)[0])
+        tm.delete()
+        self.prediction.load()
+        show_info_dialog("Delete successful")
+        self.overview_component.clean_and_populate_model()
 
 
 class TextModelOverviewComponent(AbstractDataOverviewComponent):
@@ -105,10 +102,12 @@ class TextModelOverviewComponent(AbstractDataOverviewComponent):
         
     def populate_model(self):
         self.treemodel.clear()
-        for p_to_tm in self.prediction.PredictiontoTextmodel:
+        p = PredictionDAO(self.prediction.uuid)
+        p.load()
+        for p_to_tm in p.PredictiontoTextmodel:
             textmodel = TextmodelDAO(p_to_tm.secDAO_uuid)
             textmodel.load()
-            self.treemodel.append(["%s" % self.prediction.uuid, "%s" % textmodel.uuid, textmodel.date, textmodel.short_description])
+            self.treemodel.append(["%s" % p.uuid, "%s" % textmodel.uuid, textmodel.date, textmodel.short_description])
 
     def on_row_select(self, widget, path, data):
         tm = TextmodelDAO(self.get_active_textmodel())
