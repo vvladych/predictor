@@ -10,7 +10,6 @@ from predictor.ui.prediction.abstract_data_process_component import AbstractData
 from predictor.ui.ui_tools import TreeviewColumn, show_info_dialog
 
 from predictor.model.predictor_model import PublicationDAO, PredictionDAO, PredictionPublisherV
-from predictor.model.predictor_model import PredictiontoPublication
 from predictor.model.DAO import DAOList
 
 
@@ -117,6 +116,6 @@ class PublicationOverviewComponent(AbstractDataOverviewComponent):
     def populate_model(self):
         self.treemodel.clear()
         prediction_publications = DAOList(PredictionPublisherV)
-        prediction_publications.load()
+        prediction_publications.load("uuid='%s'" % self.prediction.uuid)
         for p in prediction_publications:
             self.treemodel.append(["%s" % p.uuid, p.commonname, p.title, p.date.strftime('%d.%m.%Y'),p.url, "%s" % p.publication_uuid])

@@ -145,7 +145,7 @@ class DAOList(set):
 
     __LOAD_LIST_SQL_KEY_NAME = "load"
 
-    sql_dict = {__LOAD_LIST_SQL_KEY_NAME: "SELECT %s FROM %s"}
+    sql_dict = {__LOAD_LIST_SQL_KEY_NAME: "SELECT %s FROM %s %s"}
 
     def __str__(self):
         elems = []
@@ -171,8 +171,11 @@ class DAOList(set):
         super(DAOList, self).remove(dao_to_delete)
 
     @consistcheck("load")
-    def load(self):
-        query = DAOList.sql_dict[DAOList.__LOAD_LIST_SQL_KEY_NAME] % (",".join(self.dao.data_fields), self.entity)
+    def load(self, subset=None):
+        where_clause = ""
+        if subset is not None:
+            where_clause = "WHERE %s" % subset
+        query = DAOList.sql_dict[DAOList.__LOAD_LIST_SQL_KEY_NAME] % (",".join(self.dao.data_fields), self.entity, where_clause)
         with dbcursor_wrapper(query) as cursor:
             rows = cursor.fetchall()
             for row in rows:
