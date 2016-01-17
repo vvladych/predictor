@@ -115,12 +115,6 @@ class PublisherListMask(AbstractListMask):
         publisher_add_dialog.destroy()
         self.populate_object_view_table()
 
-    def on_menu_item_delete_masterdataid_click(self, widget):
-        (publisher, tree_iter) = self.get_current_object()
-        if publisher is not None:
-            publisher.delete()
-            self.store.remove(tree_iter)
-
 
 class PublisherWindow(MasterdataAbstractWindow):
 

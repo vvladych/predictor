@@ -5,6 +5,7 @@ Created on 14.03.2015
 """
 from gi.repository import Gtk
 from predictor.ui.masterdata.publisher_window import PublisherWindow
+from predictor.ui.masterdata.organisation import OrganisationWindow
 
 
 class MasterdataMask(Gtk.Grid):
@@ -40,8 +41,7 @@ class MasterdataMask(Gtk.Grid):
             print("person")
             #self.set_main_area("person")
         elif mask_combo.get_active() == 1:
-            print("organisation")
-            #self.set_main_area("organisation")
+            self.set_main_area("organisation")
         elif mask_combo.get_active() == 2:
             self.set_main_area("publisher")
         elif mask_combo.get_active() == 3:
@@ -65,8 +65,7 @@ class MasterdataMask(Gtk.Grid):
             #self.main_middle_pane.pack_start(PersonWindow(self.main_window), False, False, 0)
             print("person")
         elif main_area_type == "organisation":
-            #self.main_middle_pane.pack_start(OrganisationWindow(self.main_window), False, False, 0)
-            print("organisation")
+            self.main_middle_pane.pack_start(OrganisationWindow(self.main_window), False, False, 0)
         elif main_area_type == "publisher":
             self.main_middle_pane.pack_start(PublisherWindow(self.main_window), False, False, 0)
         elif main_area_type == "fcobject":

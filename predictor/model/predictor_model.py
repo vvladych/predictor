@@ -162,3 +162,12 @@ class TmstatementDAO(DAO):
         setattr(self, "text", text)
         setattr(self, "tmbegin", tmbegin)
         setattr(self, "tmend", tmend)
+
+
+class OrganisationDAO(DAO):
+    data_fields = ["uuid", "commonname"]
+    entity = "organisation"
+
+    def __init__(self, uuid=None, commonname=None):
+        super(OrganisationDAO, self).__init__(uuid)
+        setattr(self, "commonname", commonname)
