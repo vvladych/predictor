@@ -28,6 +28,12 @@ def show_info_dialog(message):
     info_dialog = Gtk.MessageDialog(None, 0, Gtk.MessageType.INFO, Gtk.ButtonsType.OK, message)
     info_dialog.run()
     info_dialog.destroy()
+
+
+def show_error_dialog(self, message):
+    error_dialog = Gtk.MessageDialog(self.main_window, 0, Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message)
+    error_dialog.run()
+    error_dialog.destroy()
     
     
 class DateWidget(Gtk.Grid):

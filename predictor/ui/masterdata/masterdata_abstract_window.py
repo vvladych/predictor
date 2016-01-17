@@ -5,7 +5,7 @@ Created on 27.04.2015
 """
 
 from gi.repository import Gtk
-from predictor.ui.ui_tools import add_column_to_treeview
+from predictor.ui.ui_tools import add_column_to_treeview, show_info_dialog, show_error_dialog
 
 
 class MasterdataAbstractWindow(Gtk.Box):
@@ -23,7 +23,7 @@ class MasterdataAbstractWindow(Gtk.Box):
         self.working_area = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.pack_start(self.working_area, False, False, 0)
 
-        self.add_action_area_box()
+        #self.add_action_area_box()
         self.add_working_area()
 
     def reset_working_area(self):
@@ -33,17 +33,17 @@ class MasterdataAbstractWindow(Gtk.Box):
     def add_action_area_box(self):
         add_new_button = Gtk.Button.new_from_stock(Gtk.STOCK_ADD)
         add_new_button.set_size_request(30, 30)
-        add_new_button.connect("clicked", self.add_action)
+        #add_new_button.connect("clicked", self.add_action)
         self.action_area.pack_start(add_new_button, False, False, 0)
 
         edit_button = Gtk.Button.new_from_stock(Gtk.STOCK_EDIT)
         edit_button.set_size_request(30, 30)
-        edit_button.connect("clicked", self.edit_action, "edit")
+        #edit_button.connect("clicked", self.edit_action, "edit")
         self.action_area.pack_start(edit_button, False, False, 0)
 
         delete_button = Gtk.Button.new_from_stock(Gtk.STOCK_DELETE)
         delete_button.set_size_request(30, 30)
-        delete_button.connect("clicked", self.delete_action, "delete")
+        #delete_button.connect("clicked", self.delete_action, "delete")
         self.action_area.pack_start(delete_button, False, False, 0)
 
         self.action_area.show_all()
@@ -53,9 +53,9 @@ class MasterdataAbstractWindow(Gtk.Box):
         response = confirm_dialog.run()
         if response == Gtk.ResponseType.OK:
             self.listmask.delete_object()
-            self.show_info_dialog("Delete successful")
+            show_info_dialog("Delete successful")
         elif response == Gtk.ResponseType.CANCEL:
-            self.show_info_dialog("Delete canceled")
+            show_info_dialog("Delete canceled")
         confirm_dialog.destroy()
 
     def add_action(self, widget, callback=None):
@@ -76,16 +76,6 @@ class MasterdataAbstractWindow(Gtk.Box):
         self.working_area.pack_start(self.listmask, False, False, 0)
         self.working_area.show_all()   
 
-    def show_info_dialog(self, message):
-        info_dialog = Gtk.MessageDialog(self.main_window, 0, Gtk.MessageType.INFO, Gtk.ButtonsType.OK, message)
-        info_dialog.run()
-        info_dialog.destroy()
-
-    def show_error_dialog(self, message):
-        error_dialog = Gtk.MessageDialog(self.main_window, 0, Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message)
-        error_dialog.run()
-        error_dialog.destroy()
-        
     
 class DeleteConfirmationDialog(Gtk.Dialog):
     
@@ -131,16 +121,6 @@ class AbstractAddMask(Gtk.Grid):
     def create_object_from_mask(self):    
         raise NotImplementedError("create_object_from_mask not implemented!")
 
-    def show_info_dialog(self, message):
-        info_dialog = Gtk.MessageDialog(self.main_window, 0, Gtk.MessageType.INFO, Gtk.ButtonsType.OK, message)
-        info_dialog.run()
-        info_dialog.destroy()
-
-    def show_error_dialog(self, message):
-        error_dialog = Gtk.MessageDialog(self.main_window, 0, Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message)
-        error_dialog.run()
-        error_dialog.destroy()
-
     def parent_callback_func(self, widget, cb_func=None):
         self.reset_callback()
         
@@ -148,7 +128,7 @@ class AbstractAddMask(Gtk.Grid):
         new_object = self.create_object_from_mask()
         if self.current_object is None:
             new_object.save()
-            self.show_info_dialog("Insert successful")
+            show_info_dialog("Insert successful")
             self.current_object = new_object
             if self.reset_callback is not None:
                 self.reset_callback()
@@ -156,9 +136,9 @@ class AbstractAddMask(Gtk.Grid):
             if self.current_object != new_object:
                 self.current_object.update(new_object)
                 self.loaded_organisation = new_object
-                self.show_info_dialog("Update successful")
+                show_info_dialog("Update successful")
             else:
-                self.show_info_dialog("Nothing has changed, nothing to update!")
+                show_info_dialog("Nothing has changed, nothing to update!")
 
     def load_object(self, object_to_load=None):
         self.current_object = object_to_load
@@ -202,14 +182,25 @@ class AbstractListMask(Gtk.Box):
         menu_item_delete_prediction.show()
         self.tree.connect("button_press_event", self.on_treeview_button_press_event, menu)
 
+    def on_treeview_button_press_event(self, treeview, event, widget):
+        x = int(event.x)
+        y = int(event.y)
+        pthinfo = treeview.get_path_at_pos(x, y)
+        if event.button == 1:
+            if pthinfo is not None:
+                treeview.get_selection().select_path(pthinfo[0])
+
+        if event.button == 3:
+            if pthinfo is not None:
+                treeview.get_selection().select_path(pthinfo[0])
+            widget.popup(None, None, None, None, event.button, event.time)
+        return True
+
     def on_menu_item_create_new_masterdataid_click(self, widget):
         raise NotImplementedError("new_masterdataid still not implemented")
 
     def on_menu_item_delete_masterdataid_click(self, widget):
         raise NotImplementedError("delete_masterdataid still not implemented")
-
-    def on_treeview_button_press_event(self, treeview, event, widget):
-        print("on_treeview_button_press_event still not implemented")
 
     def populate_object_view_table(self):
         raise NotImplementedError("populate_object_view_table still unimplemented!")

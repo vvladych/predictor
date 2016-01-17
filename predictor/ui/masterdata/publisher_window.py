@@ -8,6 +8,7 @@ from gi.repository import Gtk
 from predictor.ui.masterdata.masterdata_abstract_window import MasterdataAbstractWindow, AbstractAddMask, AbstractListMask
 from predictor.model.predictor_model import PublisherDAO
 from predictor.model.DAO import DAOList
+from predictor.ui.ui_tools import show_info_dialog, show_error_dialog
 
 
 class PublisherAddMask(AbstractAddMask):
@@ -68,7 +69,7 @@ class PublisherAddMask(AbstractAddMask):
     def create_object_from_mask(self):
         common_name = self.common_name_text_entry.get_text()
         if common_name is None:
-            self.show_error_dialog("common name cannot be null")
+            show_error_dialog("common name cannot be null")
             return
         publisher_url = self.url_text_entry.get_text()
         publisher = PublisherDAO(None, common_name, publisher_url)
@@ -93,29 +94,13 @@ class PublisherListMask(AbstractListMask):
         for publisher in publishers:
             self.store.append(["%s" % publisher.commonname, "%s" % publisher.url, "%s" % publisher.uuid])
 
-    def delete_object(self):
-        (publisher, tree_iter) = self.get_current_object()
-        publisher.delete()
-        self.store.remove(tree_iter)
-
     def get_current_object(self):
         (model, tree_iter) = self.tree.get_selection().get_selected()
-        publisher_uuid = model.get(tree_iter, 2)[0]
-        return PublisherDAO(publisher_uuid), tree_iter
-
-    def on_treeview_button_press_event(self, treeview, event, widget):
-        x = int(event.x)
-        y = int(event.y)
-        pthinfo = treeview.get_path_at_pos(x, y)
-        if event.button == 1:
-            if pthinfo is not None:
-                treeview.get_selection().select_path(pthinfo[0])
-
-        if event.button == 3:
-            if pthinfo is not None:
-                treeview.get_selection().select_path(pthinfo[0])
-            widget.popup(None, None, None, None, event.button, event.time)
-        return True
+        if tree_iter is not None:
+            publisher_uuid = model.get(tree_iter, 2)[0]
+            return PublisherDAO(publisher_uuid), tree_iter
+        else:
+            show_info_dialog("Please choose a publisher!")
 
     def on_menu_item_create_new_masterdataid_click(self, widget):
         publisher_add_dialog = Gtk.Dialog("Publisher Dialog",
@@ -130,11 +115,11 @@ class PublisherListMask(AbstractListMask):
         publisher_add_dialog.destroy()
         self.populate_object_view_table()
 
-
     def on_menu_item_delete_masterdataid_click(self, widget):
         (publisher, tree_iter) = self.get_current_object()
-        publisher.delete()
-        self.store.remove(tree_iter)
+        if publisher is not None:
+            publisher.delete()
+            self.store.remove(tree_iter)
 
 
 class PublisherWindow(MasterdataAbstractWindow):
