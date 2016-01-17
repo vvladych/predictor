@@ -7,7 +7,8 @@ from gi.repository import Gtk
 from predictor.ui.masterdata.publisher import PublisherListMask
 from predictor.ui.masterdata.masterdata_abstract_window import MasterdataAbstractWindow
 from predictor.ui.masterdata.organisation import OrganisationListMask
-from predictor.model.predictor_model import OrganisationDAO, PublicationDAO
+from predictor.ui.masterdata.person import PersonListMask
+from predictor.model.predictor_model import OrganisationDAO, PublicationDAO, PersonDAO
 
 
 class MasterdataMask(Gtk.Grid):
@@ -40,8 +41,7 @@ class MasterdataMask(Gtk.Grid):
     #
     def mask_combo_changed(self, mask_combo):
         if mask_combo.get_active() == 0:
-            print("person")
-            #self.set_main_area("person")
+            self.set_main_area("person")
         elif mask_combo.get_active() == 1:
             self.set_main_area("organisation")
         elif mask_combo.get_active() == 2:
@@ -58,8 +58,12 @@ class MasterdataMask(Gtk.Grid):
         self.main_working_pane.pack_start(self.main_middle_pane, False, False, 0)
 
         if main_area_type == "person":
-            #self.main_middle_pane.pack_start(PersonWindow(self.main_window), False, False, 0)
-            print("person")
+            self.main_middle_pane.pack_start(MasterdataAbstractWindow(self.main_window,
+                                                                      PersonListMask(self.main_window, PersonDAO),
+                                                                      None),
+                                             False,
+                                             False,
+                                             0)
         elif main_area_type == "organisation":
             self.main_middle_pane.pack_start(MasterdataAbstractWindow(self.main_window,
                                                                       OrganisationListMask(self.main_window, OrganisationDAO),

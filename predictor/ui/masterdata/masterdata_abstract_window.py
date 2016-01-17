@@ -87,7 +87,7 @@ class AbstractAddMask(Gtk.Grid):
         new_object = self.create_object_from_mask()
         if self.current_object is None:
             new_object.save()
-            show_info_dialog("Insert successful")
+            show_info_dialog(self.main_window, "Insert successful")
             self.current_object = new_object
             if self.reset_callback is not None:
                 self.reset_callback()
@@ -95,9 +95,9 @@ class AbstractAddMask(Gtk.Grid):
             if self.current_object != new_object:
                 self.current_object.update(new_object)
                 self.loaded_organisation = new_object
-                show_info_dialog("Update successful")
+                show_info_dialog(self.main_window, "Update successful")
             else:
-                show_info_dialog("Nothing has changed, nothing to update!")
+                show_info_dialog(self.main_window, "Nothing has changed, nothing to update!")
 
     def load_object(self, object_to_load=None):
         self.current_object = object_to_load
@@ -186,7 +186,7 @@ class AbstractListMask(Gtk.Box):
             uuid = model.get(tree_iter, 0)[0]
             return self.dao_class(uuid), tree_iter
         else:
-            show_info_dialog("Please choose an object!")
+            show_info_dialog(self.main_window, "Please choose an object!")
 
     def on_row_select(self, widget, path, data):
         raise NotImplementedError("on_row_select still not implemented!")

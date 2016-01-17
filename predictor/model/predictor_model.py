@@ -2,24 +2,24 @@ from predictor.model.DAO import DAO, VDAO
 from predictor.model.DAOtoDAO import DAOtoDAO
 
 
-class PersontoPersonnamepart(DAOtoDAO):
-    entity = "person_to_personnamepart"
+class PersontoPersonname(DAOtoDAO):
+    entity = "person_to_personname"
     primDAO_PK = "person_uuid"
-    secDAO_PK = "personnamepart_uuid"
+    secDAO_PK = "personname_uuid"
 
 
 class PersonDAO(DAO):
     data_fields = ["uuid", "common_name", "birth_date"]
     entity = "person"
-    join_objects = {"PersontoPersonnamepart": PersontoPersonnamepart}
+    join_objects = {"PersontoPersonname": PersontoPersonname}
 
     def __init__(self, uuid, common_name=None, birth_date=None):
         super(PersonDAO, self).__init__(uuid)
         setattr(self, "common_name", common_name)
         setattr(self, "birth_date", birth_date)
 
-    def add_personnamepart(self, personnamepart):
-        self.PersontoPersonnamepart.add(PersontoPersonnamepart(self.uuid, personnamepart.uuid))
+    def add_personnamepart(self, personname):
+        self.PersontoPersonname.add(PersontoPersonname(self.uuid, personname.uuid))
 
 
 class PersonnamepartDAO(DAO):

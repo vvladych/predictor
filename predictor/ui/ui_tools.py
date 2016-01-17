@@ -24,14 +24,14 @@ def add_column_to_treeview(columnname, counter, hidden, fixed_size=False):
     return column
 
 
-def show_info_dialog(message):
-    info_dialog = Gtk.MessageDialog(None, 0, Gtk.MessageType.INFO, Gtk.ButtonsType.OK, message)
+def show_info_dialog(main_window, message):
+    info_dialog = Gtk.MessageDialog(main_window, 0, Gtk.MessageType.INFO, Gtk.ButtonsType.OK, message)
     info_dialog.run()
     info_dialog.destroy()
 
 
-def show_error_dialog(self, message):
-    error_dialog = Gtk.MessageDialog(self.main_window, 0, Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message)
+def show_error_dialog(main_window, message):
+    error_dialog = Gtk.MessageDialog(main_window, 0, Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message)
     error_dialog.run()
     error_dialog.destroy()
     
