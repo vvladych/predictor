@@ -4,8 +4,10 @@ Created on 14.03.2015
 @author: vvladych
 """
 from gi.repository import Gtk
-from predictor.ui.masterdata.publisher_window import PublisherWindow
-from predictor.ui.masterdata.organisation import OrganisationWindow
+from predictor.ui.masterdata.publisher import PublisherListMask
+from predictor.ui.masterdata.masterdata_abstract_window import MasterdataAbstractWindow
+from predictor.ui.masterdata.organisation import OrganisationListMask
+from predictor.model.predictor_model import OrganisationDAO, PublicationDAO
 
 
 class MasterdataMask(Gtk.Grid):
@@ -31,7 +33,7 @@ class MasterdataMask(Gtk.Grid):
         self.main_working_pane.pack_start(self.main_left_pane, False, False, 0)
         self.main_working_pane.pack_start(self.main_middle_pane, False, False, 0)
 
-        self.create_main_left_pane()
+        self.main_left_pane.pack_start(self.mask_chooser(), False, False, 0)
 
     #
     # during init, active==0
@@ -49,13 +51,7 @@ class MasterdataMask(Gtk.Grid):
             #self.set_main_area("fcobject")
         else:
             print("unimplemented")
-        
-    # 
-    # set main left pane
-    # 
-    def create_main_left_pane(self):
-        self.main_left_pane.pack_start(self.mask_chooser(), False, False, 0)
-    
+
     def set_main_area(self, main_area_type="person"):
         self.main_working_pane.remove(self.main_middle_pane)
         self.main_middle_pane = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
@@ -65,9 +61,19 @@ class MasterdataMask(Gtk.Grid):
             #self.main_middle_pane.pack_start(PersonWindow(self.main_window), False, False, 0)
             print("person")
         elif main_area_type == "organisation":
-            self.main_middle_pane.pack_start(OrganisationWindow(self.main_window), False, False, 0)
+            self.main_middle_pane.pack_start(MasterdataAbstractWindow(self.main_window,
+                                                                      OrganisationListMask(self.main_window, OrganisationDAO),
+                                                                      None),
+                                             False,
+                                             False,
+                                             0)
         elif main_area_type == "publisher":
-            self.main_middle_pane.pack_start(PublisherWindow(self.main_window), False, False, 0)
+            self.main_middle_pane.pack_start(MasterdataAbstractWindow(self.main_window,
+                                                                      PublisherListMask(self.main_window, PublicationDAO),
+                                                                      None),
+                                             False,
+                                             False,
+                                             0)
         elif main_area_type == "fcobject":
             #self.main_middle_pane.pack_start(FCObjectWindow(self.main_window), False, False, 0)
             print("fcobject")

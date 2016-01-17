@@ -108,9 +108,11 @@ class AbstractAddMask(Gtk.Grid):
 
 class AbstractListMask(Gtk.Box):
 
-    def __init__(self, columnlist, masterdataid):
+    def __init__(self, columnlist, masterdataid, main_window, dao_class, addmask):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
         self.masterdataid = masterdataid
+        self.main_window = main_window
+        self.dao_class = dao_class
         self.store = Gtk.ListStore(*([str]*len(columnlist)))
         self.tree = Gtk.TreeView(self.store)          
         
@@ -128,6 +130,7 @@ class AbstractListMask(Gtk.Box):
         self.pack_start(self.tree, False, False, 0)        
         self.add_context_menu_overview_treeview()
         self.populate_object_view_table()
+        self.addmask = addmask
 
     def add_context_menu_overview_treeview(self):
         menu = Gtk.Menu()
@@ -156,7 +159,17 @@ class AbstractListMask(Gtk.Box):
         return True
 
     def on_menu_item_create_new_masterdataid_click(self, widget):
-        raise NotImplementedError("new_masterdataid still not implemented")
+        add_dialog = Gtk.Dialog("Dialog",
+                                self.main_window,
+                                0,
+                                (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK))
+
+        add_dialog.set_default_size(150, 400)
+        add_mask = self.addmask(self.main_window, None)
+        add_dialog.get_content_area().add(add_mask)
+        add_dialog.run()
+        add_dialog.destroy()
+        self.populate_object_view_table()
 
     def on_menu_item_delete_masterdataid_click(self, widget):
         (current_object, tree_iter) = self.get_current_object()
@@ -167,11 +180,13 @@ class AbstractListMask(Gtk.Box):
     def populate_object_view_table(self):
         raise NotImplementedError("populate_object_view_table still unimplemented!")
 
-    def delete_object(self):
-        raise NotImplementedError("delete_object still unimplemented!")
-    
     def get_current_object(self):
-        raise NotImplementedError("get_current_object still unimplemented!")
+        (model, tree_iter) = self.tree.get_selection().get_selected()
+        if tree_iter is not None:
+            uuid = model.get(tree_iter, 0)[0]
+            return self.dao_class(uuid), tree_iter
+        else:
+            show_info_dialog("Please choose an object!")
 
     def on_row_select(self, widget, path, data):
         raise NotImplementedError("on_row_select still not implemented!")

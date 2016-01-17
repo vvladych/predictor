@@ -5,10 +5,10 @@ Created on 04.05.2015
 """
 from gi.repository import Gtk
 
-from predictor.ui.masterdata.masterdata_abstract_window import MasterdataAbstractWindow, AbstractAddMask, AbstractListMask
+from predictor.ui.masterdata.masterdata_abstract_window import AbstractAddMask, AbstractListMask
 from predictor.model.predictor_model import PublisherDAO
 from predictor.model.DAO import DAOList
-from predictor.ui.ui_tools import show_info_dialog, show_error_dialog
+from predictor.ui.ui_tools import show_error_dialog
 
 
 class PublisherAddMask(AbstractAddMask):
@@ -78,14 +78,16 @@ class PublisherAddMask(AbstractAddMask):
 
 class PublisherListMask(AbstractListMask):
 
-    treeview_columns = [{"column": "common_name", "hide": False},
-                        {"column": "URL", "hide": False},
-                        {"column": "publisher uuid", "hide": False}
-                       ]
+    treeview_columns = [{"column": "publisher uuid", "hide": False},
+                        {"column": "common_name", "hide": False},
+                        {"column": "URL", "hide": False}]
 
-    def __init__(self, main_window):
-        super(PublisherListMask, self).__init__(PublisherListMask.treeview_columns, "publisher")
-        self.main_window = main_window
+    def __init__(self, main_window, dao_class):
+        super(PublisherListMask, self).__init__(PublisherListMask.treeview_columns,
+                                                "publisher",
+                                                main_window,
+                                                dao_class,
+                                                PublisherAddMask)
 
     def populate_object_view_table(self):
         self.store.clear()
@@ -93,30 +95,3 @@ class PublisherListMask(AbstractListMask):
         publishers.load()
         for publisher in publishers:
             self.store.append(["%s" % publisher.commonname, "%s" % publisher.url, "%s" % publisher.uuid])
-
-    def get_current_object(self):
-        (model, tree_iter) = self.tree.get_selection().get_selected()
-        if tree_iter is not None:
-            publisher_uuid = model.get(tree_iter, 2)[0]
-            return PublisherDAO(publisher_uuid), tree_iter
-        else:
-            show_info_dialog("Please choose a publisher!")
-
-    def on_menu_item_create_new_masterdataid_click(self, widget):
-        publisher_add_dialog = Gtk.Dialog("Publisher Dialog",
-                                          None,
-                                          0,
-                                          (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK))
-
-        publisher_add_dialog.set_default_size(150, 400)
-        publisher_add_mask = PublisherAddMask(self.main_window, None)
-        publisher_add_dialog.get_content_area().add(publisher_add_mask)
-        publisher_add_dialog.run()
-        publisher_add_dialog.destroy()
-        self.populate_object_view_table()
-
-
-class PublisherWindow(MasterdataAbstractWindow):
-
-    def __init__(self, main_window):
-        super(PublisherWindow, self).__init__(main_window, PublisherListMask(main_window), None)
