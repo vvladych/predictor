@@ -31,20 +31,20 @@ class MasterdataAbstractWindow(Gtk.Box):
             self.working_area.remove(child)
 
     def add_action_area_box(self):
-        self.add_new_button = Gtk.Button.new_from_stock(Gtk.STOCK_ADD)
-        self.add_new_button.set_size_request(30,30)
-        self.add_new_button.connect("clicked", self.add_action)
-        self.action_area.pack_start(self.add_new_button, False, False, 0)
+        add_new_button = Gtk.Button.new_from_stock(Gtk.STOCK_ADD)
+        add_new_button.set_size_request(30, 30)
+        add_new_button.connect("clicked", self.add_action)
+        self.action_area.pack_start(add_new_button, False, False, 0)
 
-        self.edit_button = Gtk.Button.new_from_stock(Gtk.STOCK_EDIT)
-        self.edit_button.set_size_request(30,30)
-        self.edit_button.connect("clicked", self.edit_action, "edit")
-        self.action_area.pack_start(self.edit_button, False, False, 0)
+        edit_button = Gtk.Button.new_from_stock(Gtk.STOCK_EDIT)
+        edit_button.set_size_request(30, 30)
+        edit_button.connect("clicked", self.edit_action, "edit")
+        self.action_area.pack_start(edit_button, False, False, 0)
 
-        self.delete_button = Gtk.Button.new_from_stock(Gtk.STOCK_DELETE)
-        self.delete_button.set_size_request(30,30)
-        self.delete_button.connect("clicked", self.delete_action, "delete")
-        self.action_area.pack_start(self.delete_button, False, False, 0)
+        delete_button = Gtk.Button.new_from_stock(Gtk.STOCK_DELETE)
+        delete_button.set_size_request(30, 30)
+        delete_button.connect("clicked", self.delete_action, "delete")
+        self.action_area.pack_start(delete_button, False, False, 0)
 
         self.action_area.show_all()
 
@@ -118,7 +118,7 @@ class AbstractAddMask(Gtk.Grid):
         common_name_label = Gtk.Label(label)
         common_name_label.set_justify(Gtk.Justification.LEFT)
         self.attach(common_name_label, 0, row, 1, 1)
-        self.common_name_text_entry = Gtk.Entry()
+        #self.common_name_text_entry = Gtk.Entry()
         self.attach(self.common_name_text_entry, 1, row, 1, 1)
 
     def set_masterdata_object(self, masterdata_object=None):
@@ -150,7 +150,8 @@ class AbstractAddMask(Gtk.Grid):
             new_object.save()
             self.show_info_dialog("Insert successful")
             self.current_object = new_object
-            self.reset_callback()
+            if self.reset_callback is not None:
+                self.reset_callback()
         else:
             if self.current_object != new_object:
                 self.current_object.update(new_object)
@@ -168,8 +169,9 @@ class AbstractAddMask(Gtk.Grid):
 
 class AbstractListMask(Gtk.Box):
 
-    def __init__(self, columnlist):
+    def __init__(self, columnlist, masterdataid):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
+        self.masterdataid = masterdataid
         self.store = Gtk.ListStore(*([str]*len(columnlist)))
         self.tree = Gtk.TreeView(self.store)          
         
@@ -185,17 +187,38 @@ class AbstractListMask(Gtk.Box):
         
         self.tree.set_size_request(200,300)
         self.pack_start(self.tree, False, False, 0)        
-
+        self.add_context_menu_overview_treeview()
         self.populate_object_view_table()
 
+    def add_context_menu_overview_treeview(self):
+        menu = Gtk.Menu()
+        menu_item_create_new_prediction = Gtk.MenuItem("Add new %s" % self.masterdataid)
+        menu_item_create_new_prediction.connect("activate", self.on_menu_item_create_new_masterdataid_click)
+        menu.append(menu_item_create_new_prediction)
+        menu_item_create_new_prediction.show()
+        menu_item_delete_prediction = Gtk.MenuItem("Delete %s" % self.masterdataid)
+        menu_item_delete_prediction.connect("activate", self.on_menu_item_delete_masterdataid_click)
+        menu.append(menu_item_delete_prediction)
+        menu_item_delete_prediction.show()
+        self.tree.connect("button_press_event", self.on_treeview_button_press_event, menu)
+
+    def on_menu_item_create_new_masterdataid_click(self, widget):
+        raise NotImplementedError("new_masterdataid still not implemented")
+
+    def on_menu_item_delete_masterdataid_click(self, widget):
+        raise NotImplementedError("delete_masterdataid still not implemented")
+
+    def on_treeview_button_press_event(self, treeview, event, widget):
+        print("on_treeview_button_press_event still not implemented")
+
     def populate_object_view_table(self):
-        raise "populate_object_view_table still unimplemented!"
+        raise NotImplementedError("populate_object_view_table still unimplemented!")
 
     def delete_object(self):
-        raise "delete_object still unimplemented!"
+        raise NotImplementedError("delete_object still unimplemented!")
     
     def get_current_object(self):
-        raise "get_current_object still unimplemented!"
+        raise NotImplementedError("get_current_object still unimplemented!")
 
     def on_row_select(self, widget, path, data):
         raise NotImplementedError("on_row_select still not implemented!")

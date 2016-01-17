@@ -1,17 +1,22 @@
-'''
+"""
 Created on 04.05.2015
 
 @author: vvladych
-'''
+"""
 from gi.repository import Gtk
 
 from predictor.ui.masterdata.masterdata_abstract_window import MasterdataAbstractWindow, AbstractAddMask, AbstractListMask
 from predictor.model.predictor_model import PublisherDAO
 from predictor.model.DAO import DAOList
 
+
 class PublisherAddMask(AbstractAddMask):
     def __init__(self, main_window, reset_callback):
+        self.url_text_entry = Gtk.Entry()
+        self.common_name_text_entry = Gtk.Entry()
         super(PublisherAddMask, self).__init__(main_window, reset_callback)
+        self.create_layout()
+        self.show_all()
 
     def create_layout(self):
         self.set_column_spacing(5)
@@ -34,7 +39,6 @@ class PublisherAddMask(AbstractAddMask):
         url_label = Gtk.Label("URL")
         url_label.set_justify(Gtk.Justification.LEFT)
         self.attach(url_label, 0, row, 1, 1)
-        self.url_text_entry = Gtk.Entry()
         self.attach(self.url_text_entry, 1, row, 1, 1)
 
         row += 1
@@ -67,24 +71,20 @@ class PublisherAddMask(AbstractAddMask):
             self.show_error_dialog("common name cannot be null")
             return
         publisher_url = self.url_text_entry.get_text()
-        publisher_uuid = None
-        if self.current_object is not None:
-            publisher_uuid = self.current_object.uuid
-
-        publisher = PublisherDAO(publisher_uuid,common_name,publisher_url)
+        publisher = PublisherDAO(None, common_name, publisher_url)
         return publisher
 
 
 class PublisherListMask(AbstractListMask):
 
-    treeview_columns=[
-                      {"column": "common_name", "hide": False},
-                      {"column": "URL", "hide": False},
-                      {"column": "publisher uuid", "hide": False}
-                      ]
+    treeview_columns = [{"column": "common_name", "hide": False},
+                        {"column": "URL", "hide": False},
+                        {"column": "publisher uuid", "hide": False}
+                       ]
 
-    def __init__(self):
-        super(PublisherListMask, self).__init__(PublisherListMask.treeview_columns)
+    def __init__(self, main_window):
+        super(PublisherListMask, self).__init__(PublisherListMask.treeview_columns, "publisher")
+        self.main_window = main_window
 
     def populate_object_view_table(self):
         self.store.clear()
@@ -103,8 +103,41 @@ class PublisherListMask(AbstractListMask):
         publisher_uuid = model.get(tree_iter, 2)[0]
         return PublisherDAO(publisher_uuid), tree_iter
 
+    def on_treeview_button_press_event(self, treeview, event, widget):
+        x = int(event.x)
+        y = int(event.y)
+        pthinfo = treeview.get_path_at_pos(x, y)
+        if event.button == 1:
+            if pthinfo is not None:
+                treeview.get_selection().select_path(pthinfo[0])
+
+        if event.button == 3:
+            if pthinfo is not None:
+                treeview.get_selection().select_path(pthinfo[0])
+            widget.popup(None, None, None, None, event.button, event.time)
+        return True
+
+    def on_menu_item_create_new_masterdataid_click(self, widget):
+        publisher_add_dialog = Gtk.Dialog("Publisher Dialog",
+                                          None,
+                                          0,
+                                          (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK))
+
+        publisher_add_dialog.set_default_size(150, 400)
+        publisher_add_mask = PublisherAddMask(self.main_window, None)
+        publisher_add_dialog.get_content_area().add(publisher_add_mask)
+        publisher_add_dialog.run()
+        publisher_add_dialog.destroy()
+        self.populate_object_view_table()
+
+
+    def on_menu_item_delete_masterdataid_click(self, widget):
+        (publisher, tree_iter) = self.get_current_object()
+        publisher.delete()
+        self.store.remove(tree_iter)
+
 
 class PublisherWindow(MasterdataAbstractWindow):
 
     def __init__(self, main_window):
-        super(PublisherWindow, self).__init__(main_window, PublisherListMask(), PublisherAddMask(main_window, self.add_working_area))
+        super(PublisherWindow, self).__init__(main_window, PublisherListMask(main_window), None)
