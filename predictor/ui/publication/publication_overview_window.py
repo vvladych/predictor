@@ -6,7 +6,7 @@ Created on 20.08.2015
 
 from gi.repository import Gtk
 
-from predictor.ui.ui_tools import show_info_dialog, DateWidget, TextViewWidget
+from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextViewWidget
 from predictor.model.predictor_model import PublisherDAO
 from predictor.model.predictor_model import PublicationDAO
 from predictor.model.predictor_model import PublicationtextDAO
@@ -133,20 +133,20 @@ class PublicationOverviewWindow(Gtk.Grid):
             self.set_active_publisher(publisher.uuid)
     
     def save_publication_action(self, widget):
-        if self.publication is not None:
-            print("update")
-        else:
-            self.insert_new_publication_from_mask()
+        self.insert_new_publication_from_mask()
 
     @transactional
     def insert_new_publication_from_mask(self):
-        publisher_uuid = self.get_active_publisher()
         publication_title = self.publication_title_textentry.get_text()
         publication_text = self.textview_widget.get_textview_text()
         publication_url = self.publication_url_textentry.get_text()
                 
         # insert publication
-        publication = PublicationDAO(None,
+        publication_uuid = None
+        if self.publication is not None:
+            publication_uuid = self.publication.uuid
+
+        publication = PublicationDAO(publication_uuid,
                                      datetime.date(int(self.publication_date_year_textentry.get_text()),
                                                    int(self.publication_date_month_textentry.get_text()),
                                                    int(self.publication_date_day_textentry.get_text())),
@@ -163,7 +163,8 @@ class PublicationOverviewWindow(Gtk.Grid):
         publication.add_publisher(publisher)
 
         publication.save()
-        show_info_dialog("Publication inserted")
+
+        show_info_dialog(None, "Publication inserted")
         self.publication = publication
         self.parent_callback()
 
@@ -174,11 +175,11 @@ class PublicationOverviewWindow(Gtk.Grid):
             publisher_uuid = model[tree_iter][:2]
             return publisher_uuid[0]
         else:
-            print("please choose a publisher!")
+            show_error_dialog(self.main_window, "please choose a publisher!")
 
     def delete_action(self, widget):
         if self.publication is not None:
             self.publication.delete()
             self.publication = None
         else:
-            print("publication is None!")
+            show_error_dialog(self.main_window, "publication is None!")

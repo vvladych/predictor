@@ -23,28 +23,31 @@ class TransactionBrokerWrapper:
 class TransactionBroker(object):
     class __TransactionBroker(object):
         def __init__(self):
-            self.queue=collections.deque([])
+            self.queue = collections.deque([])
             
         def __str__(self):
             return "%s" % len(self.queue)
         
         def start(self):
+            print("start")
             self.queue.append("1")
 
-        def stop(self):            
+        def stop(self):
+            print("stop")
             self.queue.pop()
             if len(self.queue) == 0:
+                print("commit")
                 get_db_connection().commit()
 
         def rollback(self):
             get_db_connection().rollback()
             self.queue=collections.deque([])
 
-    instance=None
+    instance = None
 
     def __init__(self):
         if not TransactionBroker.instance:
-            TransactionBroker.instance=TransactionBroker.__TransactionBroker()
+            TransactionBroker.instance = TransactionBroker.__TransactionBroker()
             
     def __str__(self):
         return "%s" % self.instance

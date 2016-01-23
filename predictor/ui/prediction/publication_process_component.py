@@ -74,7 +74,7 @@ class PublicationManipulationComponent(AbstractDataManipulationComponent):
         publication = PublicationDAO(self.get_active_publication())
         self.prediction.add_publication(publication)
         self.prediction.save()
-        show_info_dialog("Add successful")
+        show_info_dialog(None, "Add successful")
         self.overview_component.clean_and_populate_model()
 
     def get_active_publication(self):

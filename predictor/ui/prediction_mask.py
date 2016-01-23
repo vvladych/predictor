@@ -21,7 +21,7 @@ class PredictionMask(AbstractMask):
         super(PredictionMask, self).__init__(main_window)
 
     def create_overview_treeview(self):
-        self.predictions_treestore = Gtk.TreeStore(str,str,str,str)
+        self.predictions_treestore = Gtk.TreeStore(str, str, str, str)
         self.__populate_predictions_treestore()
         self.overview_treeview = Gtk.TreeView(self.predictions_treestore)
         self.overview_treeview.append_column(add_column_to_treeview("uuid", 0, True))
@@ -49,9 +49,9 @@ class PredictionMask(AbstractMask):
             new_prediction_dialog.perform_insert()
                 
         elif response == Gtk.ResponseType.CANCEL:
-            show_info_dialog("Canceled")
+            show_info_dialog(self.main_window, "Canceled")
         else:
-            show_info_dialog("Unknown action")
+            show_info_dialog(self.main_window, "Unknown action")
         
         new_prediction_dialog.destroy()
         self.__populate_predictions_treestore()
@@ -81,7 +81,7 @@ class PredictionMask(AbstractMask):
             prediction.delete()
             self.__populate_predictions_treestore()
         else:
-            show_info_dialog("Canceled")
+            show_info_dialog(self.main_window, "Canceled")
 
     def on_treeview_button_press_event(self, treeview, event, widget):
         x = int(event.x)

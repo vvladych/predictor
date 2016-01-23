@@ -3,7 +3,6 @@ Created on 04.05.2015
 
 @author: vvladych
 """
-from gi.repository import Gtk
 
 from gi.repository import Gtk
 from predictor.model.predictor_model import PersonDAO, PersonnamepartDAO
@@ -86,7 +85,7 @@ class PersonAddMask(AbstractAddMask):
         self.attach(namepart_delete_button, 3, row, 1, 1)
 
         self.namepart_roles_model = self.populate_namepart_roles_model()
-        self.namepart_role_combobox=Gtk.ComboBox.new_with_model_and_entry(self.namepart_roles_model)
+        self.namepart_role_combobox = Gtk.ComboBox.new_with_model_and_entry(self.namepart_roles_model)
         self.namepart_role_combobox.set_entry_text_column(1)
         self.namepart_role_combobox.set_active(0)
 
@@ -176,12 +175,12 @@ class PersonAddMask(AbstractAddMask):
             namepart_list=[]
             # children of name a nameparts
             if self.namepart_treestore.iter_has_child(name_iter):
-                child_iter=self.namepart_treestore.iter_children(name_iter)
+                child_iter = self.namepart_treestore.iter_children(name_iter)
                 while child_iter:
                     (namepart_sid, namepart_role, namepart_value) = self.namepart_treestore.get(child_iter, 0, 1, 2)
                     namepart = PersonnamepartDAO(namepart_sid, namepart_role, namepart_value, person_name_sid)
                     namepart_list.append(namepart)
-                    child_iter=self.namepart_treestore.iter_next(child_iter)
+                    child_iter = self.namepart_treestore.iter_next(child_iter)
 
             person.addPersonnamepart(person_name_sid, person_name_role, self.current_object.sid, namepart_list)
             name_iter = self.namepart_treestore.iter_next(name_iter)
@@ -189,12 +188,12 @@ class PersonAddMask(AbstractAddMask):
         return person
 
     def get_active_name_treestore(self):
-        model,tree_iter=self.nameparts_treeview.get_selection().get_selected()
+        model, tree_iter = self.nameparts_treeview.get_selection().get_selected()
         return tree_iter
 
     # NamePart
     def delete_name_part(self, widget):
-        model,tree_iter = self.nameparts_treeview.get_selection().get_selected()
+        model, tree_iter = self.nameparts_treeview.get_selection().get_selected()
         model.remove(tree_iter)
 
     def add_name_part(self,widget):
@@ -205,11 +204,13 @@ class PersonAddMask(AbstractAddMask):
             show_error_dialog(self.main_window, "Error: name part cannot be added as root element")
             return
 
-        if self.namepart_treestore.iter_depth(tree_iter)!=0:
+        if self.namepart_treestore.iter_depth(tree_iter) != 0:
             show_error_dialog(self.main_window, "Error: name part can be added to a root element only")
             return
 
-        self.namepart_treestore.append(tree_iter,[namepart_role_id,namepart_role_value,self.namepart_role_value_entry.get_text()])
+        self.namepart_treestore.append(tree_iter,
+                                       [namepart_role_id,namepart_role_value,
+                                        self.namepart_role_value_entry.get_text()])
         self.namepart_role_value_entry.set_text('')
 
     def get_active_namepart_role(self):
@@ -222,16 +223,16 @@ class PersonAddMask(AbstractAddMask):
         return name
 
     def create_namepart_treeview(self):
-        self.namepart_treestore = Gtk.TreeStore(int,str,str)
+        self.namepart_treestore = Gtk.TreeStore(int, str, str)
         self.nameparts_treeview = Gtk.TreeView(self.namepart_treestore)
         self.nameparts_treeview.append_column(add_column_to_treeview("id", 0, True))
         self.nameparts_treeview.append_column(add_column_to_treeview("Role", 1, False))
         self.nameparts_treeview.append_column(add_column_to_treeview("Value", 2, False))
-        self.nameparts_treeview.set_size_request(200,300)
+        self.nameparts_treeview.set_size_request(200, 300)
         self.nameparts_treeview.connect("row-activated", self.on_row_selection)
 
     def on_row_selection(self, treeview, path,column):
-        model,treeiter = self.nameparts_treeview.get_selection().get_selected()
+        model, treeiter = self.nameparts_treeview.get_selection().get_selected()
         self.namepart_role_combobox.set_active(model[treeiter][0])
         self.namepart_role_value_entry.set_text(model[treeiter][2])
 
@@ -245,9 +246,8 @@ class PersonAddMask(AbstractAddMask):
         namepart_roles_model.append([1, "a"])
         return namepart_roles_model
 
-
     def populate_name_roles_model(self):
-        name_roles_model = Gtk.ListStore(int,str)
+        name_roles_model = Gtk.ListStore(int, str)
         #nameroles_list = enum_retrieve_valid_values("t_person_name_role")
         #counter = 0
         #for namerole in nameroles_list:
@@ -255,7 +255,6 @@ class PersonAddMask(AbstractAddMask):
         #    counter += 1
         name_roles_model.append([1, "a"])
         return name_roles_model
-
 
 
 class PersonListMask(AbstractListMask):

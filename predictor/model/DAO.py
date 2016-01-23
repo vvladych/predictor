@@ -102,7 +102,7 @@ class DAO(object):
     def __update(self):
         psycopg2.extras.register_uuid()
         setstr = ",".join(list(map(lambda x: x + "=%("+x+")s", filter(lambda x: x != "uuid", self.data_fields))))
-        sql_update=self.sql_dict[DAO.__UPDATE_OBJECT] % (self.entity, setstr, self.uuid)
+        sql_update = self.sql_dict[DAO.__UPDATE_OBJECT] % (self.entity, setstr, self.uuid)
         h = dict()
         for f in self.data_fields:
             if f != 'uuid':

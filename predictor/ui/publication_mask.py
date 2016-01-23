@@ -27,7 +27,7 @@ class PublicationMask(AbstractMask):
         publications = DAOList(PublicationDAO)
         publications.load()
         for publication in publications:
-            self.publications_treestore.append(None, [publication.uuid, "", "%s" % publication.date, publication.title])
+            self.publications_treestore.append(None, ["%s" % publication.uuid, "", "%s" % publication.date, publication.title])
 
     def add_context_menu_overview_treeview(self):
         menu = Gtk.Menu()
@@ -47,10 +47,10 @@ class PublicationMask(AbstractMask):
             self.publication.delete()
             self.publication = None
             self.clear_main_middle_pane()
-            show_info_dialog("Publication deleted")
+            show_info_dialog(self.main_window, "Publication deleted")
             self.populate_publications_treestore()
         else:
-            show_info_dialog("Please choose a publication")
+            show_info_dialog(self.main_window, "Please choose a publication")
 
     def on_menu_item_create_new_publication_click(self, widget):
         self.clear_main_middle_pane()
