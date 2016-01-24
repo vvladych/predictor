@@ -54,11 +54,14 @@ class DAOtoDAO(object):
 class DAOtoDAOList(set):
 
     __LOAD_LIST_SQL_KEY_NAME = "load"
+    __DELETE_SQL_KEY_NAME = "delete"
 
-    sql_dict={__LOAD_LIST_SQL_KEY_NAME:"SELECT %s,%s FROM %s WHERE %s='%s'"}
+    sql_dict = {__LOAD_LIST_SQL_KEY_NAME: "SELECT %s,%s FROM %s WHERE %s='%s'",
+                __DELETE_SQL_KEY_NAME: "DELETE FROM %s WHERE %s='%s' AND %s='%s'"
+                }
 
     def __str__(self):
-        elem=[]
+        elem = []
         for e in self:
             elem.append("%s" % e)
         return ",".join(elem)
@@ -84,6 +87,14 @@ class DAOtoDAOList(set):
     @transactional
     def deleteall(self):
         for e in self:
+            query = DAOtoDAOList.sql_dict[DAOtoDAOList.__DELETE_SQL_KEY_NAME] % (self.entity,
+                                                                                 e.primDAO_PK,
+                                                                                 e.primDAO_uuid,
+                                                                                 e.secDAO_PK,
+                                                                                 e.secDAO_uuid)
+            print(query)
+            with dbcursor_wrapper(query) as cursor:
+                pass
             e.delete()
 
     @transactional
@@ -91,6 +102,8 @@ class DAOtoDAOList(set):
         for e in self:
             e.save()
 
+"""
     @transactional
     def remove(self, DAOtoDAO):
         super(DAOtoDAOList, self).remove(DAOtoDAO)
+"""

@@ -29,19 +29,16 @@ class TransactionBroker(object):
             return "%s" % len(self.queue)
         
         def start(self):
-            print("start")
             self.queue.append("1")
 
         def stop(self):
-            print("stop")
             self.queue.pop()
             if len(self.queue) == 0:
-                print("commit")
                 get_db_connection().commit()
 
         def rollback(self):
             get_db_connection().rollback()
-            self.queue=collections.deque([])
+            self.queue = collections.deque([])
 
     instance = None
 

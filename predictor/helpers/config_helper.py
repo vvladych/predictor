@@ -11,7 +11,7 @@ except:
 
 def discover_config(package_name):
     config_base_name = os.path.basename(package_name).split('.')[0]
-    config_file_name = """config.%s.conf""" % (config_base_name)
+    config_file_name = """config.%s.conf""" % config_base_name
     return config_file_name
 
 

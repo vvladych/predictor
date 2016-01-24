@@ -44,7 +44,7 @@ class PredictionOverviewWindow(Gtk.Grid):
         self.attach(prediction_uuid_text_entry, 1, row, 1, 1)
         
         if self.prediction is not None:
-            prediction_uuid_text_entry.set_text(self.prediction.uuid)
+            prediction_uuid_text_entry.set_text("%s" % self.prediction.uuid)
 
         row += 1
         

@@ -55,10 +55,11 @@ class PublicationDAO(DAO):
 
     def get_publicationtext(self):
         publicationtext = None
-        if len(self.PublicationtoPublicationtext)>0:
-            publication_to_publicationtext = next(iter(self.PublicationtoPublicationtext))
+        if len(self.PublicationtoPublicationtext) > 0:
+            publication_to_publicationtext = list(self.PublicationtoPublicationtext)[0]
             publicationtext_uuid = publication_to_publicationtext.secDAO_uuid
             publicationtext = PublicationtextDAO(publicationtext_uuid)
+            publicationtext.load()
         return publicationtext
 
     def add_publisher(self, publisher):
@@ -66,10 +67,11 @@ class PublicationDAO(DAO):
 
     def get_publisher(self):
         publisher = None
-        if len(self.PublicationtoPublisher)>0:
-            publication_to_publisher = next(iter(self.PublicationtoPublisher))
+        if len(self.PublicationtoPublisher) > 0:
+            publication_to_publisher = list(self.PublicationtoPublisher)[0]
             publisher_uuid = publication_to_publisher.secDAO_uuid
             publisher = PublisherDAO(publisher_uuid)
+            publisher.load()
         return publisher
 
 
@@ -121,7 +123,7 @@ class PredictionDAO(DAO):
     def add_textmodel(self, textmodel):
         self.PredictiontoTextmodel.add(PredictiontoTextmodel(self.uuid, textmodel.uuid))
 
-    def remove_publication(self, textmodel):
+    def remote_textmodel(self, textmodel):
         self.PredictiontoTextmodel.remove(PredictiontoTextmodel(self.uuid, textmodel.uuid))
 
 

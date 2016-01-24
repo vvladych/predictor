@@ -65,7 +65,7 @@ class PublicationMask(AbstractMask):
             if pthinfo is not None:
                 self.clear_main_middle_pane()
                 self.publication = self._get_selected_publication(treeview, pthinfo)
-                self.main_middle_pane.pack_start(PublicationOverviewWindow(self, self.publication), False, False, 0)
+                self.main_middle_pane.pack_start(PublicationOverviewWindow(self, self.publication, self.populate_publications_treestore), False, False, 0)
                 self.main_middle_pane.show_all()
         
         if event.button == 3:

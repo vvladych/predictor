@@ -62,7 +62,7 @@ class PredictionMask(AbstractMask):
         predictions.load()
         for prediction in predictions:
             self.predictions_treestore.append(None,
-                                              [prediction.uuid,
+                                              ["%s" % prediction.uuid,
                                                "",
                                                "%s" % prediction.created_date,
                                                prediction.commonname])

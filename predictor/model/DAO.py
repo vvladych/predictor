@@ -56,7 +56,7 @@ class DAO(object):
                     print(msg)
         return False
 
-    def __ne__(self,other):
+    def __ne__(self, other):
         return not self == other
 
     @consistcheck("load")

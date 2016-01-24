@@ -24,7 +24,7 @@ class PublicationOverviewWindow(Gtk.Grid):
         self.create_layout()
         if publication is not None:
             self.load_publication()
-        self.parent_callback=callback
+        self.parent_callback = callback
         
     def create_layout(self):
         
@@ -113,10 +113,11 @@ class PublicationOverviewWindow(Gtk.Grid):
         return combobox_model
 
     def set_active_publisher(self, publisher_uuid):
+        publisher_uuid_str = "%s" % publisher_uuid
         model_iter = self.publisher_model.get_iter_first()
 
         while model_iter is not None and self.publisher_model.iter_is_valid(model_iter):
-            if publisher_uuid == self.publisher_model.get_value(model_iter,0):
+            if publisher_uuid_str == self.publisher_model.get_value(model_iter,0):
                 self.publisher_combobox.set_active_iter(model_iter)
             model_iter = self.publisher_model.iter_next(model_iter)
     
@@ -165,6 +166,7 @@ class PublicationOverviewWindow(Gtk.Grid):
         publication.save()
 
         show_info_dialog(None, "Publication inserted")
+        print("insert!")
         self.publication = publication
         self.parent_callback()
 
