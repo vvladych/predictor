@@ -1,0 +1,803 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: predictor; Type: COMMENT; Schema: -; Owner: vvladych
+--
+
+COMMENT ON DATABASE predictor IS 'Database for the predictor project';
+
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+--
+-- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- Name: set_prediction_created_date(); Type: FUNCTION; Schema: public; Owner: vvladych
+--
+
+CREATE FUNCTION set_prediction_created_date() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+	IF NEW.created_date IS NULL THEN
+	NEW.created_date := NOW();
+	END IF;
+	RETURN NEW;
+END$$;
+
+
+ALTER FUNCTION public.set_prediction_created_date() OWNER TO vvladych;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: organisation; Type: TABLE; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+CREATE TABLE organisation (
+    uuid uuid DEFAULT uuid_generate_v4() NOT NULL,
+    commonname character varying(4000)
+);
+
+
+ALTER TABLE organisation OWNER TO vvladych;
+
+--
+-- Name: person; Type: TABLE; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+CREATE TABLE person (
+    uuid uuid DEFAULT uuid_generate_v4() NOT NULL,
+    common_name character varying(2000),
+    birth_date date
+);
+
+
+ALTER TABLE person OWNER TO vvladych;
+
+--
+-- Name: person_to_personname; Type: TABLE; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+CREATE TABLE person_to_personname (
+    person_uuid uuid NOT NULL,
+    personname_uuid uuid NOT NULL
+);
+
+
+ALTER TABLE person_to_personname OWNER TO vvladych;
+
+--
+-- Name: personname; Type: TABLE; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+CREATE TABLE personname (
+    uuid uuid DEFAULT uuid_generate_v4() NOT NULL,
+    personname_role character varying(2000) NOT NULL
+);
+
+
+ALTER TABLE personname OWNER TO vvladych;
+
+--
+-- Name: personname_to_personnamepart; Type: TABLE; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+CREATE TABLE personname_to_personnamepart (
+    personname_uuid uuid NOT NULL,
+    personnamepart_uuid uuid NOT NULL
+);
+
+
+ALTER TABLE personname_to_personnamepart OWNER TO vvladych;
+
+--
+-- Name: personnamepart; Type: TABLE; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+CREATE TABLE personnamepart (
+    uuid uuid DEFAULT uuid_generate_v4() NOT NULL,
+    namepart_role character varying NOT NULL,
+    namepart_value character varying(2000) NOT NULL
+);
+
+
+ALTER TABLE personnamepart OWNER TO vvladych;
+
+--
+-- Name: prediction; Type: TABLE; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+CREATE TABLE prediction (
+    uuid uuid DEFAULT uuid_generate_v4() NOT NULL,
+    commonname character varying(4000) NOT NULL,
+    short_description text,
+    created_date date DEFAULT ('now'::text)::date NOT NULL
+);
+
+
+ALTER TABLE prediction OWNER TO vvladych;
+
+--
+-- Name: prediction_to_publication; Type: TABLE; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+CREATE TABLE prediction_to_publication (
+    prediction_uuid uuid NOT NULL,
+    publication_uuid uuid NOT NULL
+);
+
+
+ALTER TABLE prediction_to_publication OWNER TO vvladych;
+
+--
+-- Name: publication; Type: TABLE; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+CREATE TABLE publication (
+    uuid uuid DEFAULT uuid_generate_v4() NOT NULL,
+    date date NOT NULL,
+    title text,
+    url character varying(4000)
+);
+
+
+ALTER TABLE publication OWNER TO vvladych;
+
+--
+-- Name: publication_to_publisher; Type: TABLE; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+CREATE TABLE publication_to_publisher (
+    publisher_uuid uuid NOT NULL,
+    publication_uuid uuid NOT NULL
+);
+
+
+ALTER TABLE publication_to_publisher OWNER TO vvladych;
+
+--
+-- Name: publisher; Type: TABLE; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+CREATE TABLE publisher (
+    uuid uuid DEFAULT uuid_generate_v4() NOT NULL,
+    commonname character varying(2000) NOT NULL,
+    url character varying(2000)
+);
+
+
+ALTER TABLE publisher OWNER TO vvladych;
+
+--
+-- Name: prediction_publication_V; Type: VIEW; Schema: public; Owner: vvladych
+--
+
+CREATE VIEW "prediction_publication_V" AS
+ SELECT prediction.uuid,
+    publisher.commonname,
+    publication.title,
+    publication.date,
+    publication.url,
+    publication.uuid AS publication_uuid
+   FROM ((((prediction
+     JOIN prediction_to_publication ON ((prediction.uuid = prediction_to_publication.prediction_uuid)))
+     JOIN publication ON ((prediction_to_publication.publication_uuid = publication.uuid)))
+     JOIN publication_to_publisher ON ((publication.uuid = publication_to_publisher.publication_uuid)))
+     JOIN publisher ON ((publication_to_publisher.publisher_uuid = publisher.uuid)));
+
+
+ALTER TABLE "prediction_publication_V" OWNER TO vvladych;
+
+--
+-- Name: prediction_to_textmodel; Type: TABLE; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+CREATE TABLE prediction_to_textmodel (
+    prediction_uuid uuid NOT NULL,
+    textmodel_uuid uuid NOT NULL
+);
+
+
+ALTER TABLE prediction_to_textmodel OWNER TO vvladych;
+
+--
+-- Name: publication_to_publicationtext; Type: TABLE; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+CREATE TABLE publication_to_publicationtext (
+    publicationtext_uuid uuid NOT NULL,
+    publication_uuid uuid NOT NULL
+);
+
+
+ALTER TABLE publication_to_publicationtext OWNER TO vvladych;
+
+--
+-- Name: publicationtext; Type: TABLE; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+CREATE TABLE publicationtext (
+    uuid uuid DEFAULT uuid_generate_v4() NOT NULL,
+    text text
+);
+
+
+ALTER TABLE publicationtext OWNER TO vvladych;
+
+--
+-- Name: textmodel; Type: TABLE; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+CREATE TABLE textmodel (
+    uuid uuid DEFAULT uuid_generate_v4() NOT NULL,
+    date date,
+    short_description character varying(4000)
+);
+
+
+ALTER TABLE textmodel OWNER TO vvladych;
+
+--
+-- Name: textmodel_to_tmstatement; Type: TABLE; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+CREATE TABLE textmodel_to_tmstatement (
+    textmodel_uuid uuid NOT NULL,
+    tmstatement_uuid uuid NOT NULL
+);
+
+
+ALTER TABLE textmodel_to_tmstatement OWNER TO vvladych;
+
+--
+-- Name: tmstatement; Type: TABLE; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+CREATE TABLE tmstatement (
+    uuid uuid DEFAULT uuid_generate_v4() NOT NULL,
+    text text NOT NULL,
+    tmbegin date,
+    tmend date
+);
+
+
+ALTER TABLE tmstatement OWNER TO vvladych;
+
+--
+-- Data for Name: organisation; Type: TABLE DATA; Schema: public; Owner: vvladych
+--
+
+COPY organisation (uuid, commonname) FROM stdin;
+c927c0e8-7e43-49b1-89b9-07681f76aacc	IWF
+fb16155a-e899-46fc-942a-420b45ef0045	test2
+98c0466a-183b-4638-9cba-61e3fff31218	test3
+8437c9fd-d751-4b48-b3d8-e6f5b9c278cd	Kremlin
+\.
+
+
+--
+-- Data for Name: person; Type: TABLE DATA; Schema: public; Owner: vvladych
+--
+
+COPY person (uuid, common_name, birth_date) FROM stdin;
+3601a130-9652-46de-bd9c-f90610b8ebba	tt	\N
+e0195934-2012-429c-baf9-fda6c9bd3253	Али ибн Ибрагим ан-Нуайми	\N
+\.
+
+
+--
+-- Data for Name: person_to_personname; Type: TABLE DATA; Schema: public; Owner: vvladych
+--
+
+COPY person_to_personname (person_uuid, personname_uuid) FROM stdin;
+\.
+
+
+--
+-- Data for Name: personname; Type: TABLE DATA; Schema: public; Owner: vvladych
+--
+
+COPY personname (uuid, personname_role) FROM stdin;
+\.
+
+
+--
+-- Data for Name: personname_to_personnamepart; Type: TABLE DATA; Schema: public; Owner: vvladych
+--
+
+COPY personname_to_personnamepart (personname_uuid, personnamepart_uuid) FROM stdin;
+\.
+
+
+--
+-- Data for Name: personnamepart; Type: TABLE DATA; Schema: public; Owner: vvladych
+--
+
+COPY personnamepart (uuid, namepart_role, namepart_value) FROM stdin;
+\.
+
+
+--
+-- Data for Name: prediction; Type: TABLE DATA; Schema: public; Owner: vvladych
+--
+
+COPY prediction (uuid, commonname, short_description, created_date) FROM stdin;
+ddb22889-5759-4a7d-b850-7662eddbb61a	pred2	testpred2	2016-01-15
+e7279e0c-4732-4017-b044-ad34808ca187	a	t	2016-01-08
+\.
+
+
+--
+-- Data for Name: prediction_to_publication; Type: TABLE DATA; Schema: public; Owner: vvladych
+--
+
+COPY prediction_to_publication (prediction_uuid, publication_uuid) FROM stdin;
+ddb22889-5759-4a7d-b850-7662eddbb61a	05c59662-7356-4eda-84bb-1f880911ca9e
+e7279e0c-4732-4017-b044-ad34808ca187	5dfaa60d-f900-46d1-b1e6-2caecb451d50
+\.
+
+
+--
+-- Data for Name: prediction_to_textmodel; Type: TABLE DATA; Schema: public; Owner: vvladych
+--
+
+COPY prediction_to_textmodel (prediction_uuid, textmodel_uuid) FROM stdin;
+ddb22889-5759-4a7d-b850-7662eddbb61a	a42fa890-d214-47ac-bdde-7cce9105c4fd
+e7279e0c-4732-4017-b044-ad34808ca187	c2a10031-780c-49fc-b247-f3d08fb43f94
+\.
+
+
+--
+-- Data for Name: publication; Type: TABLE DATA; Schema: public; Owner: vvladych
+--
+
+COPY publication (uuid, date, title, url) FROM stdin;
+05c59662-7356-4eda-84bb-1f880911ca9e	2016-01-23	testtitle	testurl
+5098bf21-9f65-4372-8fe3-4e5fbdd09b8d	2016-01-15	fawe	fqw3
+f32f2d29-555a-40fc-90e8-fd696d080d4b	2016-01-23	asdf	qwef
+8820e120-bbc5-406a-bd75-18e671786ea9	2016-01-23	asdfas	fawefawef
+5dfaa60d-f900-46d1-b1e6-2caecb451d50	2016-01-23	qfa	awefwa
+5f6be4d5-eb1a-40f3-8230-c6f5ebc49a46	2016-01-22	23	qwefqwe
+\.
+
+
+--
+-- Data for Name: publication_to_publicationtext; Type: TABLE DATA; Schema: public; Owner: vvladych
+--
+
+COPY publication_to_publicationtext (publicationtext_uuid, publication_uuid) FROM stdin;
+13ebc757-c34f-46ed-afa5-d1cf1c77697a	05c59662-7356-4eda-84bb-1f880911ca9e
+0bdb59a1-906c-40d8-8c7d-9f2c54de1e84	05c59662-7356-4eda-84bb-1f880911ca9e
+1850aeb4-52c8-4c5b-bb88-081188cf4be3	05c59662-7356-4eda-84bb-1f880911ca9e
+538e530e-ad98-4589-9c23-2e7a00af77c0	05c59662-7356-4eda-84bb-1f880911ca9e
+1efab0dd-943f-4dcf-8522-67149dd9da23	05c59662-7356-4eda-84bb-1f880911ca9e
+d9fa1218-3e07-4130-b4b1-3ae914b56591	05c59662-7356-4eda-84bb-1f880911ca9e
+5117a295-e2f7-449b-bc8f-96ccf194883e	05c59662-7356-4eda-84bb-1f880911ca9e
+59f2e9b0-b678-4972-94f9-fdcad8568f4f	05c59662-7356-4eda-84bb-1f880911ca9e
+f1574384-e6d8-4674-a926-178ab5e63d72	05c59662-7356-4eda-84bb-1f880911ca9e
+2b585666-d303-4b66-9097-8fd1019f6419	5098bf21-9f65-4372-8fe3-4e5fbdd09b8d
+0ab11ac6-d198-4bb5-a9d6-be65586027c0	5098bf21-9f65-4372-8fe3-4e5fbdd09b8d
+1a35da7b-d85e-4b33-af5d-13786212fce8	5098bf21-9f65-4372-8fe3-4e5fbdd09b8d
+d7da9af0-5bfe-4707-bc8e-fb4a28d8bc58	5098bf21-9f65-4372-8fe3-4e5fbdd09b8d
+b4a53b02-a533-44a5-af1b-ce15d058d3f2	5098bf21-9f65-4372-8fe3-4e5fbdd09b8d
+268cb264-1cb5-40b3-9b46-8cdbe19ffb05	f32f2d29-555a-40fc-90e8-fd696d080d4b
+e74dae98-dbf2-4733-bcb3-4c25057ab9fa	f32f2d29-555a-40fc-90e8-fd696d080d4b
+f09b981f-7388-45eb-9226-afebeb575b68	8820e120-bbc5-406a-bd75-18e671786ea9
+fcbdba24-ab78-42ef-8997-a1a39daf50c9	8820e120-bbc5-406a-bd75-18e671786ea9
+77663fd1-6179-471d-9156-d89836b4bc88	8820e120-bbc5-406a-bd75-18e671786ea9
+9468d181-a265-4a31-a407-28f093efd24b	5dfaa60d-f900-46d1-b1e6-2caecb451d50
+8b4a5839-888f-44fe-8396-7ad30126eb3a	5dfaa60d-f900-46d1-b1e6-2caecb451d50
+d43421b2-d654-457c-a794-2e9b8635e9ff	5dfaa60d-f900-46d1-b1e6-2caecb451d50
+dbeec517-9ba2-411e-8d9f-99ff71a9390a	5f6be4d5-eb1a-40f3-8230-c6f5ebc49a46
+9d189692-4ff5-4440-9048-5108e3083cdc	5f6be4d5-eb1a-40f3-8230-c6f5ebc49a46
+6c57f787-e417-49e3-8455-d1b19a74211e	5f6be4d5-eb1a-40f3-8230-c6f5ebc49a46
+94748256-520a-4519-afb0-85be394ffe1f	5f6be4d5-eb1a-40f3-8230-c6f5ebc49a46
+\.
+
+
+--
+-- Data for Name: publication_to_publisher; Type: TABLE DATA; Schema: public; Owner: vvladych
+--
+
+COPY publication_to_publisher (publisher_uuid, publication_uuid) FROM stdin;
+646da90a-e83d-426f-80a5-20c422ef99ef	5f6be4d5-eb1a-40f3-8230-c6f5ebc49a46
+e5df9499-bae7-4f71-9eb1-3427444eeb21	5f6be4d5-eb1a-40f3-8230-c6f5ebc49a46
+\.
+
+
+--
+-- Data for Name: publicationtext; Type: TABLE DATA; Schema: public; Owner: vvladych
+--
+
+COPY publicationtext (uuid, text) FROM stdin;
+343d2ca8-d1df-40ef-a7f8-bbb927e5c35e	das ist ein test1
+dc473d39-b42a-442d-a87d-1640e0cf0752	Testpublication tralala
+13ebc757-c34f-46ed-afa5-d1cf1c77697a	asdf
+538e530e-ad98-4589-9c23-2e7a00af77c0	asdf
+1850aeb4-52c8-4c5b-bb88-081188cf4be3	testtext
+f1574384-e6d8-4674-a926-178ab5e63d72	testtext
+77663fd1-6179-471d-9156-d89836b4bc88	asfawefa
+0bdb59a1-906c-40d8-8c7d-9f2c54de1e84	asdf
+d7da9af0-5bfe-4707-bc8e-fb4a28d8bc58	wfawe
+dbeec517-9ba2-411e-8d9f-99ff71a9390a	fwqefqwefwaesdfwaef
+94748256-520a-4519-afb0-85be394ffe1f	fwqefqwefwaesdfwaef
+d9fa1218-3e07-4130-b4b1-3ae914b56591	asdf
+9468d181-a265-4a31-a407-28f093efd24b	efawefwaef
+59f2e9b0-b678-4972-94f9-fdcad8568f4f	asdf
+b4a53b02-a533-44a5-af1b-ce15d058d3f2	wfawe
+5117a295-e2f7-449b-bc8f-96ccf194883e	asdf
+8b4a5839-888f-44fe-8396-7ad30126eb3a	efawefwaef
+268cb264-1cb5-40b3-9b46-8cdbe19ffb05	qwefwaef
+2b585666-d303-4b66-9097-8fd1019f6419	wfawe
+1a35da7b-d85e-4b33-af5d-13786212fce8	wfawe
+1efab0dd-943f-4dcf-8522-67149dd9da23	asdf
+0ab11ac6-d198-4bb5-a9d6-be65586027c0	wfawe
+fcbdba24-ab78-42ef-8997-a1a39daf50c9	asfawefa
+e74dae98-dbf2-4733-bcb3-4c25057ab9fa	qwefwaef
+f09b981f-7388-45eb-9226-afebeb575b68	asfawefa
+d43421b2-d654-457c-a794-2e9b8635e9ff	efawefwaef
+9d189692-4ff5-4440-9048-5108e3083cdc	fwqefqwefwaesdfwaef
+6c57f787-e417-49e3-8455-d1b19a74211e	fwqefqwefwaesdfwaef
+\.
+
+
+--
+-- Data for Name: publisher; Type: TABLE DATA; Schema: public; Owner: vvladych
+--
+
+COPY publisher (uuid, commonname, url) FROM stdin;
+e5df9499-bae7-4f71-9eb1-3427444eeb21	spiegel und so	hier
+e5f33599-9f36-40f4-b960-2b2765dc42c5	ttt	http://1
+646da90a-e83d-426f-80a5-20c422ef99ef	Focus und so	http://focus
+abd90873-7455-41e6-88e0-1353a1d2dc4e	rwer	www.fgh.sdg
+\.
+
+
+--
+-- Data for Name: textmodel; Type: TABLE DATA; Schema: public; Owner: vvladych
+--
+
+COPY textmodel (uuid, date, short_description) FROM stdin;
+0cfe8060-7de7-4a96-8a98-0e029771276f	\N	\N
+cf631350-0430-4972-abca-314657c25c48	\N	\N
+f96faf6b-8dd8-4d3d-ad02-f6c0728ede24	\N	\N
+5a457310-fc14-47fb-b057-072f8e9ee04c	\N	\N
+629c7601-36b3-4ce9-b63b-a4deb876cca2	\N	\N
+c48a5a66-c92f-44ca-91cf-e4e73840290e	\N	\N
+c2a10031-780c-49fc-b247-f3d08fb43f94	\N	asdfa
+751ec9ab-488c-4ced-a5ee-60d90e87f885	\N	
+76c37981-8fa9-493c-b787-dd6a9d818bc5	\N	
+411b0875-16a3-40c4-9f08-3cca4a8cb687	\N	
+a42fa890-d214-47ac-bdde-7cce9105c4fd	\N	
+\.
+
+
+--
+-- Data for Name: textmodel_to_tmstatement; Type: TABLE DATA; Schema: public; Owner: vvladych
+--
+
+COPY textmodel_to_tmstatement (textmodel_uuid, tmstatement_uuid) FROM stdin;
+c2a10031-780c-49fc-b247-f3d08fb43f94	0f18a7b2-9191-4bc7-a5c7-9f291979d443
+c2a10031-780c-49fc-b247-f3d08fb43f94	9c6f5982-4fa2-4291-9499-0fc9552ae9ef
+\.
+
+
+--
+-- Data for Name: tmstatement; Type: TABLE DATA; Schema: public; Owner: vvladych
+--
+
+COPY tmstatement (uuid, text, tmbegin, tmend) FROM stdin;
+ce170222-3ea5-49ae-96e4-5edbb327c4ce	asdf	2016-01-14	2016-01-14
+df8a34c7-174c-44dc-afc9-bb45ff8e692e	awef	2016-01-14	2016-01-14
+0f18a7b2-9191-4bc7-a5c7-9f291979d443	grdfg	2016-01-14	2016-01-22
+9c6f5982-4fa2-4291-9499-0fc9552ae9ef	2	2016-01-14	2016-01-15
+\.
+
+
+--
+-- Name: organisation_PK; Type: CONSTRAINT; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+ALTER TABLE ONLY organisation
+    ADD CONSTRAINT "organisation_PK" PRIMARY KEY (uuid);
+
+
+--
+-- Name: person_PK; Type: CONSTRAINT; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+ALTER TABLE ONLY person
+    ADD CONSTRAINT "person_PK" PRIMARY KEY (uuid);
+
+
+--
+-- Name: person_to_personname_PK; Type: CONSTRAINT; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+ALTER TABLE ONLY person_to_personname
+    ADD CONSTRAINT "person_to_personname_PK" PRIMARY KEY (person_uuid, personname_uuid);
+
+
+--
+-- Name: personname_PK; Type: CONSTRAINT; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+ALTER TABLE ONLY personname
+    ADD CONSTRAINT "personname_PK" PRIMARY KEY (uuid);
+
+
+--
+-- Name: personname_to_personnamepart_PK; Type: CONSTRAINT; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+ALTER TABLE ONLY personname_to_personnamepart
+    ADD CONSTRAINT "personname_to_personnamepart_PK" PRIMARY KEY (personname_uuid, personnamepart_uuid);
+
+
+--
+-- Name: personnamepart_PK; Type: CONSTRAINT; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+ALTER TABLE ONLY personnamepart
+    ADD CONSTRAINT "personnamepart_PK" PRIMARY KEY (uuid);
+
+
+--
+-- Name: prediction_PK; Type: CONSTRAINT; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+ALTER TABLE ONLY prediction
+    ADD CONSTRAINT "prediction_PK" PRIMARY KEY (uuid);
+
+
+--
+-- Name: prediction_to_publication_PK; Type: CONSTRAINT; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+ALTER TABLE ONLY prediction_to_publication
+    ADD CONSTRAINT "prediction_to_publication_PK" PRIMARY KEY (prediction_uuid, publication_uuid);
+
+
+--
+-- Name: prediction_to_textmodel_PK; Type: CONSTRAINT; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+ALTER TABLE ONLY prediction_to_textmodel
+    ADD CONSTRAINT "prediction_to_textmodel_PK" PRIMARY KEY (prediction_uuid, textmodel_uuid);
+
+
+--
+-- Name: publication_PK; Type: CONSTRAINT; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+ALTER TABLE ONLY publication
+    ADD CONSTRAINT "publication_PK" PRIMARY KEY (uuid);
+
+
+--
+-- Name: publication_to_publicationtext_PK; Type: CONSTRAINT; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+ALTER TABLE ONLY publication_to_publicationtext
+    ADD CONSTRAINT "publication_to_publicationtext_PK" PRIMARY KEY (publicationtext_uuid, publication_uuid);
+
+
+--
+-- Name: publicationtext_PK; Type: CONSTRAINT; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+ALTER TABLE ONLY publicationtext
+    ADD CONSTRAINT "publicationtext_PK" PRIMARY KEY (uuid);
+
+
+--
+-- Name: publisher_PK; Type: CONSTRAINT; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+ALTER TABLE ONLY publisher
+    ADD CONSTRAINT "publisher_PK" PRIMARY KEY (uuid);
+
+
+--
+-- Name: publisher_to_publication_PK; Type: CONSTRAINT; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+ALTER TABLE ONLY publication_to_publisher
+    ADD CONSTRAINT "publisher_to_publication_PK" PRIMARY KEY (publisher_uuid, publication_uuid);
+
+
+--
+-- Name: textmodel_PK; Type: CONSTRAINT; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+ALTER TABLE ONLY textmodel
+    ADD CONSTRAINT "textmodel_PK" PRIMARY KEY (uuid);
+
+
+--
+-- Name: textmodel_tmstatement_PK; Type: CONSTRAINT; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+ALTER TABLE ONLY textmodel_to_tmstatement
+    ADD CONSTRAINT "textmodel_tmstatement_PK" PRIMARY KEY (textmodel_uuid, tmstatement_uuid);
+
+
+--
+-- Name: tmstatement_PK; Type: CONSTRAINT; Schema: public; Owner: vvladych; Tablespace: 
+--
+
+ALTER TABLE ONLY tmstatement
+    ADD CONSTRAINT "tmstatement_PK" PRIMARY KEY (uuid);
+
+
+--
+-- Name: prediction_create_date_INS_UPD_TRG; Type: TRIGGER; Schema: public; Owner: vvladych
+--
+
+CREATE TRIGGER "prediction_create_date_INS_UPD_TRG" BEFORE INSERT OR UPDATE ON prediction FOR EACH ROW EXECUTE PROCEDURE set_prediction_created_date();
+
+
+--
+-- Name: person_to_personname_person_FK; Type: FK CONSTRAINT; Schema: public; Owner: vvladych
+--
+
+ALTER TABLE ONLY person_to_personname
+    ADD CONSTRAINT "person_to_personname_person_FK" FOREIGN KEY (person_uuid) REFERENCES person(uuid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: person_to_personname_personname_FK; Type: FK CONSTRAINT; Schema: public; Owner: vvladych
+--
+
+ALTER TABLE ONLY person_to_personname
+    ADD CONSTRAINT "person_to_personname_personname_FK" FOREIGN KEY (personname_uuid) REFERENCES personname(uuid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: personname_to_personnamepart_personname_FK; Type: FK CONSTRAINT; Schema: public; Owner: vvladych
+--
+
+ALTER TABLE ONLY personname_to_personnamepart
+    ADD CONSTRAINT "personname_to_personnamepart_personname_FK" FOREIGN KEY (personname_uuid) REFERENCES personname(uuid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: personname_to_personnamepart_personnamepart_FK; Type: FK CONSTRAINT; Schema: public; Owner: vvladych
+--
+
+ALTER TABLE ONLY personname_to_personnamepart
+    ADD CONSTRAINT "personname_to_personnamepart_personnamepart_FK" FOREIGN KEY (personnamepart_uuid) REFERENCES personnamepart(uuid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: prediction_to_publication_prediction_FK; Type: FK CONSTRAINT; Schema: public; Owner: vvladych
+--
+
+ALTER TABLE ONLY prediction_to_publication
+    ADD CONSTRAINT "prediction_to_publication_prediction_FK" FOREIGN KEY (prediction_uuid) REFERENCES prediction(uuid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: prediction_to_publication_publication_FK; Type: FK CONSTRAINT; Schema: public; Owner: vvladych
+--
+
+ALTER TABLE ONLY prediction_to_publication
+    ADD CONSTRAINT "prediction_to_publication_publication_FK" FOREIGN KEY (publication_uuid) REFERENCES publication(uuid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: prediction_to_textmodel_prediction_FK; Type: FK CONSTRAINT; Schema: public; Owner: vvladych
+--
+
+ALTER TABLE ONLY prediction_to_textmodel
+    ADD CONSTRAINT "prediction_to_textmodel_prediction_FK" FOREIGN KEY (prediction_uuid) REFERENCES prediction(uuid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: prediction_to_textmodel_textmodel_FK; Type: FK CONSTRAINT; Schema: public; Owner: vvladych
+--
+
+ALTER TABLE ONLY prediction_to_textmodel
+    ADD CONSTRAINT "prediction_to_textmodel_textmodel_FK" FOREIGN KEY (textmodel_uuid) REFERENCES textmodel(uuid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: publication_to_publicationtext_publication_FK; Type: FK CONSTRAINT; Schema: public; Owner: vvladych
+--
+
+ALTER TABLE ONLY publication_to_publicationtext
+    ADD CONSTRAINT "publication_to_publicationtext_publication_FK" FOREIGN KEY (publication_uuid) REFERENCES publication(uuid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: publication_to_publicationtext_publicationtext_FK; Type: FK CONSTRAINT; Schema: public; Owner: vvladych
+--
+
+ALTER TABLE ONLY publication_to_publicationtext
+    ADD CONSTRAINT "publication_to_publicationtext_publicationtext_FK" FOREIGN KEY (publicationtext_uuid) REFERENCES publicationtext(uuid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: publisher_to_publication_publication_FK; Type: FK CONSTRAINT; Schema: public; Owner: vvladych
+--
+
+ALTER TABLE ONLY publication_to_publisher
+    ADD CONSTRAINT "publisher_to_publication_publication_FK" FOREIGN KEY (publication_uuid) REFERENCES publication(uuid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: publisher_to_publication_publisher_FK; Type: FK CONSTRAINT; Schema: public; Owner: vvladych
+--
+
+ALTER TABLE ONLY publication_to_publisher
+    ADD CONSTRAINT "publisher_to_publication_publisher_FK" FOREIGN KEY (publisher_uuid) REFERENCES publisher(uuid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: textmodel_tmstatement_textmodel_FK; Type: FK CONSTRAINT; Schema: public; Owner: vvladych
+--
+
+ALTER TABLE ONLY textmodel_to_tmstatement
+    ADD CONSTRAINT "textmodel_tmstatement_textmodel_FK" FOREIGN KEY (textmodel_uuid) REFERENCES textmodel(uuid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: textmodel_tmstatement_tmstatement_FK; Type: FK CONSTRAINT; Schema: public; Owner: vvladych
+--
+
+ALTER TABLE ONLY textmodel_to_tmstatement
+    ADD CONSTRAINT "textmodel_tmstatement_tmstatement_FK" FOREIGN KEY (tmstatement_uuid) REFERENCES tmstatement(uuid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
