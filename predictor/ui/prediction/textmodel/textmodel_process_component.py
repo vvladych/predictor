@@ -72,7 +72,7 @@ class TextModelManipulationComponent(AbstractDataManipulationComponent):
         textmodel.save()
         self.prediction.add_textmodel(textmodel)
         self.prediction.save()
-        show_info_dialog("Add successful")
+        show_info_dialog(None, "Add successful")
         self.overview_component.clean_and_populate_model()
 
     def delete_action(self, widget):
@@ -80,7 +80,7 @@ class TextModelManipulationComponent(AbstractDataManipulationComponent):
         tm = TextmodelDAO(model.get(tree_iter, 1)[0])
         tm.delete()
         self.prediction.load()
-        show_info_dialog("Delete successful")
+        show_info_dialog(None, "Delete successful")
         self.overview_component.clean_and_populate_model()
 
 
