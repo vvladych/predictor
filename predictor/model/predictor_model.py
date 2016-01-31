@@ -118,12 +118,16 @@ class PredictionDAO(DAO):
         self.PredictiontoPublication.add(PredictiontoPublication(self.uuid, publication.uuid))
 
     def remove_publication(self, publication):
-        self.PredictiontoPublication.remove(PredictiontoPublication(self.uuid, publication.uuid))
+        ptop = PredictiontoPublication(self.uuid, publication.uuid)
+        if ptop in self.PredictiontoPublication:
+            self.PredictiontoPublication.remove(ptop)
+        else:
+            print("publication %s is not dedicated to prediction %s", publication.uuid, self.uuid)
 
     def add_textmodel(self, textmodel):
         self.PredictiontoTextmodel.add(PredictiontoTextmodel(self.uuid, textmodel.uuid))
 
-    def remote_textmodel(self, textmodel):
+    def remove_textmodel(self, textmodel):
         self.PredictiontoTextmodel.remove(PredictiontoTextmodel(self.uuid, textmodel.uuid))
 
 

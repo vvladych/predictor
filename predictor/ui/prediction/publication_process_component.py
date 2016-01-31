@@ -33,9 +33,9 @@ class PublicationManipulationComponent(AbstractDataManipulationComponent):
         
         row += 1
 
-        publication_label = Gtk.Label("Publication")
-        publication_label.set_justify(Gtk.Justification.LEFT)
-        parent_layout_grid.attach(publication_label, 0, row, 1, 1)
+        publisher_label = Gtk.Label("Publisher")
+        publisher_label.set_justify(Gtk.Justification.LEFT)
+        parent_layout_grid.attach(publisher_label, 0, row, 1, 1)
 
         self.publication_model = self.populate_publication_combobox_model()
         self.publication_combobox = Gtk.ComboBox.new_with_model_and_entry(self.publication_model)
@@ -45,14 +45,12 @@ class PublicationManipulationComponent(AbstractDataManipulationComponent):
         row += 1
         
         add_publication_button = Gtk.Button("Add", Gtk.STOCK_ADD)
-        parent_layout_grid.attach(add_publication_button, 2, row, 1, 1)
+        parent_layout_grid.attach(add_publication_button, 1, row, 1, 1)
         add_publication_button.connect("clicked", self.add_publication_action)
-        
-        row += 1
         
         delete_button = Gtk.Button("Delete", Gtk.STOCK_DELETE)
         delete_button.connect("clicked", self.delete_action)
-        parent_layout_grid.attach(delete_button, 0, row, 1, 1)
+        parent_layout_grid.attach(delete_button, 2, row, 1, 1)
         
         row += 1
         
@@ -88,14 +86,13 @@ class PublicationManipulationComponent(AbstractDataManipulationComponent):
 
     def delete_action(self, widget):
         (model, tree_iter) = self.overview_component.treeview.get_selection().get_selected()
-        prediction = PredictionDAO(model[tree_iter][0])
-        prediction.load()
         publication = PublicationDAO(model[tree_iter][5])
         publication.load()
-        prediction.remove_publication(publication)
-        prediction.save()
+        self.prediction.remove_publication(publication)
+        self.prediction.save()
+        self.prediction.load()
         model.remove(tree_iter)
-        show_info_dialog("Delete successful")   
+        show_info_dialog(None, "Delete successful")
 
 
 class PublicationOverviewComponent(AbstractDataOverviewComponent):

@@ -55,10 +55,10 @@ class PredictionOverviewWindow(Gtk.Grid):
         short_desc_text = None
         if self.prediction is not None:
             short_desc_text = self.prediction.short_description
-        
+
         self.desc_textview = Gtk.TextView()
-        desc_textview_widget=TextViewWidget(self.desc_textview, short_desc_text)
-        
+        desc_textview_widget = TextViewWidget(self.desc_textview, short_desc_text)
+
         self.attach(desc_textview_widget, 1, row, 1, 1)
         
         row += 3
