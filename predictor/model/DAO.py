@@ -183,3 +183,47 @@ class DAOList(set):
                 dao = self.dao(uuid)
                 dao.load()
                 self.add(dao)
+
+
+class DAOListl(list):
+
+    __LOAD_LIST_SQL_KEY_NAME = "load"
+
+    sql_dict = {__LOAD_LIST_SQL_KEY_NAME: "SELECT %s FROM %s %s"}
+
+    def __str__(self):
+        elems = []
+        for e in self:
+            elems.append("%s" % e)
+        return ",".join(elems)
+
+    def __init__(self, dao_list_type):
+        """
+
+        :type dao_list_type: object of DAO type
+        """
+        super(DAOListl, self).__init__()
+        self.dao = dao_list_type
+        self.entity = dao_list_type.entity
+
+    @typecheck
+    def append(self, dao_to_add):
+        super(DAOListl, self).append(dao_to_add)
+
+    @typecheck
+    def remove(self, dao_to_delete):
+        super(DAOListl, self).remove(dao_to_delete)
+
+    @consistcheck("load")
+    def load(self, subset=None):
+        where_clause = ""
+        if subset is not None:
+            where_clause = "WHERE %s" % subset
+        query = DAOListl.sql_dict[DAOListl.__LOAD_LIST_SQL_KEY_NAME] % (",".join(self.dao.data_fields), self.entity, where_clause)
+        with dbcursor_wrapper(query) as cursor:
+            rows = cursor.fetchall()
+            for row in rows:
+                uuid = getattr(row, 'uuid')
+                dao = self.dao(uuid)
+                dao.load()
+                self.append(dao)
