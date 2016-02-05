@@ -216,6 +216,7 @@ class DAOListl(list):
 
     @consistcheck("load")
     def load(self, subset=None):
+        self.clear()
         where_clause = ""
         if subset is not None:
             where_clause = "WHERE %s" % subset
