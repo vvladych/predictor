@@ -24,6 +24,37 @@ class PredictionExtTreeview(ExtendedTreeView):
     def append_treedata_row(self, row):
         self.treeview.treemodel.append(["%s" % row.uuid, "publisher", "%s" % row.created_date, "%s" % row.commonname])
 
+    def on_menu_item_new(self, widget):
+        new_prediction_dialog = PredictionNewDialog(None)
+        response = new_prediction_dialog.run()
+
+        if response == Gtk.ResponseType.OK:
+            new_prediction_dialog.perform_insert()
+
+        elif response == Gtk.ResponseType.CANCEL:
+            show_info_dialog(self.main_window, "Canceled")
+        else:
+            show_info_dialog(self.main_window, "Unknown action")
+
+        new_prediction_dialog.destroy()
+        self.reset_treemodel()
+
+    def on_menu_item_delete(self, widget):
+        (model, tree_iter) = self.treeview.get_selection().get_selected()
+        prediction_uuid = model.get_value(tree_iter, 0)
+        nd = Gtk.Dialog("Delete prediction?",
+                        None,
+                        0,
+                        ("OK", Gtk.ResponseType.OK, "CANCEL", Gtk.ResponseType.CANCEL))
+        ret = nd.run()
+        nd.destroy()
+        if ret == Gtk.ResponseType.OK:
+            prediction = PredictionDAO(prediction_uuid)
+            prediction.delete()
+            self.reset_treemodel()
+        else:
+            show_info_dialog(None, "Canceled")
+
 
 class PredictionMask(AbstractMask):
     
@@ -49,22 +80,6 @@ class PredictionMask(AbstractMask):
         prediction.load()
         self.main_middle_pane.pack_start(PredictionOverviewWindow(self, prediction), False, False, 0)
         self.main_middle_pane.show_all()
-
-
-    def on_menu_item_create_new_prediction_click(self, widget):
-        new_prediction_dialog = PredictionNewDialog(None)
-        response = new_prediction_dialog.run()
-        
-        if response == Gtk.ResponseType.OK:
-            new_prediction_dialog.perform_insert()
-                
-        elif response == Gtk.ResponseType.CANCEL:
-            show_info_dialog(self.main_window, "Canceled")
-        else:
-            show_info_dialog(self.main_window, "Unknown action")
-        
-        new_prediction_dialog.destroy()
-        self.__populate_predictions_treestore()
 
     def __populate_predictions_treestore(self):
         self.predictions_treestore.clear()
