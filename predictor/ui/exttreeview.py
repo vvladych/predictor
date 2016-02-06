@@ -18,8 +18,9 @@ class TreedataContainer(object):
 
 class ExtendedTreeView(Gtk.Grid):
 
-    def __init__(self, columns, start_row=0, rows_per_page=0, on_row_select_callback=None):
+    def __init__(self, main_window, columns, start_row=0, rows_per_page=0, on_row_select_callback=None):
         super(ExtendedTreeView, self).__init__()
+        self.main_window = main_window
         self.treedata = TreedataContainer(self.__class__.dao_type)
         self.rows_per_page = rows_per_page
         self.on_row_select_callback = on_row_select_callback
@@ -57,19 +58,20 @@ class ExtendedTreeView(Gtk.Grid):
 
     def on_menu_item_delete(self, widget):
         (model, tree_iter) = self.treeview.get_selection().get_selected()
-        uuid = model.get_value(tree_iter, 0)
-        nd = Gtk.Dialog("Really delete?",
-                        None,
-                        0,
-                        ("OK", Gtk.ResponseType.OK, "CANCEL", Gtk.ResponseType.CANCEL))
-        ret = nd.run()
-        nd.destroy()
-        if ret == Gtk.ResponseType.OK:
-            dao = self.__class__.dao_type(uuid)
-            dao.delete()
-            self.reset_treemodel()
-        else:
-            show_info_dialog(None, "Canceled")
+        if tree_iter is not None:
+            uuid = model.get_value(tree_iter, 0)
+            nd = Gtk.Dialog("Really delete?",
+                            self.main_window,
+                            0,
+                            ("OK", Gtk.ResponseType.OK, "CANCEL", Gtk.ResponseType.CANCEL))
+            ret = nd.run()
+            nd.destroy()
+            if ret == Gtk.ResponseType.OK:
+                dao = self.__class__.dao_type(uuid)
+                dao.delete()
+                self.reset_treemodel()
+            else:
+                show_info_dialog(self.main_window, "Canceled")
 
     def reset_treemodel(self):
         self.treeview = self.create_treeview()
