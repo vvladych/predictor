@@ -47,6 +47,17 @@ class PredictionOverviewWindow(Gtk.Grid):
             prediction_uuid_text_entry.set_text("%s" % self.prediction.uuid)
 
         row += 1
+
+        common_name_label = Gtk.Label("Common name")
+        common_name_label.set_justify(Gtk.Justification.RIGHT)
+        self.attach(common_name_label, 0, row, 1, 1)
+        common_name_text_entry = Gtk.Entry()
+        self.attach(common_name_text_entry, 1, row, 1, 1)
+
+        if self.prediction is not None:
+            common_name_text_entry.set_text("%s" % self.prediction.commonname)
+
+        row += 1
         
         description_label = Gtk.Label("Description")
         description_label.set_justify(Gtk.Justification.RIGHT)
