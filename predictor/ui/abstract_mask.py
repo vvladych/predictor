@@ -32,8 +32,7 @@ class AbstractMask(Gtk.Grid):
         
     def create_main_left_pane(self):
         self.create_overview_treeview()
-        self.add_context_menu_overview_treeview()
-        
+
         scrolledwindow = Gtk.ScrolledWindow()
         scrolledwindow.add(self.overview_treeview)
         scrolledwindow.set_size_request(200, 600)
@@ -46,6 +45,4 @@ class AbstractMask(Gtk.Grid):
 
     def create_overview_treeview(self):
         raise NotImplementedError("create_overview_treeview still not implemented")
-    
-    def add_context_menu_overview_treeview(self):
-        raise NotImplementedError("add_context_menu_overview_treeview still not implemented")
+
