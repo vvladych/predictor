@@ -1,82 +1,60 @@
-from gi.repository import Gtk
+"""
+Created on 20.10.2015
+
+@author: vvladych
+"""
 
 from predictor.ui.abstract_mask import AbstractMask
-from predictor.ui.ui_tools import add_column_to_treeview, show_info_dialog
 from predictor.model.predictor_model import PublicationDAO
-from predictor.model.DAO import DAOList
 from predictor.ui.publication.publication_overview_window import PublicationOverviewWindow
+
+from predictor.ui.exttreeview import ExtendedTreeView, TreeviewColumn
+
+
+class PublicationExtTreeview(ExtendedTreeView):
+
+    dao_type = PublicationDAO
+
+    def __init__(self, main_window, columns, start_row=0, rows_per_page=0, on_row_select_callback=None, on_item_new_callback=None):
+        super(PublicationExtTreeview, self).__init__(main_window, columns, start_row, rows_per_page, on_row_select_callback)
+        self.on_item_new_callback = on_item_new_callback
+
+    def append_treedata_row(self, row):
+        self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.title, "%s" % row.date, "%s" % row.url])
+
+    def on_menu_item_new(self, widget):
+        self.on_item_new_callback()
 
 
 class PublicationMask(AbstractMask):
+
+    dao_type = PublicationDAO
     
     def __init__(self, main_window):
-        self.publications_treestore = Gtk.TreeStore(str, str, str, str)
-        self.overview_treeview = Gtk.TreeView(self.publications_treestore)
         super(PublicationMask, self).__init__(main_window)
-        self.publication = None
 
     def create_overview_treeview(self):
-        self.populate_publications_treestore()
-        self.overview_treeview.append_column(add_column_to_treeview("uuid", 0, True))
-        self.overview_treeview.append_column(add_column_to_treeview("Publisher", 1, False))
-        self.overview_treeview.append_column(add_column_to_treeview("Date", 2, False))
-        self.overview_treeview.append_column(add_column_to_treeview("Title", 3, False))
-        
-    def populate_publications_treestore(self):
-        self.publications_treestore.clear()
-        publications = DAOList(PublicationDAO)
-        publications.load()
-        for publication in publications:
-            self.publications_treestore.append(None, ["%s" % publication.uuid, "", "%s" % publication.date, publication.title])
+        treecolumns = [TreeviewColumn("uuid", 0, True),
+                       TreeviewColumn("Title", 1, False),
+                       TreeviewColumn("Date", 2, False),
+                       TreeviewColumn("URL", 3, False)]
+        self.overview_treeview = PublicationExtTreeview(self.main_window, treecolumns, 0, 20, self.on_row_select, self.add_new_publication)
 
-    def add_context_menu_overview_treeview(self):
-        menu = Gtk.Menu()
-        menu_item_create_new_publication = Gtk.MenuItem("Add new publication...")
-        menu_item_create_new_publication.connect("activate", self.on_menu_item_create_new_publication_click) 
-        menu.append(menu_item_create_new_publication)
-        menu_item_create_new_publication.show()
-        menu_item_delete_publication = Gtk.MenuItem("Delete publication...")
-        menu_item_delete_publication.connect("activate", self.on_menu_item_delete_publication_click) 
-        menu.append(menu_item_delete_publication)
-        menu_item_delete_publication.show()
-        self.overview_treeview.connect("button_press_event", self.on_treeview_button_press_event,menu)
-
-    def on_menu_item_delete_publication_click(self, widget):
-        if self.publication is not None:
-            assert isinstance(self.publication, PublicationDAO), "%r is not instance of publication"
-            self.publication.delete()
-            self.publication = None
-            self.clear_main_middle_pane()
-            show_info_dialog(self.main_window, "Publication deleted")
-            self.populate_publications_treestore()
-        else:
-            show_info_dialog(self.main_window, "Please choose a publication")
-
-    def on_menu_item_create_new_publication_click(self, widget):
+    def on_row_select(self, publication_uuid):
         self.clear_main_middle_pane()
-        self.main_middle_pane.pack_start(PublicationOverviewWindow(self, None, self.populate_publications_treestore), False, False, 0)
+        publication = self.__class__.dao_type(publication_uuid)
+        publication.load()
+        self.main_middle_pane.pack_start(PublicationOverviewWindow(self,
+                                                                   publication,
+                                                                   self.overview_treeview.reset_treemodel),
+                                         False,
+                                         False,
+                                         0)
         self.main_middle_pane.show_all()
 
-    def on_treeview_button_press_event(self, treeview, event, widget):
-        x = int(event.x)
-        y = int(event.y)
-        pthinfo = treeview.get_path_at_pos(x, y)
-        if event.button == 1:
-            if pthinfo is not None:
-                self.clear_main_middle_pane()
-                self.publication = self._get_selected_publication(treeview, pthinfo)
-                self.main_middle_pane.pack_start(PublicationOverviewWindow(self, self.publication, self.populate_publications_treestore), False, False, 0)
-                self.main_middle_pane.show_all()
-        
-        if event.button == 3:
-            if pthinfo is not None:
-                treeview.get_selection().select_path(pthinfo[0])    
-            widget.popup(None, None, None, None, event.button, event.time)    
-        return True
+    def add_new_publication(self):
+        self.clear_main_middle_pane()
+        self.main_middle_pane.pack_start(PublicationOverviewWindow(self, None, self.overview_treeview.reset_treemodel), False, False, 0)
+        self.main_middle_pane.show_all()
 
-    def _get_selected_publication(self, treeview, pathinfo):
-        treeview.get_selection().select_path(pathinfo[0])
-        publication_uuid = self.publications_treestore.get(self.publications_treestore.get_iter(pathinfo[0]), 0)
-        publication = PublicationDAO(publication_uuid[0])
-        publication.load()
-        return publication
+
