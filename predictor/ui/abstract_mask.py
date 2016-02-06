@@ -8,12 +8,16 @@ from gi.repository import Gtk
 
 
 class AbstractMask(Gtk.Grid):
+
+    overview_window = None
+    exttreeview = None
     
     def __init__(self, main_window):
         Gtk.Grid.__init__(self)
 
         self.main_window = main_window
 
+        self.overview_treeview = self.__class__.exttreeview(self.main_window, self.__class__.treecolumns, 0, 20, self.on_row_select)
         # Main working pane: contains left pane with actions and working area pane 
         self.main_working_pane = Gtk.Paned(orientation=Gtk.Orientation.HORIZONTAL)
         self.main_working_pane.set_size_request(500, 600)
@@ -31,7 +35,6 @@ class AbstractMask(Gtk.Grid):
         self.create_main_left_pane()
         
     def create_main_left_pane(self):
-        self.create_overview_treeview()
 
         scrolledwindow = Gtk.ScrolledWindow()
         scrolledwindow.add(self.overview_treeview)
@@ -43,6 +46,18 @@ class AbstractMask(Gtk.Grid):
         for child in self.main_middle_pane.get_children():
             self.main_middle_pane.remove(child)        
 
-    def create_overview_treeview(self):
-        raise NotImplementedError("create_overview_treeview still not implemented")
+    def new_callback(self):
+        pass
+
+    def on_row_select(self, uuid):
+        self.clear_main_middle_pane()
+        dao = self.__class__.dao_type(uuid)
+        dao.load()
+        self.main_middle_pane.pack_start(self.__class__.overview_window(self,
+                                                                        dao,
+                                                                        self.overview_treeview.reset_treemodel),
+                                         False,
+                                         False,
+                                         0)
+        self.main_middle_pane.show_all()
 

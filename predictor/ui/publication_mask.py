@@ -29,32 +29,14 @@ class PublicationExtTreeview(ExtendedTreeView):
 class PublicationMask(AbstractMask):
 
     dao_type = PublicationDAO
-    
-    def __init__(self, main_window):
-        super(PublicationMask, self).__init__(main_window)
+    exttreeview = PublicationExtTreeview
+    overview_window = PublicationOverviewWindow
+    treecolumns = [TreeviewColumn("uuid", 0, True),
+                   TreeviewColumn("Title", 1, False),
+                   TreeviewColumn("Date", 2, False),
+                   TreeviewColumn("URL", 3, False)]
 
-    def create_overview_treeview(self):
-        treecolumns = [TreeviewColumn("uuid", 0, True),
-                       TreeviewColumn("Title", 1, False),
-                       TreeviewColumn("Date", 2, False),
-                       TreeviewColumn("URL", 3, False)]
-        self.overview_treeview = PublicationExtTreeview(self.main_window, treecolumns, 0, 20, self.on_row_select, self.add_new_publication)
-
-    def on_row_select(self, publication_uuid):
-        self.clear_main_middle_pane()
-        publication = self.__class__.dao_type(publication_uuid)
-        publication.load()
-        self.main_middle_pane.pack_start(PublicationOverviewWindow(self,
-                                                                   publication,
-                                                                   self.overview_treeview.reset_treemodel),
-                                         False,
-                                         False,
-                                         0)
-        self.main_middle_pane.show_all()
-
-    def add_new_publication(self):
+    def new_callback(self):
         self.clear_main_middle_pane()
         self.main_middle_pane.pack_start(PublicationOverviewWindow(self, None, self.overview_treeview.reset_treemodel), False, False, 0)
         self.main_middle_pane.show_all()
-
-
