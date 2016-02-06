@@ -18,7 +18,7 @@ from predictor.ui.ui_tools import TextViewWidget
 
 class PredictionOverviewWindow(Gtk.Grid):
     
-    def __init__(self, main_window, prediction=None):
+    def __init__(self, main_window, prediction=None, callback=None):
         Gtk.Grid.__init__(self)
         ###self.originator_overview_component=OriginatorOverviewComponent(forecast)
         self.publication_overview_component = PublicationOverviewComponent(prediction)
