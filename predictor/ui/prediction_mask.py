@@ -62,5 +62,3 @@ class PredictionMask(AbstractMask):
         self.main_middle_pane.pack_start(PredictionOverviewWindow(self, prediction), False, False, 0)
         self.main_middle_pane.show_all()
 
-    def add_context_menu_overview_treeview(self):
-        pass
