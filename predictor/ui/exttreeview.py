@@ -1,6 +1,8 @@
 from gi.repository import Gtk
 
 from predictor.model.DAO import DAOListl
+from predictor.ui.ui_tools import show_info_dialog
+
 
 class TreedataContainer(object):
 
@@ -13,18 +15,19 @@ class TreedataContainer(object):
     def load(self):
         self.data.load()
 
+
 class ExtendedTreeView(Gtk.Grid):
 
-    def __init__(self, columns, treedata, start_row=0, rows_per_page=0, on_row_select_callback=None):
+    def __init__(self, columns, start_row=0, rows_per_page=0, on_row_select_callback=None):
         super(ExtendedTreeView, self).__init__()
-        self.treedata = treedata
+        self.treedata = TreedataContainer(self.__class__.dao_type)
         self.rows_per_page = rows_per_page
         self.on_row_select_callback = on_row_select_callback
         self.columns = columns
 
         self.scrolled_window = Gtk.ScrolledWindow()
         self.scrolled_window.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
-        self.treeview = CustomTreeview(self.columns, self.rows_per_page, self.fill_treeview, self.on_row_select_callback, self.on_menu_item_new, self.on_menu_item_delete)
+        self.treeview = self.create_treeview()
 
         self.scrolled_window.add(self.treeview)
         self.scrolled_window.set_size_request(600, 600)
@@ -35,6 +38,9 @@ class ExtendedTreeView(Gtk.Grid):
         self.paginator = TreemodelPaginator(self.rows_per_page, self.total_counter)
         self.attach_next_to(self.paginator, self.scrolled_window, Gtk.PositionType.BOTTOM, 1, 1)
         self.fill_treeview(start_row)
+
+    def create_treeview(self):
+        return CustomTreeview(self.columns, self.rows_per_page, self.fill_treeview, self.on_row_select_callback, self.on_menu_item_new, self.on_menu_item_delete)
 
     def fill_treeview(self, start_row):
         self.treeview.treemodel.clear()
@@ -50,10 +56,23 @@ class ExtendedTreeView(Gtk.Grid):
         raise NotImplementedError("on_menu_item_new still not implemented")
 
     def on_menu_item_delete(self, widget):
-        raise NotImplementedError("on_menu_item_delete still not implemented")
+        (model, tree_iter) = self.treeview.get_selection().get_selected()
+        uuid = model.get_value(tree_iter, 0)
+        nd = Gtk.Dialog("Really delete?",
+                        None,
+                        0,
+                        ("OK", Gtk.ResponseType.OK, "CANCEL", Gtk.ResponseType.CANCEL))
+        ret = nd.run()
+        nd.destroy()
+        if ret == Gtk.ResponseType.OK:
+            dao = self.__class__.dao_type(uuid)
+            dao.delete()
+            self.reset_treemodel()
+        else:
+            show_info_dialog(None, "Canceled")
 
     def reset_treemodel(self):
-        self.treeview = CustomTreeview(self.columns, self.rows_per_page, self.fill_treeview, self.on_row_select_callback, self.on_menu_item_new, self.on_menu_item_delete)
+        self.treeview = self.create_treeview()
         self.fill_treeview(0)
         for c in self.scrolled_window.get_children():
             self.scrolled_window.remove(c)
@@ -124,9 +143,6 @@ class CustomTreeview(Gtk.TreeView):
             widget.popup(None, None, None, None, event.button, event.time)
         return True
 
-    def choose_row(self, dao_uuid):
-        raise NotImplementedError("choose_row still not implemented!")
-
 
 class TreeviewColumn(object):
 
@@ -135,6 +151,7 @@ class TreeviewColumn(object):
         self.ordernum = order_number
         self.hidden = hidden
         self.fixed_size = fixed_size
+
 
 class TreemodelPaginator(Gtk.Grid):
 
