@@ -15,15 +15,11 @@ class PublicationExtTreeview(ExtendedTreeView):
 
     dao_type = PublicationDAO
 
-    def __init__(self, main_window, columns, start_row=0, rows_per_page=0, on_row_select_callback=None, on_item_new_callback=None):
-        super(PublicationExtTreeview, self).__init__(main_window, columns, start_row, rows_per_page, on_row_select_callback)
-        self.on_item_new_callback = on_item_new_callback
+    def __init__(self, main_window, columns, start_row=0, rows_per_page=0, on_row_select_callback=None, on_new_callback=None):
+        super(PublicationExtTreeview, self).__init__(main_window, columns, start_row, rows_per_page, on_row_select_callback, on_new_callback)
 
     def append_treedata_row(self, row):
         self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.title, "%s" % row.date, "%s" % row.url])
-
-    def on_menu_item_new(self, widget):
-        self.on_item_new_callback()
 
 
 class PublicationMask(AbstractMask):
