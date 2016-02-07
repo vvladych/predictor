@@ -19,7 +19,7 @@ class AbstractMask(Gtk.Grid):
 
         self.main_window = main_window
 
-        self.overview_treeview = self.__class__.exttreeview(self.main_window, self.__class__.treecolumns, 0, 20, self.on_row_select)
+        self.overview_treeview = self.__class__.exttreeview(self.main_window, self.__class__.treecolumns, 0, 20, self.on_row_select, self.new_callback)
         # Main working pane: contains left pane with actions and working area pane 
         self.main_working_pane = Gtk.Paned(orientation=Gtk.Orientation.HORIZONTAL)
         self.main_working_pane.set_size_request(500, 600)

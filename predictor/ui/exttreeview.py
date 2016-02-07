@@ -18,12 +18,13 @@ class TreedataContainer(object):
 
 class ExtendedTreeView(Gtk.Grid):
 
-    def __init__(self, main_window, columns, start_row=0, rows_per_page=0, on_row_select_callback=None):
+    def __init__(self, main_window, columns, start_row, rows_per_page, on_row_select_callback, on_new_callback):
         super(ExtendedTreeView, self).__init__()
         self.main_window = main_window
         self.treedata = TreedataContainer(self.__class__.dao_type)
         self.rows_per_page = rows_per_page
         self.on_row_select_callback = on_row_select_callback
+        self.on_new_callback = on_new_callback
         self.columns = columns
 
         self.scrolled_window = Gtk.ScrolledWindow()
@@ -54,7 +55,10 @@ class ExtendedTreeView(Gtk.Grid):
         raise NotImplementedError("append_treedata_row still not implemented")
 
     def on_menu_item_new(self, widget):
-        raise NotImplementedError("on_menu_item_new still not implemented")
+        if self.on_new_callback is not None:
+            self.on_new_callback()
+        else:
+            raise NotImplementedError("on_menu_item_new still not implemented")
 
     def on_menu_item_delete(self, widget):
         (model, tree_iter) = self.treeview.get_selection().get_selected()
