@@ -9,8 +9,10 @@ from gi.repository import Gtk
 
 class AbstractMask(Gtk.Grid):
 
+    dao_type = None
     overview_window = None
     exttreeview = None
+    treecolumns = []
     
     def __init__(self, main_window):
         Gtk.Grid.__init__(self)
