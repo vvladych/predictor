@@ -1,27 +1,32 @@
 from gi.repository import Gtk
 
 from predictor.model.DAO import DAOListl
+from predictor.helpers.transaction_broker import transactional
 from predictor.ui.ui_tools import show_info_dialog
 
 
 class TreedataContainer(object):
 
-    def __init__(self, dao_type):
+    def __init__(self, dao_type, concrete_dao):
+        self.concrete_dao = concrete_dao
         self.data = DAOListl(dao_type)
 
     def get_length(self):
         return len(self.data)
 
     def load(self):
-        self.data.load()
+        where_clause = None
+        if self.concrete_dao is not None:
+            where_clause = "uuid='%s'" % self.concrete_dao.uuid
+        self.data.load(where_clause)
 
 
 class ExtendedTreeView(Gtk.Grid):
 
-    def __init__(self, main_window, columns, start_row, rows_per_page, on_row_select_callback, on_new_callback):
+    def __init__(self, main_window, columns, start_row, rows_per_page, on_row_select_callback, on_new_callback, concrete_dao):
         super(ExtendedTreeView, self).__init__()
         self.main_window = main_window
-        self.treedata = TreedataContainer(self.__class__.dao_type)
+        self.treedata = TreedataContainer(self.__class__.dao_type, concrete_dao)
         self.rows_per_page = rows_per_page
         self.on_row_select_callback = on_row_select_callback
         self.on_new_callback = on_new_callback
@@ -32,7 +37,7 @@ class ExtendedTreeView(Gtk.Grid):
         self.treeview = self.create_treeview()
 
         self.scrolled_window.add(self.treeview)
-        self.scrolled_window.set_size_request(600, 600)
+        self.scrolled_window.set_size_request(300, 300)
 
         self.total_counter = self.treedata.get_length()
 
@@ -60,12 +65,18 @@ class ExtendedTreeView(Gtk.Grid):
         else:
             raise NotImplementedError("on_menu_item_new still not implemented")
 
+    def get_selected_row(self):
+        (model, tree_iter) = self.treeview.get_selection().get_selected()
+        if tree_iter is not None:
+            return model[tree_iter]
+        return None
+
     def on_menu_item_delete(self, widget):
         (model, tree_iter) = self.treeview.get_selection().get_selected()
         if tree_iter is not None:
             uuid = model.get_value(tree_iter, 0)
             nd = Gtk.Dialog("Really delete?",
-                            self.main_window,
+                            None,
                             0,
                             ("OK", Gtk.ResponseType.OK, "CANCEL", Gtk.ResponseType.CANCEL))
             ret = nd.run()
@@ -130,6 +141,7 @@ class CustomTreeview(Gtk.TreeView):
         self.on_menu_new_callback(widget)
 
     def on_menu_item_delete_click(self, widget):
+        print("in delete!!!!")
         self.on_menu_delete_callback(widget)
 
     def on_treeview_button_press_event(self, treeview, event, widget):
@@ -141,9 +153,12 @@ class CustomTreeview(Gtk.TreeView):
 
         if event.button == 1:
             if pthinfo is not None:
-                treeview.get_selection().select_path(pthinfo[0])
-                dao_uuid = self.treemodel.get(self.treemodel.get_iter(pthinfo[0]), 0)[0]
-                self.on_row_select_callback(dao_uuid)
+                if treeview.get_selection() is not None:
+                    treeview.get_selection().select_path(pthinfo[0])
+                    dao_uuid = self.treemodel.get(self.treemodel.get_iter(pthinfo[0]), 0)[0]
+                    self.on_row_select_callback(dao_uuid)
+                else:
+                    show_info_dialog(None, "Please select a row!")
 
         if event.button == 3:
             widget.popup(None, None, None, None, event.button, event.time)

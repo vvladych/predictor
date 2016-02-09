@@ -7,16 +7,99 @@ from gi.repository import Gtk
 
 from predictor.ui.prediction.abstract_data_process_component import AbstractDataOverviewComponent, AbstractDataManipulationComponent, AbstractDataProcessComponent
 
-from predictor.ui.ui_tools import TreeviewColumn, show_info_dialog
+from predictor.ui.ui_tools import show_info_dialog
 
-from predictor.model.predictor_model import PublicationDAO, PredictionDAO, PredictionPublisherV
+from predictor.model.predictor_model import PublicationDAO, PredictionPublisherV, PredictionDAO
 from predictor.model.DAO import DAOList
+from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
+from predictor.ui.base.abstract_mask import AbstractMask
+from predictor.helpers.transaction_broker import transactional
 
 
-class PublicationProcessComponent(AbstractDataProcessComponent):
+class PredictionPublicationExtTreeview(ExtendedTreeView):
 
-    def __init__(self, prediction):
-        super(PublicationProcessComponent, self).__init__(PublicationManipulationComponent(prediction, PublicationOverviewComponent(prediction)))
+    dao_type = PredictionPublisherV
+
+    def __init__(self, main_window, columns, start_row=0, rows_per_page=0, on_row_select_callback=None, on_new_callback=None, concrete_dao=None):
+        super(PredictionPublicationExtTreeview, self).__init__(main_window, columns, start_row, rows_per_page, self.on_row_select_callback, on_new_callback, concrete_dao)
+
+    def append_treedata_row(self, row):
+        self.treeview.treemodel.append(["%s" % row.uuid,
+                                        "%s" % row.commonname,
+                                        "%s" % row.title,
+                                        "%s" % row.date,
+                                        "%s" % row.url,
+                                        "%s" % row.publication_uuid])
+
+    def on_row_select_callback(self, dao_uuid):
+        pass
+
+    @transactional
+    def on_menu_item_delete(self, widget):
+        row = super(PredictionPublicationExtTreeview, self).get_selected_row()
+        if row is not None:
+            prediction = PredictionDAO(row[0])
+            prediction.load()
+            publication = PublicationDAO(row[5])
+            prediction.remove_publication(publication)
+            prediction.save()
+            self.fill_treeview(0)
+
+
+class PredictionPublicationMask(AbstractMask):
+
+    dao_type = PredictionPublisherV
+    exttreeview = PredictionPublicationExtTreeview
+
+    treecolumns = [TreeviewColumn("prediction_uuid", 0, True),
+                   TreeviewColumn("Publisher", 1, False),
+                   TreeviewColumn("Title", 2, False, True),
+                   TreeviewColumn("Date", 3, False),
+                   TreeviewColumn("URL", 4, False),
+                   TreeviewColumn("publication_uuid", 5, False),
+                   ]
+
+    def __init__(self, main_window, prediction):
+        super(PredictionPublicationMask, self).__init__(main_window, prediction)
+        self.prediction = prediction
+
+    def new_callback(self):
+        dialog = PublicationAddDialog(self.main_window, self.prediction)
+        dialog.run()
+        dialog.destroy()
+        self.overview_treeview.fill_treeview(0)
+
+
+class PublicationAddDialog(Gtk.Dialog):
+
+    def __init__(self, parent, prediction):
+        Gtk.Dialog.__init__(self,
+                            "Publication Dialog",
+                            None,
+                            0,
+                            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK))
+
+        self.set_default_size(150, 400)
+        self.layout_grid = Gtk.Grid()
+
+        self.process_component = AbstractDataProcessComponent(PublicationManipulationComponent(prediction, PublicationOverviewComponent(prediction)))
+
+        self.create_layout()
+        self.show_all()
+
+    def create_layout(self):
+        box = self.get_content_area()
+
+        box.add(self.layout_grid)
+
+        row = 0
+        label = Gtk.Label("Prediction's publication(s)")
+        self.layout_grid.attach(label, 0, row, 1, 1)
+
+        row += 1
+        row = self.process_component.create_layout(self.layout_grid, row)
+
+        return row
 
 
 class PublicationManipulationComponent(AbstractDataManipulationComponent):
