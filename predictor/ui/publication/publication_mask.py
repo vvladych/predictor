@@ -13,9 +13,9 @@ from predictor.ui.publication.publication_overview_window import PublicationOver
 class PublicationExtTreeview(ExtendedTreeView):
 
     dao_type = PublicationDAO
-
-    def __init__(self, main_window, columns, start_row=0, rows_per_page=0, on_row_select_callback=None, on_new_callback=None):
-        super(PublicationExtTreeview, self).__init__(main_window, columns, start_row, rows_per_page, on_row_select_callback, on_new_callback)
+    #self.__class__.exttreeview(self.main_window, self.__class__.treecolumns, 0, 20, self.on_row_select, self.new_callback, self.dao)
+    def __init__(self, main_window, columns, start_row=0, rows_per_page=0, on_row_select_callback=None, on_new_callback=None, dao=None):
+        super(PublicationExtTreeview, self).__init__(main_window, columns, start_row, rows_per_page, on_row_select_callback, on_new_callback, dao)
 
     def append_treedata_row(self, row):
         self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.title, "%s" % row.date, "%s" % row.url])
