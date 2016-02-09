@@ -166,7 +166,6 @@ class PublicationOverviewWindow(Gtk.Grid):
         publication.save()
 
         show_info_dialog(None, "Publication inserted")
-        print("insert!")
         self.publication = publication
         self.parent_callback()
 

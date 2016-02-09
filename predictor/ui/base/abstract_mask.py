@@ -14,15 +14,17 @@ class AbstractMask(Gtk.Grid):
     exttreeview = None
     treecolumns = []
     
-    def __init__(self, main_window):
+    def __init__(self, main_window, dao=None):
         Gtk.Grid.__init__(self)
 
         self.main_window = main_window
 
-        self.overview_treeview = self.__class__.exttreeview(self.main_window, self.__class__.treecolumns, 0, 20, self.on_row_select, self.new_callback)
+        self.dao = dao
+
+        self.overview_treeview = self.__class__.exttreeview(self.main_window, self.__class__.treecolumns, 0, 20, self.on_row_select, self.new_callback, self.dao)
         # Main working pane: contains left pane with actions and working area pane 
         self.main_working_pane = Gtk.Paned(orientation=Gtk.Orientation.HORIZONTAL)
-        self.main_working_pane.set_size_request(500, 600)
+        self.main_working_pane.set_size_request(300, 300)
         self.add(self.main_working_pane)
 
         # the left pane: actions
@@ -40,7 +42,7 @@ class AbstractMask(Gtk.Grid):
 
         scrolledwindow = Gtk.ScrolledWindow()
         scrolledwindow.add(self.overview_treeview)
-        scrolledwindow.set_size_request(200, 600)
+        scrolledwindow.set_size_request(300, 300)
         
         self.main_left_pane.pack_start(scrolledwindow, False, False, 0)  
         

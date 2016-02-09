@@ -6,21 +6,20 @@ Created on 14.03.2015
 
 from gi.repository import Gtk
 
-from predictor.ui.prediction.prediction_overview_window import PredictionOverviewWindow
-from predictor.ui.prediction.prediction_new_dialog import PredictionNewDialog
-from predictor.ui.ui_tools import show_info_dialog
 from predictor.model.predictor_model import PredictionDAO
-
-from predictor.ui.abstract_mask import AbstractMask
-from predictor.ui.exttreeview import ExtendedTreeView, TreeviewColumn
+from predictor.ui.base.abstract_mask import AbstractMask
+from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
+from predictor.ui.prediction.prediction_new_dialog import PredictionNewDialog
+from predictor.ui.prediction.prediction_overview_window import PredictionOverviewWindow
+from predictor.ui.ui_tools import show_info_dialog
 
 
 class PredictionExtTreeview(ExtendedTreeView):
 
     dao_type = PredictionDAO
 
-    def __init__(self, main_window, columns, start_row=0, rows_per_page=0, on_row_select_callback=None, on_new_callback=None):
-        super(PredictionExtTreeview, self).__init__(main_window, columns, start_row, rows_per_page, on_row_select_callback, on_new_callback)
+    def __init__(self, main_window, columns, start_row=0, rows_per_page=0, on_row_select_callback=None, on_new_callback=None, concrete_dao=None):
+        super(PredictionExtTreeview, self).__init__(main_window, columns, start_row, rows_per_page, on_row_select_callback, on_new_callback, concrete_dao)
 
     def append_treedata_row(self, row):
         self.treeview.treemodel.append(["%s" % row.uuid, "publisher", "%s" % row.created_date, "%s" % row.commonname])
