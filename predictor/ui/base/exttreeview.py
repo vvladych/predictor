@@ -1,7 +1,6 @@
 from gi.repository import Gtk
 
 from predictor.model.DAO import DAOListl
-from predictor.helpers.transaction_broker import transactional
 from predictor.ui.ui_tools import show_info_dialog
 
 
@@ -52,8 +51,11 @@ class ExtendedTreeView(Gtk.Grid):
     def fill_treeview(self, start_row):
         self.treeview.treemodel.clear()
         self.treedata.load()
-        for row in self.treedata.data[start_row:(self.rows_per_page+start_row)]:
+        #treedata_as_list = list(self.treedata.data)
+        #for row in treedata_as_list[start_row:(self.rows_per_page+start_row)]:
+        for row in self.treedata.data:
             self.append_treedata_row(row)
+
         self.paginator.create_pagination_buttons(start_row, self.fill_treeview)
 
     def append_treedata_row(self, row):

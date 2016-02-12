@@ -6,6 +6,7 @@ from predictor.ui.ui_tools import show_info_dialog
 from predictor.model.DAO import DAOList
 from predictor.model.predictor_model import PublicationDAO, PredictionPublisherV
 from predictor.ui.base.exttreeview import TreeviewColumn
+from predictor.helpers.transaction_broker import transactional
 
 
 class PublicationAddDialog(Gtk.Dialog):
@@ -85,8 +86,10 @@ class PublicationManipulationComponent(AbstractDataManipulationComponent):
             combobox_model.append(["%s" % p.uuid, "%s %s %s" % ("Publisher", p.date, p.title)])
         return combobox_model
 
+    @transactional
     def add_publication_action(self, widget):
         publication = PublicationDAO(self.get_active_publication())
+        publication.load()
         self.prediction.add_publication(publication)
         self.prediction.save()
         show_info_dialog(None, "Add successful")

@@ -23,6 +23,7 @@ class PredictionExtTreeview(ExtendedTreeView):
 
     def append_treedata_row(self, row):
         self.treeview.treemodel.append(["%s" % row.uuid, "publisher", "%s" % row.created_date, "%s" % row.commonname])
+        #self.treeview.treemodel.append(["%s" % row.uuid, "publisher", "%s" % row.created_date, "commonname"])
 
     def on_menu_item_new(self, widget):
         new_prediction_dialog = PredictionNewDialog(self.main_window)
