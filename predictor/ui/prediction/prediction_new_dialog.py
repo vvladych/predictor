@@ -22,8 +22,8 @@ class PredictionNewDialog(Gtk.Dialog):
         self.show_all()
         
     def perform_insert(self):
-        prediction = PredictionDAO(commonname=self.project_name_text_entry.get_text(),
-                                   short_description=self.__get_desc_text())
+        prediction = PredictionDAO(None, {'commonname':self.project_name_text_entry.get_text(),
+                                          'short_description':self.__get_desc_text()})
         prediction.save()
 
     def __get_desc_text(self):

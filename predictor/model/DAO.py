@@ -1,4 +1,5 @@
 import psycopg2.extras
+import collections
 from predictor.helpers.db_connection import dbcursor_wrapper, get_uuid_from_database
 from predictor.helpers.transaction_broker import transactional
 from predictor.helpers.type_guard import typecheck, consistcheck
@@ -22,22 +23,35 @@ class DAO(object):
     data_fields = ["uuid"]
     join_objects = {}
 
-    def __init__(self, uuid = None):
+    def __init__(self, uuid=None, *initial_data):
         self.__is_persisted = False
         for key in self.join_objects.keys():
             setattr(self, key, DAOtoDAOList(self.join_objects[key]))
 
         if uuid is not None:
             self.uuid = uuid
-            self.load()
         else:
-            for p in self.data_fields:
-                setattr(self, p, None)
             self.uuid = get_uuid_from_database()
 
+        if initial_data is not None:
+            for dictionary in initial_data:
+                if dictionary is not None:
+                    for key in self.__class__.data_fields:
+                        if isinstance(dictionary, dict):
+                            if key in dictionary:
+                                setattr(self, key, dictionary[key])
+                        else:
+                            if hasattr(dictionary, key):
+                                setattr(self, key, getattr(dictionary, key))
+                        if not hasattr(self, key):
+                            setattr(self, key, None)
+        else:
+            if uuid is not None:
+                self.load()
+
     def __str__(self):
-        ret_a = " ".join(list(map(lambda x: "%s:%s" % (x,getattr(self,x)), self.data_fields)))
-        dao_to_dao_list=[]
+        ret_a = " ".join(list(map(lambda x: "%s:%s" % (x, getattr(self, x)), self.data_fields)))
+        dao_to_dao_list = []
         for join_object_list in self.join_objects.keys():
             list_to_append = getattr(self, join_object_list)
             dao_to_dao_list.append("%s: {%s}" % (join_object_list, list_to_append))
@@ -128,8 +142,8 @@ class DAO(object):
 
 class VDAO(DAO):
 
-    def __init__(self, uuid):
-        super(VDAO, self).__init__(uuid)
+    def __init__(self, uuid, row=None):
+        super(VDAO, self).__init__(uuid, row)
 
     def load(self):
         super(VDAO, self).load()
@@ -180,8 +194,8 @@ class DAOList(set):
             rows = cursor.fetchall()
             for row in rows:
                 uuid = getattr(row, 'uuid')
-                dao = self.dao(uuid)
-                dao.load()
+                dao = self.dao(uuid, row)
+                #dao.load()
                 self.add(dao)
 
 
@@ -225,6 +239,6 @@ class DAOListl(list):
             rows = cursor.fetchall()
             for row in rows:
                 uuid = getattr(row, 'uuid')
-                dao = self.dao(uuid)
-                dao.load()
+                dao = self.dao(uuid, row)
+                #dao.load()
                 self.append(dao)

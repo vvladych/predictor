@@ -44,11 +44,11 @@ class PublicationDAO(DAO):
     join_objects = {"PublicationtoPublisher": PublicationtoPublisher,
                     "PublicationtoPublicationtext": PublicationtoPublicationtext}
 
-    def __init__(self, uuid=None, date=None, title=None, url=None):
-        super(PublicationDAO, self).__init__(uuid)
-        setattr(self, "date", date)
-        setattr(self, "title", title)
-        setattr(self, "url", url)
+    def __init__(self, uuid=None, row=None, date=None, title=None, url=None):
+        super(PublicationDAO, self).__init__(uuid, row)
+        #setattr(self, "date", date)
+        #setattr(self, "title", title)
+        #setattr(self, "url", url)
 
     def add_publicationtext(self, publicationtext):
         self.PublicationtoPublicationtext.add(PublicationtoPublicationtext(self.uuid, publicationtext.uuid))
@@ -108,11 +108,11 @@ class PredictionDAO(DAO):
     join_objects = {"PredictiontoPublication": PredictiontoPublication,
                     "PredictiontoTextmodel": PredictiontoTextmodel}
 
-    def __init__(self, uuid=None, commonname=None, short_description=None, created_date=None):
-        super(PredictionDAO, self).__init__(uuid)
-        setattr(self, "commonname", commonname)
-        setattr(self, "short_description", short_description)
-        setattr(self, "created_date", created_date)
+    def __init__(self, uuid=None, row=None, commonname=None, short_description=None, created_date=None):
+        super(PredictionDAO, self).__init__(uuid, row)
+        #setattr(self, "commonname", commonname)
+        #setattr(self, "short_description", short_description)
+        #setattr(self, "created_date", created_date)
 
     def add_publication(self, publication):
         self.PredictiontoPublication.add(PredictiontoPublication(self.uuid, publication.uuid))
