@@ -50,3 +50,5 @@ class PredictionMask(AbstractMask):
                    TreeviewColumn("Publisher", 1, False),
                    TreeviewColumn("Date", 2, False),
                    TreeviewColumn("Prediction", 3, False)]
+    default_height = 500
+    default_width = 200

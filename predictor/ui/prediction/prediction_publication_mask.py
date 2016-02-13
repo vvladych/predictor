@@ -53,6 +53,9 @@ class PredictionPublicationMask(AbstractMask):
                    TreeviewColumn("publication_uuid", 5, False),
                    ]
 
+    default_height = 150
+    default_width = 400
+
     def __init__(self, main_window, prediction):
         super(PredictionPublicationMask, self).__init__(main_window, prediction)
         self.prediction = prediction
