@@ -30,6 +30,8 @@ class PublicationMask(AbstractMask):
                    TreeviewColumn("Title", 1, False),
                    TreeviewColumn("Date", 2, False),
                    TreeviewColumn("URL", 3, False)]
+    default_height = 500
+    default_width = 200
 
     def new_callback(self):
         self.clear_main_middle_pane()

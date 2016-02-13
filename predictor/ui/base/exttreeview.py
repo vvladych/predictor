@@ -31,18 +31,17 @@ class ExtendedTreeView(Gtk.Grid):
         self.on_new_callback = on_new_callback
         self.columns = columns
 
-        self.scrolled_window = Gtk.ScrolledWindow()
-        self.scrolled_window.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+        self.window = Gtk.ScrolledWindow()
+        self.window.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
         self.treeview = self.create_treeview()
 
-        self.scrolled_window.add(self.treeview)
-        self.scrolled_window.set_size_request(300, 300)
+        self.window.add(self.treeview)
 
         self.total_counter = self.treedata.get_length()
 
-        self.add(self.scrolled_window)
+        self.add(self.window)
         self.paginator = TreemodelPaginator(self.rows_per_page, self.total_counter)
-        self.attach_next_to(self.paginator, self.scrolled_window, Gtk.PositionType.BOTTOM, 1, 1)
+        self.attach_next_to(self.paginator, self.window, Gtk.PositionType.BOTTOM, 1, 1)
         self.fill_treeview(start_row)
 
     def create_treeview(self):
