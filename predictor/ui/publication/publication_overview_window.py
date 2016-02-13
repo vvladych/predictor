@@ -98,9 +98,9 @@ class PublicationOverviewWindow(Gtk.Grid):
 
         row += 1
         
-        self.save_publication_button = Gtk.Button("Save", Gtk.STOCK_SAVE)
-        self.attach(self.save_publication_button, 1, row, 1, 1)
-        self.save_publication_button.connect("clicked", self.save_publication_action)
+        save_publication_button = Gtk.Button("Save", Gtk.STOCK_SAVE)
+        self.attach(save_publication_button, 1, row, 1, 1)
+        save_publication_button.connect("clicked", self.save_publication_action)
         
         row += 1
         
@@ -109,7 +109,7 @@ class PublicationOverviewWindow(Gtk.Grid):
         publishers = DAOList(PublisherDAO)
         publishers.load()
         for p in publishers:
-            combobox_model.append(["%s" % p.uuid, p.commonname])
+            combobox_model.append(["%s" % p.uuid, "%s" % p.commonname])
         return combobox_model
 
     def set_active_publisher(self, publisher_uuid):
@@ -148,11 +148,11 @@ class PublicationOverviewWindow(Gtk.Grid):
             publication_uuid = self.publication.uuid
 
         publication = PublicationDAO(publication_uuid,
-                                     datetime.date(int(self.publication_date_year_textentry.get_text()),
-                                                   int(self.publication_date_month_textentry.get_text()),
-                                                   int(self.publication_date_day_textentry.get_text())),
-                                     publication_title,
-                                     publication_url)
+                                     {"date": datetime.date(int(self.publication_date_year_textentry.get_text()),
+                                                             int(self.publication_date_month_textentry.get_text()),
+                                                             int(self.publication_date_day_textentry.get_text())),
+                                      "title": publication_title,
+                                      "url": publication_url})
 
         publication_text_DAO = PublicationtextDAO()
         publication_text_DAO.text = publication_text

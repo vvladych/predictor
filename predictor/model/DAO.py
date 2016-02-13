@@ -1,5 +1,4 @@
 import psycopg2.extras
-import collections
 from predictor.helpers.db_connection import dbcursor_wrapper, get_uuid_from_database
 from predictor.helpers.transaction_broker import transactional
 from predictor.helpers.type_guard import typecheck, consistcheck
