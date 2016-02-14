@@ -14,9 +14,6 @@ class PublicationExtTreeview(ExtendedTreeView):
 
     dao_type = PublicationDAO
 
-    def __init__(self, main_window, columns, start_row=0, rows_per_page=0, on_row_select_callback=None, on_new_callback=None, dao=None):
-        super(PublicationExtTreeview, self).__init__(main_window, columns, start_row, rows_per_page, on_row_select_callback, on_new_callback, dao)
-
     def append_treedata_row(self, row):
         self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.title, "%s" % row.date, "%s" % row.url])
 
@@ -35,5 +32,8 @@ class PublicationMask(AbstractMask):
 
     def new_callback(self):
         self.clear_main_middle_pane()
-        self.main_middle_pane.pack_start(PublicationOverviewWindow(self, None, self.overview_treeview.reset_treemodel), False, False, 0)
+        self.main_middle_pane.pack_start(PublicationOverviewWindow(self, None, self.overview_treeview.reset_treemodel),
+                                         False,
+                                         False,
+                                         0)
         self.main_middle_pane.show_all()

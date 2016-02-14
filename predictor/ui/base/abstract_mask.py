@@ -23,7 +23,14 @@ class AbstractMask(Gtk.Grid):
 
         self.dao = dao
 
-        self.overview_treeview = self.__class__.exttreeview(self.main_window, self.__class__.treecolumns, 0, 20, self.on_row_select, self.new_callback, self.dao)
+        self.overview_treeview = self.__class__.exttreeview(self.main_window,
+                                                            self.__class__.treecolumns,
+                                                            0,
+                                                            20,
+                                                            self.on_row_select,
+                                                            self.new_callback,
+                                                            self.edit_callback,
+                                                            self.dao)
 
         self.overview_treeview.window.set_size_request(self.__class__.default_width, self.__class__.default_height)
 
@@ -49,15 +56,19 @@ class AbstractMask(Gtk.Grid):
     def new_callback(self):
         pass
 
+    def edit_callback(self):
+        pass
+
     def on_row_select(self, uuid):
         self.clear_main_middle_pane()
         dao = self.__class__.dao_type(uuid)
         dao.load()
-        self.main_middle_pane.pack_start(self.__class__.overview_window(self,
-                                                                        dao,
-                                                                        self.overview_treeview.reset_treemodel),
-                                         False,
-                                         False,
-                                         0)
-        self.main_middle_pane.show_all()
+        if self.__class__.overview_window is not None:
+            self.main_middle_pane.pack_start(self.__class__.overview_window(self.main_window,
+                                                                            dao,
+                                                                            self.overview_treeview.reset_treemodel),
+                                             False,
+                                             False,
+                                             0)
+            self.main_middle_pane.show_all()
 

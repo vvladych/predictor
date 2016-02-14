@@ -18,12 +18,8 @@ class PredictionExtTreeview(ExtendedTreeView):
 
     dao_type = PredictionDAO
 
-    def __init__(self, main_window, columns, start_row=0, rows_per_page=0, on_row_select_callback=None, on_new_callback=None, concrete_dao=None):
-        super(PredictionExtTreeview, self).__init__(main_window, columns, start_row, rows_per_page, on_row_select_callback, on_new_callback, concrete_dao)
-
     def append_treedata_row(self, row):
         self.treeview.treemodel.append(["%s" % row.uuid, "publisher", "%s" % row.created_date, "%s" % row.commonname])
-        #self.treeview.treemodel.append(["%s" % row.uuid, "publisher", "%s" % row.created_date, "commonname"])
 
     def on_menu_item_new(self, widget):
         new_prediction_dialog = PredictionNewDialog(self.main_window)

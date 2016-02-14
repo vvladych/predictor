@@ -165,7 +165,7 @@ class PublicationOverviewWindow(Gtk.Grid):
 
         publication.save()
 
-        show_info_dialog(None, "Publication inserted")
+        show_info_dialog(self.main_window, "Publication inserted")
         self.publication = publication
         self.parent_callback()
 
@@ -177,10 +177,3 @@ class PublicationOverviewWindow(Gtk.Grid):
             return publisher_uuid[0]
         else:
             show_error_dialog(self.main_window, "please choose a publisher!")
-
-    def delete_action(self, widget):
-        if self.publication is not None:
-            self.publication.delete()
-            self.publication = None
-        else:
-            show_error_dialog(self.main_window, "publication is None!")

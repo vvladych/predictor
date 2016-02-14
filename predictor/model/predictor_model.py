@@ -100,9 +100,6 @@ class PredictionDAO(DAO):
     join_objects = {"PredictiontoPublication": PredictiontoPublication,
                     "PredictiontoTextmodel": PredictiontoTextmodel}
 
-    #def __init__(self, uuid=None, row=None):
-    #    super(PredictionDAO, self).__init__(uuid, row)
-
     def add_publication(self, publication):
         self.PredictiontoPublication.add(PredictiontoPublication(self.uuid, publication.uuid))
 
@@ -166,3 +163,8 @@ class OrganisationDAO(DAO):
     def __init__(self, uuid=None, commonname=None):
         super(OrganisationDAO, self).__init__(uuid)
         setattr(self, "commonname", commonname)
+
+
+class PredictionTextmodelV(VDAO):
+    data_fields = ["uuid", "date", "short_description", "textmodel_uuid"]
+    entity = "public.\"prediction_textmodel_V\""
