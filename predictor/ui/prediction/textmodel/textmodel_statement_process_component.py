@@ -105,7 +105,7 @@ class TextmodelStatementManipulationComponent(AbstractDataManipulationComponent)
         tmstm.save()
         self.textmodel.add_tmstatement(tmstm)
         self.textmodel.save()
-        show_info_dialog("Add successful")
+        show_info_dialog(None, "Add successful")
         self.overview_component.clean_and_populate_model()
 
     def delete_action(self, widget):
@@ -114,7 +114,7 @@ class TextmodelStatementManipulationComponent(AbstractDataManipulationComponent)
         tmstm.delete()
         model.remove(tree_iter)
         self.textmodel.load()
-        show_info_dialog("Delete successful")
+        show_info_dialog(None, "Delete successful")
 
 
 class TextmodelStatementOverviewComponent(AbstractDataOverviewComponent):

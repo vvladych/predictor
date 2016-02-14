@@ -7,6 +7,7 @@ Created on 14.03.2015
 from gi.repository import Gtk
 
 from predictor.ui.prediction.prediction_publication_mask import PredictionPublicationMask
+from predictor.ui.prediction.textmodel.prediction_textmodel_mask import PredictionTextmodelMask
 #from forecastmgmt.ui.forecast.originator_add_dialog import OriginatorAddDialog
 ####from predictor.ui.prediction.originator_process_component import OriginatorOverviewComponent
 #from forecastmgmt.ui.forecast.rawtext_add_dialog import RawTextAddDialog
@@ -22,6 +23,7 @@ class PredictionOverviewWindow(Gtk.Grid):
         Gtk.Grid.__init__(self)
         ###self.originator_overview_component=OriginatorOverviewComponent(forecast)
         self.publication_overview_component = PredictionPublicationMask(main_window, prediction)
+        self.textmodel_overview_component = PredictionTextmodelMask(main_window, prediction)
         self.main_window = main_window
         self.prediction = prediction
         self.create_layout()
@@ -109,21 +111,25 @@ class PredictionOverviewWindow(Gtk.Grid):
         
         row += 1
 
-        buttonGrid = Gtk.Grid()
+        #buttonGrid = Gtk.Grid()
         
         #button_rawtext_dialog=Gtk.Button("Raw text")
         #button_rawtext_dialog.connect("clicked", self.show_rawtext_dialog)
         #buttonGrid.attach(button_rawtext_dialog, 0, row, 1, 1)
 
-        button_edit_textmodel_dialog = Gtk.Button("Text model(s)")
-        button_edit_textmodel_dialog.connect("clicked", self.show_textmodel_dialog)
-        buttonGrid.attach(button_edit_textmodel_dialog, 1, row, 1, 1)
+        #button_edit_textmodel_dialog = Gtk.Button("Text model(s)")
+        #button_edit_textmodel_dialog.connect("clicked", self.show_textmodel_dialog)
+        #buttonGrid.attach(button_edit_textmodel_dialog, 1, row, 1, 1)
+
+        row += 1
+        # project textmodel
+        self.attach(self.textmodel_overview_component, 0, row, 2, 1)
 
         #button_edit_model_dialog = Gtk.Button("Formal model(s)")
         #button_edit_model_dialog.connect("clicked", self.show_model_dialog)
         #buttonGrid.attach(button_edit_model_dialog, 2, row, 1, 1)
         
-        self.attach(buttonGrid, 0, row, 2, 1)
+        #self.attach(buttonGrid, 0, row, 2, 1)
 
     def show_originator_dialog(self, widget):
         #dialog=OriginatorAddDialog(self, self.prediction)

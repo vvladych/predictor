@@ -22,13 +22,14 @@ class TreedataContainer(object):
 
 class ExtendedTreeView(Gtk.Grid):
 
-    def __init__(self, main_window, columns, start_row, rows_per_page, on_row_select_callback, on_new_callback, concrete_dao):
+    def __init__(self, main_window, columns, start_row, rows_per_page, on_row_select_callback, on_new_callback, on_edit_callback, concrete_dao):
         super(ExtendedTreeView, self).__init__()
         self.main_window = main_window
         self.treedata = TreedataContainer(self.__class__.dao_type, concrete_dao)
         self.rows_per_page = rows_per_page
         self.on_row_select_callback = on_row_select_callback
         self.on_new_callback = on_new_callback
+        self.on_edit_callback = on_edit_callback
         self.columns = columns
 
         self.window = Gtk.ScrolledWindow()
@@ -45,7 +46,13 @@ class ExtendedTreeView(Gtk.Grid):
         self.fill_treeview(start_row)
 
     def create_treeview(self):
-        return CustomTreeview(self.columns, self.rows_per_page, self.fill_treeview, self.on_row_select_callback, self.on_menu_item_new, self.on_menu_item_delete)
+        return CustomTreeview(self.columns,
+                              self.rows_per_page,
+                              self.fill_treeview,
+                              self.on_row_select_callback,
+                              self.on_menu_item_new,
+                              self.on_menu_item_delete,
+                              self.on_menu_item_edit)
 
     def fill_treeview(self, start_row):
         self.treeview.treemodel.clear()
@@ -65,6 +72,12 @@ class ExtendedTreeView(Gtk.Grid):
             self.on_new_callback()
         else:
             raise NotImplementedError("on_menu_item_new still not implemented")
+
+    def on_menu_item_edit(self, widget):
+        if self.on_edit_callback is not None:
+            self.on_edit_callback()
+        else:
+            raise NotImplementedError("on_menu_item_edit still not implemented")
 
     def get_selected_row(self):
         (model, tree_iter) = self.treeview.get_selection().get_selected()
@@ -100,7 +113,7 @@ class ExtendedTreeView(Gtk.Grid):
 
 class CustomTreeview(Gtk.TreeView):
 
-    def __init__(self, columns, max_rows, parent_refresh_callback, on_row_select_callback, on_menu_new_callback, on_menu_delete_callback):
+    def __init__(self, columns, max_rows, parent_refresh_callback, on_row_select_callback, on_menu_new_callback, on_menu_delete_callback, on_menu_edit_callback):
         self.columns = columns
         self.treemodel = Gtk.ListStore(*([str]*len(columns)))
         super(CustomTreeview, self).__init__(self.treemodel)
@@ -112,6 +125,7 @@ class CustomTreeview(Gtk.TreeView):
         self.on_row_select_callback = on_row_select_callback
         self.on_menu_new_callback = on_menu_new_callback
         self.on_menu_delete_callback = on_menu_delete_callback
+        self.on_menu_edit_callback = on_menu_edit_callback
         self.parent_refresh_callback = parent_refresh_callback
 
     def reset_treemodel(self):
@@ -132,6 +146,12 @@ class CustomTreeview(Gtk.TreeView):
         menu_item_add.connect("activate", self.on_menu_item_add_click)
         menu.append(menu_item_add)
         menu_item_add.show()
+
+        menu_item_edit = Gtk.MenuItem("Edit...")
+        menu_item_edit.connect("activate", self.on_menu_item_edit_click)
+        menu.append(menu_item_edit)
+        menu_item_edit.show()
+
         menu_item_delete = Gtk.MenuItem("Delete...")
         menu_item_delete.connect("activate", self.on_menu_item_delete_click)
         menu.append(menu_item_delete)
@@ -141,8 +161,10 @@ class CustomTreeview(Gtk.TreeView):
     def on_menu_item_add_click(self, widget):
         self.on_menu_new_callback(widget)
 
+    def on_menu_item_edit_click(self, widget):
+        self.on_menu_edit_callback(widget)
+
     def on_menu_item_delete_click(self, widget):
-        print("in delete!!!!")
         self.on_menu_delete_callback(widget)
 
     def on_treeview_button_press_event(self, treeview, event, widget):

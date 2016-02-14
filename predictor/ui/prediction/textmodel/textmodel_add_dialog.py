@@ -10,7 +10,7 @@ from predictor.ui.prediction.textmodel.textmodel_process_component import TextMo
 
 class TextModelAddDialog(Gtk.Dialog):
     
-    def __init__(self, parent, prediction):
+    def __init__(self, main_window, prediction):
         Gtk.Dialog.__init__(self, "Text model dialog", None, 0,
                             (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK))
         

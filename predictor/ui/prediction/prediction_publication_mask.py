@@ -14,9 +14,6 @@ class PredictionPublicationExtTreeview(ExtendedTreeView):
 
     dao_type = PredictionPublisherV
 
-    def __init__(self, main_window, columns, start_row=0, rows_per_page=0, on_row_select_callback=None, on_new_callback=None, concrete_dao=None):
-        super(PredictionPublicationExtTreeview, self).__init__(main_window, columns, start_row, rows_per_page, self.on_row_select_callback, on_new_callback, concrete_dao)
-
     def append_treedata_row(self, row):
         self.treeview.treemodel.append(["%s" % row.uuid,
                                         "%s" % row.commonname,
@@ -50,10 +47,10 @@ class PredictionPublicationMask(AbstractMask):
                    TreeviewColumn("Title", 2, False, True),
                    TreeviewColumn("Date", 3, False),
                    TreeviewColumn("URL", 4, False),
-                   TreeviewColumn("publication_uuid", 5, False),
+                   TreeviewColumn("publication_uuid", 5, True),
                    ]
 
-    default_height = 150
+    default_height = 80
     default_width = 400
 
     def __init__(self, main_window, prediction):
