@@ -6,13 +6,10 @@ Created on 27.05.2015
 
 from gi.repository import Gtk
 
-from predictor.ui.prediction.abstract_data_process_component import AbstractDataOverviewComponent, AbstractDataManipulationComponent, AbstractDataProcessComponent
-
-from predictor.ui.ui_tools import TreeviewColumn, show_info_dialog
-
 from predictor.model.predictor_model import TextmodelDAO, PredictionDAO
-
-from predictor.ui.prediction.textmodel.textmodel_statement_add_dialog import TextmodelStatementAddDialog
+from predictor.ui.prediction.abstract_data_process_component import AbstractDataOverviewComponent, AbstractDataManipulationComponent, AbstractDataProcessComponent
+from predictor.ui.prediction.textmodel.statement.add_dialog import TextmodelStatementAddDialog
+from predictor.ui.ui_tools import TreeviewColumn, show_info_dialog
 
 
 class TextModelProcessComponent(AbstractDataProcessComponent):

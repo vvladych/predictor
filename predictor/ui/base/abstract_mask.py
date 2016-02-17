@@ -24,7 +24,6 @@ class AbstractMask(Gtk.Grid):
         self.dao = dao
 
         self.overview_treeview = self.__class__.exttreeview(self.main_window,
-                                                            self.__class__.treecolumns,
                                                             0,
                                                             20,
                                                             self.on_row_select,

@@ -6,13 +6,13 @@ Created on 14.03.2015
 
 from gi.repository import Gtk
 
-from predictor.ui.prediction.prediction_publication_mask import PredictionPublicationMask
-from predictor.ui.prediction.textmodel.prediction_textmodel_mask import PredictionTextmodelMask
+from predictor.ui.prediction.publication.main_mask import PredictionPublicationMask
+from predictor.ui.prediction.textmodel.main_mask import PredictionTextmodelMask
 #from forecastmgmt.ui.forecast.originator_add_dialog import OriginatorAddDialog
 ####from predictor.ui.prediction.originator_process_component import OriginatorOverviewComponent
 #from forecastmgmt.ui.forecast.rawtext_add_dialog import RawTextAddDialog
 #from forecastmgmt.ui.forecast.model_add_dialog import ModelAddDialog
-from predictor.ui.prediction.textmodel.textmodel_add_dialog import TextModelAddDialog
+from predictor.ui.prediction.textmodel.add_dialog import TextModelAddDialog
 from predictor.ui.ui_tools import TextViewWidget
 
 
