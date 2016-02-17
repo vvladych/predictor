@@ -22,7 +22,9 @@ class TreedataContainer(object):
 
 class ExtendedTreeView(Gtk.Grid):
 
-    def __init__(self, main_window, columns, start_row, rows_per_page, on_row_select_callback, on_new_callback, on_edit_callback, concrete_dao):
+    columns = []
+
+    def __init__(self, main_window, start_row, rows_per_page, on_row_select_callback, on_new_callback, on_edit_callback, concrete_dao):
         super(ExtendedTreeView, self).__init__()
         self.main_window = main_window
         self.treedata = TreedataContainer(self.__class__.dao_type, concrete_dao)
@@ -30,7 +32,6 @@ class ExtendedTreeView(Gtk.Grid):
         self.on_row_select_callback = on_row_select_callback
         self.on_new_callback = on_new_callback
         self.on_edit_callback = on_edit_callback
-        self.columns = columns
 
         self.window = Gtk.ScrolledWindow()
         self.window.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
@@ -46,7 +47,7 @@ class ExtendedTreeView(Gtk.Grid):
         self.fill_treeview(start_row)
 
     def create_treeview(self):
-        return CustomTreeview(self.columns,
+        return CustomTreeview(self.__class__.columns,
                               self.rows_per_page,
                               self.fill_treeview,
                               self.on_row_select_callback,
@@ -118,10 +119,13 @@ class CustomTreeview(Gtk.TreeView):
         self.treemodel = Gtk.ListStore(*([str]*len(columns)))
         super(CustomTreeview, self).__init__(self.treemodel)
         self.add_context_menu_overview_treeview()
+
         i = 0
         for c in columns:
             self.add_column(c, i)
             i += 1
+        self.connect("row-activated", self.on_row_double_click)
+
         self.on_row_select_callback = on_row_select_callback
         self.on_menu_new_callback = on_menu_new_callback
         self.on_menu_delete_callback = on_menu_delete_callback
@@ -157,6 +161,9 @@ class CustomTreeview(Gtk.TreeView):
         menu.append(menu_item_delete)
         menu_item_delete.show()
         self.connect("button_press_event", self.on_treeview_button_press_event,menu)
+
+    def on_row_double_click(self, widget, path, data):
+        print("double click!")
 
     def on_menu_item_add_click(self, widget):
         self.on_menu_new_callback(widget)

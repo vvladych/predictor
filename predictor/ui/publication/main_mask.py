@@ -13,6 +13,10 @@ from predictor.ui.publication.publication_overview_window import PublicationOver
 class PublicationExtTreeview(ExtendedTreeView):
 
     dao_type = PublicationDAO
+    columns = [TreeviewColumn("uuid", 0, True),
+               TreeviewColumn("Title", 1, False),
+               TreeviewColumn("Date", 2, False),
+               TreeviewColumn("URL", 3, False)]
 
     def append_treedata_row(self, row):
         self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.title, "%s" % row.date, "%s" % row.url])
@@ -23,10 +27,6 @@ class PublicationMask(AbstractMask):
     dao_type = PublicationDAO
     exttreeview = PublicationExtTreeview
     overview_window = PublicationOverviewWindow
-    treecolumns = [TreeviewColumn("uuid", 0, True),
-                   TreeviewColumn("Title", 1, False),
-                   TreeviewColumn("Date", 2, False),
-                   TreeviewColumn("URL", 3, False)]
     default_height = 500
     default_width = 200
 

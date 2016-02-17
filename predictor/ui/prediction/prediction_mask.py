@@ -18,6 +18,11 @@ class PredictionExtTreeview(ExtendedTreeView):
 
     dao_type = PredictionDAO
 
+    columns = [TreeviewColumn("uuid", 0, True),
+               TreeviewColumn("Publisher", 1, False),
+               TreeviewColumn("Date", 2, False),
+               TreeviewColumn("Prediction", 3, False)]
+
     def append_treedata_row(self, row):
         self.treeview.treemodel.append(["%s" % row.uuid, "publisher", "%s" % row.created_date, "%s" % row.commonname])
 
@@ -42,9 +47,5 @@ class PredictionMask(AbstractMask):
     dao_type = PredictionDAO
     overview_window = PredictionOverviewWindow
     exttreeview = PredictionExtTreeview
-    treecolumns = [TreeviewColumn("uuid", 0, True),
-                   TreeviewColumn("Publisher", 1, False),
-                   TreeviewColumn("Date", 2, False),
-                   TreeviewColumn("Prediction", 3, False)]
     default_height = 500
     default_width = 200
