@@ -160,7 +160,8 @@ class CustomTreeview(Gtk.TreeView):
         menu_item_delete.connect("activate", self.on_menu_item_delete_click)
         menu.append(menu_item_delete)
         menu_item_delete.show()
-        self.connect("button_press_event", self.on_treeview_button_press_event,menu)
+
+        self.connect("button_press_event", self.on_treeview_button_press_event, menu)
 
     def on_row_double_click(self, widget, path, data):
         print("double click!")
@@ -232,8 +233,10 @@ class TreemodelPaginator(Gtk.Grid):
             if current_page != 1:
                 self.buttonarray.append(PaginatorButton("%s" % current_page, (current_page-1) * self.rows_per_page, False, self.parent_callback))
             self.create_next_buttons(current_page, total_pages)
-        for button in self.buttonarray:
-            self.add(button)
+        # show pagination button only if more than 1
+        if len(self.buttonarray)>1:
+            for button in self.buttonarray:
+                self.add(button)
         self.show_all()
 
     def create_prev_buttons(self, current_page):
