@@ -5,10 +5,9 @@ from predictor.ui.prediction.abstract_data_process_component import AbstractData
 from predictor.ui.ui_tools import show_info_dialog
 from predictor.model.DAO import DAOList
 from predictor.model.predictor_model import PublicationDAO, PredictionPublisherV
-from predictor.ui.base.exttreeview import TreeviewColumn
+from predictor.ui.base.exttreeview import TreeviewColumn, CustomTreeview, TreemodelPaginator
 from predictor.helpers.transaction_broker import transactional
 from predictor.ui.prediction.publication.exttreeview import PredictionPublicationExtTreeview
-
 
 
 class PublicationAddDialog(Gtk.Dialog):
@@ -16,21 +15,21 @@ class PublicationAddDialog(Gtk.Dialog):
     def __init__(self, parent, prediction):
         Gtk.Dialog.__init__(self,
                             "Publication Dialog",
-                            None,
+                            parent,
                             0,
                             (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK))
-
-        self.set_default_size(150, 400)
+        self.prediction = prediction
         self.layout_grid = Gtk.Grid()
-        # (self, main_window, start_row, rows_per_page, on_row_select_callback, on_new_callback, on_edit_callback, concrete_dao):
 
-        self.overview_component = PredictionPublicationExtTreeview(parent,
-                                                              0,
-                                                              20,
-                                                              None,#self.on_row_select,
-                                                              None,#self.new_callback,
-                                                              None,#self.edit_callback,
-                                                              prediction)
+        self.set_default_size(400, 400)
+
+        self.overview_component = PredictionPublicationExtTreeview(self,
+                                                                   0,
+                                                                   20,
+                                                                   self.noop,#self.on_row_select,
+                                                                   self.noop,#self.new_callback,
+                                                                   self.noop,#self.edit_callback,
+                                                                   self.prediction)
 
         self.process_component = AbstractDataProcessComponent(PublicationManipulationComponent(prediction,
                                                                                                self.overview_component))
@@ -49,10 +48,13 @@ class PublicationAddDialog(Gtk.Dialog):
         row += 1
         row = self.process_component.create_layout(self.layout_grid, row)
 
-        self.overview_component.set_size_request(100, 300)
-        self.layout_grid.attach(self.overview_component, 0, row, 1, 1)
+        self.overview_component.window.set_size_request(400, 300)
+        self.layout_grid.attach(self.overview_component, 0, row, 2, 1)
 
         return row
+
+    def noop(self, widget=None):
+        pass
 
 
 class PublicationManipulationComponent(AbstractDataManipulationComponent):
@@ -60,6 +62,7 @@ class PublicationManipulationComponent(AbstractDataManipulationComponent):
     def __init__(self, prediction, overview_component):
         super(PublicationManipulationComponent, self).__init__(overview_component)
         self.prediction = prediction
+        self.overview_component = overview_component
 
     def create_layout(self, parent_layout_grid, row):
 
@@ -86,8 +89,6 @@ class PublicationManipulationComponent(AbstractDataManipulationComponent):
 
         row += 1
 
-        #row = self.overview_component.create_layout(parent_layout_grid, row)
-
         return row
 
     def populate_publication_combobox_model(self):
@@ -105,7 +106,7 @@ class PublicationManipulationComponent(AbstractDataManipulationComponent):
         self.prediction.add_publication(publication)
         self.prediction.save()
         show_info_dialog(None, "Add successful")
-        self.overview_component.clean_and_populate_model()
+        self.overview_component.fill_treeview(0)
 
     def get_active_publication(self):
         tree_iter = self.publication_combobox.get_active_iter()
@@ -115,28 +116,3 @@ class PublicationManipulationComponent(AbstractDataManipulationComponent):
             return publication_uuid
         else:
             show_info_dialog(None, "please choose a publication!")
-
-
-class PublicationOverviewComponent(AbstractDataOverviewComponent):
-
-    treecolumns = [TreeviewColumn("prediction_uuid", 0, True),
-                   TreeviewColumn("Publisher", 1, False),
-                   TreeviewColumn("Title", 2, False, True),
-                   TreeviewColumn("Date", 3, False),
-                   TreeviewColumn("URL", 4, False),
-                   TreeviewColumn("publication_uuid", 5, False),
-                   ]
-
-    def __init__(self, prediction):
-        self.prediction = prediction
-        super(PublicationOverviewComponent, self).__init__(PublicationOverviewComponent.treecolumns)
-
-    def populate_model(self):
-        self.treemodel.clear()
-        prediction_publications = DAOList(PredictionPublisherV)
-        prediction_publications.load("uuid='%s'" % self.prediction.uuid)
-        for p in prediction_publications:
-            self.treemodel.append(["%s" % p.uuid, p.commonname, p.title, p.date.strftime('%d.%m.%Y'),p.url, "%s" % p.publication_uuid])
-
-    def on_row_select(self, widget, path, data):
-        pass

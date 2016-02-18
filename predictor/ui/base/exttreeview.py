@@ -1,6 +1,7 @@
 from gi.repository import Gtk
 
 from predictor.model.DAO import DAOListl
+from predictor.helpers.transaction_broker import transactional
 from predictor.ui.ui_tools import show_info_dialog
 
 
@@ -86,6 +87,7 @@ class ExtendedTreeView(Gtk.Grid):
             return model[tree_iter]
         return None
 
+    @transactional
     def on_menu_item_delete(self, widget):
         (model, tree_iter) = self.treeview.get_selection().get_selected()
         if tree_iter is not None:
@@ -124,7 +126,7 @@ class CustomTreeview(Gtk.TreeView):
         for c in columns:
             self.add_column(c, i)
             i += 1
-        self.connect("row-activated", self.on_row_double_click)
+        self.connect("row-activated", self.on_row_double_click, None)
 
         self.on_row_select_callback = on_row_select_callback
         self.on_menu_new_callback = on_menu_new_callback
@@ -163,7 +165,7 @@ class CustomTreeview(Gtk.TreeView):
 
         self.connect("button_press_event", self.on_treeview_button_press_event, menu)
 
-    def on_row_double_click(self, widget, path, data):
+    def on_row_double_click(self, widget, path, data, d1):
         print("double click!")
 
     def on_menu_item_add_click(self, widget):
@@ -175,6 +177,8 @@ class CustomTreeview(Gtk.TreeView):
     def on_menu_item_delete_click(self, widget):
         self.on_menu_delete_callback(widget)
 
+    # TODO: refactor, double click doesn't work with this solution
+    # https://en.wikibooks.org/wiki/GTK%2B_By_Example/Tree_View/Events
     def on_treeview_button_press_event(self, treeview, event, widget):
         x = int(event.x)
         y = int(event.y)
@@ -215,8 +219,10 @@ class TreemodelPaginator(Gtk.Grid):
         self.buttonarray = []
 
     def create_pagination_buttons(self, current_position, parent_callback):
-        for b in self.buttonarray:
-            self.remove(b)
+        if len(self.buttonarray) > 1:
+            for b in self.buttonarray:
+                self.remove(b)
+
         self.buttonarray = []
         self.parent_callback = parent_callback
         self.current_position = current_position
@@ -234,7 +240,7 @@ class TreemodelPaginator(Gtk.Grid):
                 self.buttonarray.append(PaginatorButton("%s" % current_page, (current_page-1) * self.rows_per_page, False, self.parent_callback))
             self.create_next_buttons(current_page, total_pages)
         # show pagination button only if more than 1
-        if len(self.buttonarray)>1:
+        if len(self.buttonarray) > 1:
             for button in self.buttonarray:
                 self.add(button)
         self.show_all()
