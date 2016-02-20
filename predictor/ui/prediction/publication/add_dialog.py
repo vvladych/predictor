@@ -1,11 +1,10 @@
 
 from gi.repository import Gtk
 
-from predictor.ui.prediction.abstract_data_process_component import AbstractDataOverviewComponent, AbstractDataManipulationComponent, AbstractDataProcessComponent
+from predictor.ui.prediction.abstract_data_process_component import AbstractDataManipulationComponent, AbstractDataProcessComponent
 from predictor.ui.ui_tools import show_info_dialog
 from predictor.model.DAO import DAOList
-from predictor.model.predictor_model import PublicationDAO, PredictionPublisherV
-from predictor.ui.base.exttreeview import TreeviewColumn, CustomTreeview, TreemodelPaginator
+from predictor.model.predictor_model import PublicationDAO
 from predictor.helpers.transaction_broker import transactional
 from predictor.ui.prediction.publication.exttreeview import PredictionPublicationExtTreeview
 
@@ -26,9 +25,9 @@ class PublicationAddDialog(Gtk.Dialog):
         self.overview_component = PredictionPublicationExtTreeview(self,
                                                                    0,
                                                                    20,
-                                                                   self.noop,#self.on_row_select,
-                                                                   self.noop,#self.new_callback,
-                                                                   self.noop,#self.edit_callback,
+                                                                   self.noop,
+                                                                   self.noop,
+                                                                   self.noop,
                                                                    self.prediction)
 
         self.process_component = AbstractDataProcessComponent(PublicationManipulationComponent(prediction,
@@ -62,7 +61,6 @@ class PublicationManipulationComponent(AbstractDataManipulationComponent):
     def __init__(self, prediction, overview_component):
         super(PublicationManipulationComponent, self).__init__(overview_component)
         self.prediction = prediction
-        self.overview_component = overview_component
 
     def create_layout(self, parent_layout_grid, row):
 
