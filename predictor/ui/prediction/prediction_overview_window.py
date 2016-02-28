@@ -7,6 +7,7 @@ Created on 14.03.2015
 from gi.repository import Gtk
 
 from predictor.ui.prediction.publication.exttreeview import PredictionPublicationExtTreeview
+from predictor.ui.prediction.textmodel.exttreeview import PredictionTextmodelExtTreeview
 from predictor.ui.prediction.textmodel.main_mask import PredictionTextmodelMask
 from predictor.ui.prediction.publication.add_dialog import PublicationAddDialog
 #from forecastmgmt.ui.forecast.originator_add_dialog import OriginatorAddDialog
@@ -26,7 +27,8 @@ class PredictionOverviewWindow(Gtk.Grid):
         ###self.publication_overview_component = PredictionPublicationMask(main_window, prediction)
 
         self.publication_overview_component = PredictionPublicationExtTreeview(main_window, 0, 20, None, None, self.show_publication_dialog, prediction)
-        self.textmodel_overview_component = PredictionTextmodelMask(main_window, prediction)
+        self.textmodel_overview_component = PredictionTextmodelExtTreeview(main_window, 0, 20, None, None, None, prediction)
+        ##self.textmodel_overview_component = PredictionTextmodelMask(main_window, prediction)
         self.main_window = main_window
         self.prediction = prediction
         self.create_layout()
@@ -99,9 +101,14 @@ class PredictionOverviewWindow(Gtk.Grid):
         # prediction model
         model_label = Gtk.Label("Model")
         model_label.set_justify(Gtk.Justification.LEFT)
-        self.attach(model_label, 0, row, 3, 1)
+        self.attach(model_label, 0, row, 2, 1)
         
         row += 1
+
+        self.attach(self.textmodel_overview_component, 0, row, 2, 1)
+
+        row += 1
+        self.attach(Gtk.Label(""), 0, row, 3, 1)
 
         #buttonGrid = Gtk.Grid()
         
