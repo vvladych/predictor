@@ -38,14 +38,17 @@ class ExtendedTreeView(Gtk.Grid):
         self.window.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
         self.treeview = self.create_treeview()
 
-        self.window.add(self.treeview)
-
         self.total_counter = self.treedata.get_length()
 
-        self.add(self.window)
         self.paginator = TreemodelPaginator(self.rows_per_page, self.total_counter)
-        self.attach_next_to(self.paginator, self.window, Gtk.PositionType.BOTTOM, 1, 1)
+
         self.fill_treeview(start_row)
+        self.window.add(self.treeview)
+        self.window.set_hexpand(True)
+        self.window.set_vexpand(True)
+
+        self.attach(self.window, 0, 0, 1, 1)
+        self.attach_next_to(self.paginator, self.window, Gtk.PositionType.BOTTOM, 1, 1)
 
     def create_treeview(self):
         return CustomTreeview(self.__class__.columns,
@@ -108,9 +111,9 @@ class ExtendedTreeView(Gtk.Grid):
     def reset_treemodel(self):
         self.treeview = self.create_treeview()
         self.fill_treeview(0)
-        for c in self.scrolled_window.get_children():
-            self.scrolled_window.remove(c)
-        self.scrolled_window.add(self.treeview)
+        for c in self.window.get_children():
+            self.window.remove(c)
+        self.window.add(self.treeview)
         self.show_all()
 
 
@@ -191,7 +194,10 @@ class CustomTreeview(Gtk.TreeView):
                 if treeview.get_selection() is not None:
                     treeview.get_selection().select_path(pthinfo[0])
                     dao_uuid = self.treemodel.get(self.treemodel.get_iter(pthinfo[0]), 0)[0]
-                    self.on_row_select_callback(dao_uuid)
+                    if self.on_row_select_callback is not None:
+                        self.on_row_select_callback(dao_uuid)
+                    else:
+                        print("on_row_select_callback is not implemented, correct?")
                 else:
                     show_info_dialog(None, "Please select a row!")
 

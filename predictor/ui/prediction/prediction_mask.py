@@ -48,4 +48,4 @@ class PredictionMask(AbstractMask):
     overview_window = PredictionOverviewWindow
     exttreeview = PredictionExtTreeview
     default_height = 500
-    default_width = 200
+    default_width = 300
