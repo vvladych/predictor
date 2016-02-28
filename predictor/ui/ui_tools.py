@@ -127,6 +127,25 @@ class TextViewWidget(Gtk.Grid):
             textbuffer.set_text("%s" % text)
 
 
+class TextEntryWidget(Gtk.Grid):
+
+    def __init__(self, title, text_entry_value=None, editable=True):
+        Gtk.Grid.__init__(self)
+        label=Gtk.Label(title)
+        label.set_justify(Gtk.Justification.RIGHT)
+        self.textentry = Gtk.Entry()
+        self.set_entry_value(text_entry_value)
+        self.textentry.set_editable(editable)
+        self.attach(label, 0, 0, 1, 1)
+        self.attach_next_to(self.textentry, label, Gtk.PositionType.RIGHT, 1, 1)
+
+    def get_entry_value(self):
+        return self.textentry.get_text()
+
+    def set_entry_value(self, text_entry_value):
+        self.textentry.set_text("%s" % text_entry_value)
+
+
 def toolbutton_factory(stock_item=None, tooltip_text="", clicked_action=None) -> Gtk.ToolButton:
     toolbutton = Gtk.ToolButton(stock_item)
     toolbutton.set_tooltip_text(tooltip_text)

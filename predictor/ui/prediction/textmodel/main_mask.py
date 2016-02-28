@@ -55,8 +55,6 @@ class PredictionTextmodelMask(AbstractMask):
 
     dao_type = PredictionTextmodelV
     exttreeview = PredictionTextmodelExtTreeview
-    default_height = 80
-    default_width = 400
 
     def __init__(self, main_window, prediction):
         super(PredictionTextmodelMask, self).__init__(main_window, prediction)

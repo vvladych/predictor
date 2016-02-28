@@ -10,7 +10,7 @@ class MainWindow(Gtk.Window):
 
     def __init__(self):
         Gtk.Window.__init__(self, title="Predictor")
-        self.set_size_request(800,600)
+        self.set_default_size(800, 600)
 
         # The main area, grid
         self.grid = Gtk.Grid()
@@ -62,11 +62,11 @@ class MainWindow(Gtk.Window):
     def set_working_area(self, action="masterdata"):
         self.clean_working_area()
         if action == "masterdata":
-            self.working_area.pack_start(MasterdataMask(self), False, False, 0)
+            self.working_area.pack_start(MasterdataMask(self), True, True, 0)
         elif action == "prediction":
-            self.working_area.pack_start(PredictionMask(self), False, False, 0)
+            self.working_area.pack_start(PredictionMask(self), True, True, 0)
         elif action == "publication":
-            self.working_area.pack_start(PublicationMask(self), False, False, 0)
+            self.working_area.pack_start(PublicationMask(self), True, True, 0)
         else:
             print("unimplemented")
 

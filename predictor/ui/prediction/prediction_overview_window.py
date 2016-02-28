@@ -6,14 +6,15 @@ Created on 14.03.2015
 
 from gi.repository import Gtk
 
-from predictor.ui.prediction.publication.main_mask import PredictionPublicationMask
+from predictor.ui.prediction.publication.exttreeview import PredictionPublicationExtTreeview
 from predictor.ui.prediction.textmodel.main_mask import PredictionTextmodelMask
+from predictor.ui.prediction.publication.add_dialog import PublicationAddDialog
 #from forecastmgmt.ui.forecast.originator_add_dialog import OriginatorAddDialog
 ####from predictor.ui.prediction.originator_process_component import OriginatorOverviewComponent
 #from forecastmgmt.ui.forecast.rawtext_add_dialog import RawTextAddDialog
 #from forecastmgmt.ui.forecast.model_add_dialog import ModelAddDialog
 from predictor.ui.prediction.textmodel.add_dialog import TextModelAddDialog
-from predictor.ui.ui_tools import TextViewWidget
+from predictor.ui.ui_tools import TextViewWidget, TextEntryWidget
 
 
 
@@ -22,7 +23,9 @@ class PredictionOverviewWindow(Gtk.Grid):
     def __init__(self, main_window, prediction=None, callback=None):
         Gtk.Grid.__init__(self)
         ###self.originator_overview_component=OriginatorOverviewComponent(forecast)
-        self.publication_overview_component = PredictionPublicationMask(main_window, prediction)
+        ###self.publication_overview_component = PredictionPublicationMask(main_window, prediction)
+
+        self.publication_overview_component = PredictionPublicationExtTreeview(main_window, 0, 20, None, None, self.show_publication_dialog, prediction)
         self.textmodel_overview_component = PredictionTextmodelMask(main_window, prediction)
         self.main_window = main_window
         self.prediction = prediction
@@ -35,45 +38,34 @@ class PredictionOverviewWindow(Gtk.Grid):
         placeholder_label = Gtk.Label("")
         placeholder_label.set_size_request(1, 40)
         self.attach(placeholder_label, 0, -1, 1, 1)
+        placeholder_label.set_hexpand(True)
 
         row = 0
         # Row 0: prediction uuid
-        uuid_label = Gtk.Label("prediction UUID")
-        uuid_label.set_justify(Gtk.Justification.RIGHT)
-        self.attach(uuid_label, 0, row, 1, 1)
-        prediction_uuid_text_entry = Gtk.Entry()
-        prediction_uuid_text_entry.set_editable(False)
-        self.attach(prediction_uuid_text_entry, 1, row, 1, 1)
-        
-        if self.prediction is not None:
-            prediction_uuid_text_entry.set_text("%s" % self.prediction.uuid)
+        self.prediction_uuid_text_entry = TextEntryWidget("prediction UUID", None, False)
+        self.attach(self.prediction_uuid_text_entry, 0, row, 2, 1)
 
         row += 1
 
-        common_name_label = Gtk.Label("Common name")
-        common_name_label.set_justify(Gtk.Justification.RIGHT)
-        self.attach(common_name_label, 0, row, 1, 1)
-        common_name_text_entry = Gtk.Entry()
-        self.attach(common_name_text_entry, 1, row, 1, 1)
-
-        if self.prediction is not None:
-            common_name_text_entry.set_text("%s" % self.prediction.commonname)
+        self.common_name_text_entry = TextEntryWidget("Common name", None, False)
+        self.attach(self.common_name_text_entry, 0, row, 2, 1)
 
         row += 1
         
         description_label = Gtk.Label("Description")
         description_label.set_justify(Gtk.Justification.RIGHT)
-        self.attach(description_label, 0, row, 1, 1)
-        
-        short_desc_text = None
-        if self.prediction is not None:
-            short_desc_text = self.prediction.short_description
+        #####self.attach(description_label, 0, row, 1, 1)
 
         self.desc_textview = Gtk.TextView()
-        desc_textview_widget = TextViewWidget(self.desc_textview, short_desc_text)
+        desc_textview_widget = TextViewWidget(self.desc_textview)
 
-        self.attach(desc_textview_widget, 1, row, 1, 1)
-        
+        self.attach(desc_textview_widget, 0, row, 2, 1)
+
+        if self.prediction is not None:
+            self.prediction_uuid_text_entry.set_entry_value(self.prediction.uuid)
+            self.common_name_text_entry.set_entry_value(self.prediction.commonname)
+            desc_textview_widget.set_text(self.prediction.short_description)
+
         row += 3
         # forecast originators
         originators_label = Gtk.Label("Originators")
@@ -123,13 +115,19 @@ class PredictionOverviewWindow(Gtk.Grid):
 
         row += 1
         # project textmodel
-        self.attach(self.textmodel_overview_component, 0, row, 2, 1)
+        ##############self.attach(self.textmodel_overview_component, 0, row, 2, 1)
 
         #button_edit_model_dialog = Gtk.Button("Formal model(s)")
         #button_edit_model_dialog.connect("clicked", self.show_model_dialog)
         #buttonGrid.attach(button_edit_model_dialog, 2, row, 1, 1)
         
         #self.attach(buttonGrid, 0, row, 2, 1)
+
+    def show_publication_dialog(self):
+        dialog = PublicationAddDialog(self.main_window, self.prediction)
+        dialog.run()
+        dialog.destroy()
+        self.publication_overview_component.fill_treeview(0)
 
     def show_originator_dialog(self, widget):
         #dialog=OriginatorAddDialog(self, self.prediction)
