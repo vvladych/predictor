@@ -27,7 +27,7 @@ class PredictionOverviewWindow(Gtk.Grid):
         ###self.publication_overview_component = PredictionPublicationMask(main_window, prediction)
 
         self.publication_overview_component = PredictionPublicationExtTreeview(main_window, 0, 20, None, None, self.show_publication_dialog, prediction)
-        self.textmodel_overview_component = PredictionTextmodelExtTreeview(main_window, 0, 20, None, None, None, prediction)
+        self.textmodel_overview_component = PredictionTextmodelExtTreeview(main_window, 0, 20, None, None, self.show_textmodel_dialog, prediction)
         ##self.textmodel_overview_component = PredictionTextmodelMask(main_window, prediction)
         self.main_window = main_window
         self.prediction = prediction
@@ -56,12 +56,12 @@ class PredictionOverviewWindow(Gtk.Grid):
         
         description_label = Gtk.Label("Description")
         description_label.set_justify(Gtk.Justification.RIGHT)
-        #####self.attach(description_label, 0, row, 1, 1)
+        self.attach(description_label, 0, row, 1, 1)
 
         self.desc_textview = Gtk.TextView()
         desc_textview_widget = TextViewWidget(self.desc_textview)
 
-        self.attach(desc_textview_widget, 0, row, 2, 1)
+        self.attach(desc_textview_widget, 1, row, 1, 1)
 
         if self.prediction is not None:
             self.prediction_uuid_text_entry.set_entry_value(self.prediction.uuid)
@@ -156,7 +156,8 @@ class PredictionOverviewWindow(Gtk.Grid):
         #dialog.destroy()
         pass
     
-    def show_textmodel_dialog(self, widget):
+    def show_textmodel_dialog(self):
         dialog = TextModelAddDialog(self, self.prediction)
         dialog.run()
         dialog.destroy()
+        self.textmodel_overview_component.fill_treeview(0)

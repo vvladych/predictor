@@ -5,7 +5,7 @@ Created on 19.05.2015
 """
 
 from gi.repository import Gtk
-
+"""
 from predictor.ui.prediction.abstract_data_process_component import AbstractDataOverviewComponent, AbstractDataManipulationComponent, AbstractDataProcessComponent
 
 from predictor.ui.ui_tools import TreeviewColumn, show_info_dialog
@@ -183,7 +183,7 @@ class OriginatorOverviewComponent(AbstractDataOverviewComponent):
         self.treemodel.clear()                        
         cur=get_db_connection().cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
         data=(self.forecast.sid,self.forecast.sid,)
-        cur.execute("""SELECT 
+        cur.execute(\"\"\"SELECT
                         fc_person.sid as sid, fc_person.common_name, fc_originator_person.originator_sid,'person' as origin_type 
                         FROM 
                         fc_forecast_originator, fc_originator_person, fc_person 
@@ -200,7 +200,7 @@ class OriginatorOverviewComponent(AbstractDataOverviewComponent):
                         fc_forecast_originator.forecast_sid=%s AND 
                         fc_forecast_originator.originator_sid=fc_originator_organisation.originator_sid AND
                         fc_originator_organisation.organisation_sid=fc_organization.sid
-                        """,data)
+                        \"\"\",data)
         for p in cur.fetchall():
             if p.origin_type=='person':
                 self.treemodel.append([ "%s" % p.originator_sid, "%s" % p.sid, None, p.origin_type, p.common_name])
@@ -212,3 +212,4 @@ class OriginatorOverviewComponent(AbstractDataOverviewComponent):
         
   
         
+"""

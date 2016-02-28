@@ -4,7 +4,7 @@ Created on 29.07.2015
 @author: vvladych
 """
 from gi.repository import Gtk
-
+"""
 from predictor.ui.prediction.abstract_data_process_component import AbstractDataProcessComponent
 
 from predictor.ui.prediction.textmodel.statement.process_component import TextmodelStatementManipulationComponent, TextmodelStatementOverviewComponent
@@ -41,3 +41,4 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
         row = self.process_component.create_layout(self.layout_grid, row)
         
         return row
+"""
