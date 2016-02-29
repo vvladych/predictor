@@ -133,11 +133,6 @@ class TextmodelDAO(DAO):
     entity = "textmodel"
     join_objects = {"TextmodelToTmstatement": TextmodelToTmstatement}
 
-    def __init__(self, uuid=None, date=None, short_description=None):
-        super(TextmodelDAO, self).__init__(uuid)
-        setattr(self, "date", date)
-        setattr(self, "short_description", short_description)
-
     def add_tmstatement(self, tmstatement):
         self.TextmodelToTmstatement.add(TextmodelToTmstatement(self.uuid, tmstatement.uuid))
 
@@ -154,6 +149,11 @@ class TmstatementDAO(DAO):
         setattr(self, "text", text)
         setattr(self, "tmbegin", tmbegin)
         setattr(self, "tmend", tmend)
+
+
+class TextmodelStatementV(VDAO):
+    data_fields = ["uuid", "tmstatement_uuid", "tmbegin", "tmend", "text"]
+    entity = "public.\"textmodel_tmstatement_V\""
 
 
 class OrganisationDAO(DAO):

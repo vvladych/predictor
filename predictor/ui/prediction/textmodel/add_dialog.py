@@ -9,6 +9,7 @@ from predictor.ui.ui_tools import show_info_dialog
 from predictor.ui.prediction.textmodel.exttreeview import PredictionTextmodelExtTreeview
 from predictor.model.predictor_model import TextmodelDAO
 from predictor.helpers.transaction_broker import transactional
+from predictor.ui.prediction.textmodel.statement.add_dialog import TextmodelStatementAddDialog
 
 
 class TextModelAddDialog(Gtk.Dialog):
@@ -26,7 +27,7 @@ class TextModelAddDialog(Gtk.Dialog):
                                                                  20,
                                                                  self.noop,
                                                                  self.noop,
-                                                                 self.noop,
+                                                                 self.on_edit,
                                                                  self.prediction)
 
         self.create_layout()
@@ -81,6 +82,15 @@ class TextModelAddDialog(Gtk.Dialog):
         self.prediction.save()
         show_info_dialog(None, "Add successful")
         self.overview_component.fill_treeview(0)
+
+    def on_edit(self):
+        textmodel_row = self.overview_component.get_selected_row()
+        print(textmodel_row[1])
+        textmodel = TextmodelDAO(textmodel_row[1])
+        textmodel.load()
+        dialog = TextmodelStatementAddDialog(self.main_window, textmodel)
+        dialog.run()
+        dialog.destroy()
 
     def noop(self, widget=None):
         pass

@@ -4,7 +4,7 @@ Created on 29.07.2015
 @author: vvladych
 """
 from gi.repository import Gtk
-"""
+
 from predictor.ui.prediction.abstract_data_process_component import AbstractDataManipulationComponent, AbstractDataOverviewComponent
 from predictor.ui.ui_tools import TreeviewColumn, show_info_dialog, DateWidget, TextViewWidget
 import datetime
@@ -138,4 +138,4 @@ class TextmodelStatementOverviewComponent(AbstractDataOverviewComponent):
             tmstm = TmstatementDAO(tm.secDAO_uuid)
             tmstm.load()
             self.treemodel.append(["%s" % tmstm.uuid, "%s" % self.textmodel.uuid, "%s" % tmstm.tmbegin, "%s" % tmstm.tmend, tmstm.text])
-"""
+
