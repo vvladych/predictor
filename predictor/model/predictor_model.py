@@ -99,6 +99,7 @@ class PredictionDAO(DAO):
     entity = "prediction"
     join_objects = {"PredictiontoPublication": PredictiontoPublication,
                     "PredictiontoTextmodel": PredictiontoTextmodel}
+    sortkey = "commonname"
 
     def add_publication(self, publication):
         self.PredictiontoPublication.add(PredictiontoPublication(self.uuid, publication.uuid))

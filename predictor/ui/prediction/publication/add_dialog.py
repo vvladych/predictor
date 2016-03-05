@@ -19,12 +19,12 @@ class PublicationAddDialog(Gtk.Dialog):
         self.prediction = prediction
         self.set_default_size(400, 400)
         self.overview_component = PredictionPublicationExtTreeview(self,
-                                                              0,
-                                                              20,
-                                                              self.noop,
-                                                              self.noop,
-                                                              self.noop,
-                                                              self.prediction)
+                                                                   0,
+                                                                   20,
+                                                                   self.noop,
+                                                                   self.noop,
+                                                                   self.noop,
+                                                                   self.prediction)
 
         self.create_layout()
         self.show_all()

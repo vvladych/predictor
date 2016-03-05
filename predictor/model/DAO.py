@@ -21,6 +21,7 @@ class DAO(object):
     entity = None
     data_fields = ["uuid"]
     join_objects = {}
+    sortkey = "uuid"
 
     def __init__(self, uuid=None, *initial_data):
         self.__is_persisted = False
@@ -75,6 +76,9 @@ class DAO(object):
     @consistcheck("load")
     def load(self):
         sql_query_load = self.sql_dict[DAO.__LOAD_OBJECT_BY_UUID] % (",".join(self.__class__.data_fields), self.__class__.entity, self.uuid)
+        order_by_clause = "ORDER BY %s" % self.__class__.sortkey
+        sql_query_load = "%s %s" % (sql_query_load, order_by_clause)
+
         with dbcursor_wrapper(sql_query_load) as cursor:
             row = cursor.fetchone()
             if row is not None:
@@ -234,6 +238,8 @@ class DAOListl(list):
         if subset is not None:
             where_clause = "WHERE %s" % subset
         query = DAOListl.sql_dict[DAOListl.__LOAD_LIST_SQL_KEY_NAME] % (",".join(self.dao.data_fields), self.entity, where_clause)
+        order_clause = "ORDER BY %s" % self.dao.sortkey
+        query = "%s %s" % (query, order_clause)
         with dbcursor_wrapper(query) as cursor:
             rows = cursor.fetchall()
             for row in rows:
