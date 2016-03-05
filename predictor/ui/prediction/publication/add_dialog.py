@@ -37,8 +37,7 @@ class PublicationAddDialog(Gtk.Dialog):
         box.add(layout_grid)
 
         row = 0
-        label = Gtk.Label("Prediction's publication(s)")
-        layout_grid.attach(label, 0, row, 1, 1)
+        layout_grid.attach(Gtk.Label("Prediction's publication(s)"), 0, row, 1, 1)
 
         row += 1
 

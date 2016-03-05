@@ -5,6 +5,7 @@ from predictor.helpers import config
 __all__ = ['get_db_connection']
 
 dbInstance = None
+dbconn = config.get('profile', 'dbconn')
 
 
 class dbcursor_wrapper:
@@ -25,9 +26,9 @@ def get_db_connection():
     global dbInstance
     if dbInstance is None:
         dbInstance = psycopg2.connect("""dbname=%s user=%s password=%s""" %
-                                      (config.get('dbconnection', 'dbname'),
-                                       config.get('dbconnection', 'user'),
-                                       config.get('dbconnection', 'password')))
+                                      (config.get(dbconn, 'dbname'),
+                                       config.get(dbconn, 'user'),
+                                       config.get(dbconn, 'password')))
     return dbInstance
 
     
