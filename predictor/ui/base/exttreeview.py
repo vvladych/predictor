@@ -123,7 +123,6 @@ class CustomTreeview(Gtk.TreeView):
         self.columns = columns
         self.treemodel = Gtk.ListStore(*([str]*len(columns)))
         super(CustomTreeview, self).__init__(self.treemodel)
-        self.add_context_menu_overview_treeview()
 
         i = 0
         for c in columns:
@@ -136,6 +135,9 @@ class CustomTreeview(Gtk.TreeView):
         self.on_menu_delete_callback = on_menu_delete_callback
         self.on_menu_edit_callback = on_menu_edit_callback
         self.parent_refresh_callback = parent_refresh_callback
+
+        self.add_context_menu_overview_treeview()
+
 
     def reset_treemodel(self):
         self.treemodel = Gtk.ListStore(*([str]*len(self.columns)))
@@ -151,20 +153,23 @@ class CustomTreeview(Gtk.TreeView):
 
     def add_context_menu_overview_treeview(self):
         menu = Gtk.Menu()
-        menu_item_add = Gtk.MenuItem("Add...")
-        menu_item_add.connect("activate", self.on_menu_item_add_click)
-        menu.append(menu_item_add)
-        menu_item_add.show()
+        if self.on_menu_new_callback is not None:
+            menu_item_add = Gtk.MenuItem("Add...")
+            menu_item_add.connect("activate", self.on_menu_item_add_click)
+            menu.append(menu_item_add)
+            menu_item_add.show()
 
-        menu_item_edit = Gtk.MenuItem("Edit...")
-        menu_item_edit.connect("activate", self.on_menu_item_edit_click)
-        menu.append(menu_item_edit)
-        menu_item_edit.show()
+        if self.on_menu_edit_callback is not None:
+            menu_item_edit = Gtk.MenuItem("Edit...")
+            menu_item_edit.connect("activate", self.on_menu_item_edit_click)
+            menu.append(menu_item_edit)
+            menu_item_edit.show()
 
-        menu_item_delete = Gtk.MenuItem("Delete...")
-        menu_item_delete.connect("activate", self.on_menu_item_delete_click)
-        menu.append(menu_item_delete)
-        menu_item_delete.show()
+        if self.on_menu_delete_callback is not None:
+            menu_item_delete = Gtk.MenuItem("Delete...")
+            menu_item_delete.connect("activate", self.on_menu_item_delete_click)
+            menu.append(menu_item_delete)
+            menu_item_delete.show()
 
         self.connect("button_press_event", self.on_treeview_button_press_event, menu)
 
