@@ -38,13 +38,14 @@ class PredictionOverviewWindow(Gtk.Grid):
         self.set_row_spacing(3)
 
         placeholder_label = Gtk.Label("")
-        placeholder_label.set_size_request(1, 40)
+        placeholder_label.set_size_request(-1, -1)
         self.attach(placeholder_label, 0, -1, 1, 1)
         placeholder_label.set_hexpand(True)
 
         row = 0
         # Row 0: prediction uuid
         self.prediction_uuid_text_entry = TextEntryWidget("prediction UUID", None, False)
+        self.prediction_uuid_text_entry.set_size_request(500, -1)
         self.attach(self.prediction_uuid_text_entry, 0, row, 2, 1)
 
         row += 1
@@ -53,15 +54,17 @@ class PredictionOverviewWindow(Gtk.Grid):
         self.attach(self.common_name_text_entry, 0, row, 2, 1)
 
         row += 1
-        
+
         description_label = Gtk.Label("Description")
         description_label.set_justify(Gtk.Justification.RIGHT)
         self.attach(description_label, 0, row, 1, 1)
 
+        row += 1
+
         self.desc_textview = Gtk.TextView()
         desc_textview_widget = TextViewWidget(self.desc_textview)
 
-        self.attach(desc_textview_widget, 1, row, 1, 1)
+        self.attach(desc_textview_widget, 0, row, 1, 1)
 
         if self.prediction is not None:
             self.prediction_uuid_text_entry.set_entry_value(self.prediction.uuid)

@@ -49,7 +49,8 @@ class DateWidget(Gtk.Grid):
         self.set_column_spacing(5)
         self.day_text_entry.set_max_length(2)
         self.day_text_entry.set_width_chars(2)
-        
+        self.day_text_entry.set_hexpand(False)
+
         self.attach(self.day_text_entry, 0, 0, 1, 1)
             
         self.month_text_entry.set_max_length(2)
@@ -64,7 +65,7 @@ class DateWidget(Gtk.Grid):
         self.attach(Gtk.Label("MM"), 1, 1, 1, 1)
         self.attach(Gtk.Label("YYYY"), 2, 1, 1, 1)
         
-        self.set_hexpand(False)
+        #self.set_hexpand(False)
         
         if show_calendar:
             pick_date_button=Gtk.Button("Pick date")
@@ -136,6 +137,7 @@ class TextEntryWidget(Gtk.Grid):
         self.textentry = Gtk.Entry()
         self.set_entry_value(text_entry_value)
         self.textentry.set_editable(editable)
+        self.textentry.set_hexpand(True)
         self.attach(label, 0, 0, 1, 1)
         self.attach_next_to(self.textentry, label, Gtk.PositionType.RIGHT, 1, 1)
 

@@ -19,6 +19,9 @@ class PublicationOverviewWindow(Gtk.Grid):
     
     def __init__(self, main_window, publication=None, callback=None):
         Gtk.Grid.__init__(self)
+        self.set_row_spacing(3)
+        self.set_column_spacing(3)
+
         self.main_window = main_window
         self.publication = publication
         self.create_layout()

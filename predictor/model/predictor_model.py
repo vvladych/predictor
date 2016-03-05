@@ -13,11 +13,6 @@ class PersonDAO(DAO):
     entity = "person"
     join_objects = {"PersontoPersonname": PersontoPersonname}
 
-    def __init__(self, uuid, common_name=None, birth_date=None):
-        super(PersonDAO, self).__init__(uuid)
-        setattr(self, "common_name", common_name)
-        setattr(self, "birth_date", birth_date)
-
     def add_personnamepart(self, personname):
         self.PersontoPersonname.add(PersontoPersonname(self.uuid, personname.uuid))
 
@@ -44,8 +39,7 @@ class PublicationDAO(DAO):
     join_objects = {"PublicationtoPublisher": PublicationtoPublisher,
                     "PublicationtoPublicationtext": PublicationtoPublicationtext}
 
-    #def __init__(self, uuid=None, row=None):
-    #    super(PublicationDAO, self).__init__(uuid, row)
+    sortkey = "date"
 
     def add_publicationtext(self, publicationtext):
         self.PublicationtoPublicationtext.add(PublicationtoPublicationtext(self.uuid, publicationtext.uuid))
@@ -160,10 +154,6 @@ class TextmodelStatementV(VDAO):
 class OrganisationDAO(DAO):
     data_fields = ["uuid", "commonname"]
     entity = "organisation"
-
-    def __init__(self, uuid=None, commonname=None):
-        super(OrganisationDAO, self).__init__(uuid)
-        setattr(self, "commonname", commonname)
 
 
 class PredictionTextmodelV(VDAO):
