@@ -5,11 +5,12 @@ Created on 27.05.2015
 """
 
 from gi.repository import Gtk
-from predictor.ui.ui_tools import show_info_dialog
-from predictor.ui.prediction.textmodel.exttreeview import PredictionTextmodelExtTreeview
-from predictor.model.predictor_model import TextmodelDAO
 from predictor.helpers.transaction_broker import transactional
+from predictor.model.predictor_model import TextmodelDAO
+from predictor.ui.prediction.textmodel.exttreeview import PredictionTextmodelExtTreeview
 from predictor.ui.prediction.textmodel.statement.add_dialog import TextmodelStatementAddDialog
+from predictor.ui.ui_tools import show_info_dialog
+
 
 
 class TextModelAddDialog(Gtk.Dialog):
@@ -19,7 +20,7 @@ class TextModelAddDialog(Gtk.Dialog):
                             (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK))
         self.main_window = main_window
         
-        self.set_default_size(150, 400)
+        self.set_default_size(400, 400)
 
         self.prediction = prediction
         self.overview_component = PredictionTextmodelExtTreeview(self,
