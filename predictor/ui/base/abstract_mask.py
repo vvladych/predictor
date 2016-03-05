@@ -33,6 +33,8 @@ class AbstractMask(Gtk.Paned):
 
         # the middle pane: working area
         self.main_middle_pane = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        self.overview_treeview.set_size_request(self.__class__.default_width / 2, -1)
+        self.main_middle_pane.set_size_request(self.__class__.default_width / 2, -1)
                        
         self.pack1(self.overview_treeview, True, True)
         self.pack2(self.main_middle_pane, True, True)
