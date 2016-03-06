@@ -8,14 +8,12 @@ from gi.repository import Gtk
 
 from predictor.ui.prediction.publication.exttreeview import PredictionPublicationExtTreeview
 from predictor.ui.prediction.textmodel.exttreeview import PredictionTextmodelExtTreeview
-from predictor.ui.prediction.textmodel.main_mask import PredictionTextmodelMask
 from predictor.ui.prediction.publication.add_dialog import PublicationAddDialog
 #from forecastmgmt.ui.forecast.originator_add_dialog import OriginatorAddDialog
 ####from predictor.ui.prediction.originator_process_component import OriginatorOverviewComponent
-#from forecastmgmt.ui.forecast.rawtext_add_dialog import RawTextAddDialog
-#from forecastmgmt.ui.forecast.model_add_dialog import ModelAddDialog
 from predictor.ui.prediction.textmodel.add_dialog import TextModelAddDialog
 from predictor.ui.ui_tools import TextViewWidget, TextEntryWidget
+from predictor.ui.prediction.originator.exttreeview import PredictionOriginatorExtTreeview
 
 
 
@@ -24,11 +22,10 @@ class PredictionOverviewWindow(Gtk.Grid):
     def __init__(self, main_window, prediction=None, callback=None):
         Gtk.Grid.__init__(self)
         ###self.originator_overview_component=OriginatorOverviewComponent(forecast)
-        ###self.publication_overview_component = PredictionPublicationMask(main_window, prediction)
 
         self.publication_overview_component = PredictionPublicationExtTreeview(main_window, 0, 20, None, None, self.show_publication_dialog, prediction)
         self.textmodel_overview_component = PredictionTextmodelExtTreeview(main_window, 0, 20, None, None, self.show_textmodel_dialog, prediction)
-        ##self.textmodel_overview_component = PredictionTextmodelMask(main_window, prediction)
+        self.originator_overview_component = PredictionOriginatorExtTreeview(main_window, 0, 20, None, None, self.show_originator_dialog, prediction)
         self.main_window = main_window
         self.prediction = prediction
         self.create_layout()
@@ -72,32 +69,23 @@ class PredictionOverviewWindow(Gtk.Grid):
             desc_textview_widget.set_text(self.prediction.short_description)
 
         row += 3
-        # forecast originators
+        # originators
         originators_label = Gtk.Label("Originators")
         originators_label.set_justify(Gtk.Justification.LEFT)
         self.attach(originators_label, 0, row, 2, 1)
         
         row += 1
+        self.attach(self.originator_overview_component, 0, row, 2, 1)
 
-        ####self.originator_overview_component.clean_and_populate_model()
-        ####row = self.originator_overview_component.create_layout(self, row)
-        """
-        row += 1
+        row += 3
 
-        button_add_originator_dialog = Gtk.Button("Edit originator(s)")
-        button_add_originator_dialog.connect("clicked", self.show_originator_dialog)
-        self.attach(button_add_originator_dialog, 0, row, 1, 1)
-        
-        row += 2
-        """
-
+        # publications
         publications_label = Gtk.Label("Publications")
         publications_label.set_justify(Gtk.Justification.LEFT)
         self.attach(publications_label, 0, row, 2, 1)
 
         row += 1
-        
-        # project publications
+
         self.attach(self.publication_overview_component, 0, row, 2, 1)
 
         row += 3
@@ -113,25 +101,7 @@ class PredictionOverviewWindow(Gtk.Grid):
         row += 1
         self.attach(Gtk.Label(""), 0, row, 3, 1)
 
-        #buttonGrid = Gtk.Grid()
-        
-        #button_rawtext_dialog=Gtk.Button("Raw text")
-        #button_rawtext_dialog.connect("clicked", self.show_rawtext_dialog)
-        #buttonGrid.attach(button_rawtext_dialog, 0, row, 1, 1)
 
-        #button_edit_textmodel_dialog = Gtk.Button("Text model(s)")
-        #button_edit_textmodel_dialog.connect("clicked", self.show_textmodel_dialog)
-        #buttonGrid.attach(button_edit_textmodel_dialog, 1, row, 1, 1)
-
-        row += 1
-        # project textmodel
-        ##############self.attach(self.textmodel_overview_component, 0, row, 2, 1)
-
-        #button_edit_model_dialog = Gtk.Button("Formal model(s)")
-        #button_edit_model_dialog.connect("clicked", self.show_model_dialog)
-        #buttonGrid.attach(button_edit_model_dialog, 2, row, 1, 1)
-        
-        #self.attach(buttonGrid, 0, row, 2, 1)
 
     def show_publication_dialog(self):
         dialog = PublicationAddDialog(self.main_window, self.prediction)
@@ -144,21 +114,10 @@ class PredictionOverviewWindow(Gtk.Grid):
         #dialog.run()
         #dialog.destroy()
         #self.originator_overview_component.clean_and_populate_model()
+        print("in show_originator_dialog")
         pass
 
 
-    def show_rawtext_dialog(self, widget):
-        #dialog=RawTextAddDialog(self, self.forecast)
-        #dialog.run()
-        #dialog.destroy()
-        pass
-
-    def show_model_dialog(self, widget):
-        #dialog=ModelAddDialog(self, self.forecast)
-        #dialog.run()
-        #dialog.destroy()
-        pass
-    
     def show_textmodel_dialog(self):
         dialog = TextModelAddDialog(self, self.prediction)
         dialog.run()

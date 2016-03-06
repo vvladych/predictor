@@ -12,6 +12,7 @@ class PersonDAO(DAO):
     data_fields = ["uuid", "common_name", "birth_date"]
     entity = "person"
     join_objects = {"PersontoPersonname": PersontoPersonname}
+    sortkey = "common_name"
 
     def add_personnamepart(self, personname):
         self.PersontoPersonname.add(PersontoPersonname(self.uuid, personname.uuid))
@@ -19,6 +20,12 @@ class PersonDAO(DAO):
 
 class PersonnamepartDAO(DAO):
     data_fields = ["uuid", "namepart_role", "namepart_value"]
+
+
+class OrganisationDAO(DAO):
+    data_fields = ["uuid", "common_name"]
+    entity = "organisation"
+    sortkey = "common_name"
 
 
 class PublicationtoPublisher(DAOtoDAO):
@@ -88,11 +95,37 @@ class PredictiontoTextmodel(DAOtoDAO):
     secDAO_PK = "textmodel_uuid"
 
 
+class OriginatortoPerson(DAOtoDAO):
+    entity = "originator_to_person"
+    primDAO_PK = "originator_uuid"
+    secDAO_PK = "person_uuid"
+
+
+class OriginatortoOrganisation(DAOtoDAO):
+    entity = "originator_to_organisation"
+    primDAO_PK = "originator_uuid"
+    secDAO_PK = "organisation_uuid"
+
+
+class OriginatorDAO(DAO):
+    data_fields = ["uuid"]
+    entity = "originator"
+    join_objects = {"OriginatortoPerson": OriginatortoPerson,
+                    "OriginatortoOrganisation": OriginatortoOrganisation}
+
+
+class PredictiontoOriginator(DAOtoDAO):
+    entity = "prediction_to_originator"
+    primDAO_PK = "prediction_uuid"
+    secDAO_PK = "originator_uuid"
+
+
 class PredictionDAO(DAO):
     data_fields = ["uuid", "commonname", "short_description", "created_date"]
     entity = "prediction"
     join_objects = {"PredictiontoPublication": PredictiontoPublication,
-                    "PredictiontoTextmodel": PredictiontoTextmodel}
+                    "PredictiontoTextmodel": PredictiontoTextmodel,
+                    "PredictiontoOriginator": PredictiontoOriginator }
     sortkey = "commonname"
 
     def add_publication(self, publication):
@@ -103,7 +136,7 @@ class PredictionDAO(DAO):
         if ptop in self.PredictiontoPublication:
             self.PredictiontoPublication.remove(ptop)
         else:
-            print("publication %s is not dedicated to prediction %s", publication.uuid, self.uuid)
+            print("publication %s is not dedicated to prediction %s" %  (publication.uuid, self.uuid))
 
     def add_textmodel(self, textmodel):
         self.PredictiontoTextmodel.add(PredictiontoTextmodel(self.uuid, textmodel.uuid))
@@ -111,10 +144,21 @@ class PredictionDAO(DAO):
     def remove_textmodel(self, textmodel):
         self.PredictiontoTextmodel.remove(PredictiontoTextmodel(self.uuid, textmodel.uuid))
 
+    def add_originator(self, originator):
+        self.PredictiontoOriginator.add(PredictiontoOriginator(self.uuid, originator.uuid))
+
+    def remove_originator(self, originator):
+        self.PredictiontoOriginator.remove(PredictiontoOriginator(self.uuid, originator.uuid))
+
 
 class PredictionPublisherV(VDAO):
     data_fields = ["uuid", "commonname", "title", "date", "url", "publication_uuid"]
     entity = "public.\"prediction_publication_V\""
+
+
+class PredictionOriginatorV(VDAO):
+    data_fields = ["uuid", "originator_uuid", "concrete_uuid", "common_name", "is_person", "is_organisation"]
+    entity = "public.\"prediction_originator_V\""
 
 
 class TextmodelToTmstatement(DAOtoDAO):
@@ -151,11 +195,9 @@ class TextmodelStatementV(VDAO):
     entity = "public.\"textmodel_tmstatement_V\""
 
 
-class OrganisationDAO(DAO):
-    data_fields = ["uuid", "commonname"]
-    entity = "organisation"
-
-
 class PredictionTextmodelV(VDAO):
     data_fields = ["uuid", "date", "short_description", "textmodel_uuid"]
     entity = "public.\"prediction_textmodel_V\""
+
+
+
