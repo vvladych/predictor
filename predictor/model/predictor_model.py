@@ -23,9 +23,9 @@ class PersonnamepartDAO(DAO):
 
 
 class OrganisationDAO(DAO):
-    data_fields = ["uuid", "common_name"]
+    data_fields = ["uuid", "commonname"]
     entity = "organisation"
-    sortkey = "common_name"
+    sortkey = "commonname"
 
 
 class PublicationtoPublisher(DAOtoDAO):
