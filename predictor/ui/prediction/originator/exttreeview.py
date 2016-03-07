@@ -1,6 +1,6 @@
 
 from predictor.helpers.transaction_broker import transactional
-from predictor.model.predictor_model import PredictionOriginatorV, PredictionDAO
+from predictor.model.predictor_model import PredictionOriginatorV, PredictionDAO, OriginatorDAO
 from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
 
 
@@ -9,7 +9,7 @@ class PredictionOriginatorExtTreeview(ExtendedTreeView):
     dao_type = PredictionOriginatorV
     columns = [TreeviewColumn("uuid", 0, True),
                TreeviewColumn("originator_uuid", 1, True),
-               TreeviewColumn("concrete_uuid", 2, False),
+               TreeviewColumn("concrete_uuid", 2, True),
                TreeviewColumn("common_name", 3, False, True),
                TreeviewColumn("person", 4, False),
                TreeviewColumn("organisation", 5, False),
@@ -32,12 +32,11 @@ class PredictionOriginatorExtTreeview(ExtendedTreeView):
     def on_menu_item_delete(self, widget):
         row = super(PredictionOriginatorExtTreeview, self).get_selected_row()
         if row is not None:
-            print("delete not implemented!")
-            """
             prediction = PredictionDAO(row[0])
             prediction.load()
-            publication = PublicationDAO(row[5])
-            prediction.remove_publication(publication)
+            originator = OriginatorDAO(row[1])
+            originator.load()
+            prediction.remove_originator(originator)
+            originator.delete()
             prediction.save()
             self.fill_treeview(0)
-            """
