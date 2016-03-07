@@ -75,12 +75,13 @@ class OriginatorAddDialog(Gtk.Dialog):
         self.add_organisation_button.connect("clicked", self.add_organisation_action)
 
         row += 1
-
+        """
         self.delete_button=Gtk.Button("Delete", Gtk.STOCK_DELETE)
         self.delete_button.connect("clicked", self.delete_action)
         layout_grid.attach(self.delete_button,0,row,1,1)
 
         row += 1
+        """
 
         layout_grid.attach(self.overview_component, 0, row, 2, 1)
 
@@ -101,14 +102,60 @@ class OriginatorAddDialog(Gtk.Dialog):
             combobox_model.append(["%s" % p.uuid, p.commonname])
         return combobox_model
 
+    def get_active_person(self):
+        tree_iter = self.person_combobox.get_active_iter()
+        if tree_iter is not None:
+            model = self.person_combobox.get_model()
+            person_uuid = model[tree_iter][0]
+            return person_uuid
+        else:
+            show_info_dialog(None, "please choose a person!")
+
+    def get_active_organisation(self):
+        tree_iter = self.organisation_combobox.get_active_iter()
+        if tree_iter is not None:
+            model = self.organisation_combobox.get_model()
+            organisation_uuid = model[tree_iter][0]
+            return organisation_uuid
+        else:
+            show_info_dialog(None, "please choose a organisation!")
+
     def noop(self, widget=None):
         pass
 
+    @transactional
     def add_person_action(self, widget=None):
-        print("in add_person_action")
+        # load person
+        person = PersonDAO(self.get_active_person())
+        person.load()
+        # insert new originator
+        originator = OriginatorDAO(None, {"short_description":None})
+        originator.save()
+        originator.load()
+        # add person to originator
+        originator.add_person(person)
+        originator.save()
+        # add originator to the prediction
+        self.prediction.add_originator(originator)
+        self.prediction.save()
+        self.overview_component.fill_treeview(0)
 
+    @transactional
     def add_organisation_action(self, widget=None):
-        print("in add_organisation_action")
+        # load organisation
+        organisation = OrganisationDAO(self.get_active_organisation())
+        organisation.load()
+        # insert new originator
+        originator = OriginatorDAO(None, {"short_description":None})
+        originator.save()
+        originator.load()
+        # add organisation to originator
+        originator.add_organisation(organisation)
+        originator.save()
+        # add originator to the prediction
+        self.prediction.add_originator(originator)
+        self.prediction.save()
+        self.overview_component.fill_treeview(0)
 
     def delete_action(self, widget=None):
         print("in delete_action")
