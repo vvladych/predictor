@@ -108,10 +108,22 @@ class OriginatortoOrganisation(DAOtoDAO):
 
 
 class OriginatorDAO(DAO):
-    data_fields = ["uuid"]
+    data_fields = ["uuid", "short_description"]
     entity = "originator"
     join_objects = {"OriginatortoPerson": OriginatortoPerson,
                     "OriginatortoOrganisation": OriginatortoOrganisation}
+
+    def add_person(self, person):
+        self.OriginatortoPerson.add(OriginatortoPerson(self.uuid, person.uuid))
+
+    def remove_person(self, person):
+        self.OriginatortoPerson.remove(OriginatortoPerson(self.uuid, person.uuid))
+
+    def add_organisation(self, organisation):
+        self.OriginatortoOrganisation.add(OriginatortoOrganisation(self.uuid, organisation.uuid))
+
+    def remove_originator(self, organisation):
+        self.OriginatortoOrganisation.remove(OriginatortoOrganisation(self.uuid, organisation.uuid))
 
 
 class PredictiontoOriginator(DAOtoDAO):
