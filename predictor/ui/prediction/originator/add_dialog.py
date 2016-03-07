@@ -75,13 +75,6 @@ class OriginatorAddDialog(Gtk.Dialog):
         self.add_organisation_button.connect("clicked", self.add_organisation_action)
 
         row += 1
-        """
-        self.delete_button=Gtk.Button("Delete", Gtk.STOCK_DELETE)
-        self.delete_button.connect("clicked", self.delete_action)
-        layout_grid.attach(self.delete_button,0,row,1,1)
-
-        row += 1
-        """
 
         layout_grid.attach(self.overview_component, 0, row, 2, 1)
 
