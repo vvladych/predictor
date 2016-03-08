@@ -9,6 +9,7 @@ from predictor.model.predictor_model import PersonDAO, PersonnamepartDAO
 from predictor.model.DAO import DAOList
 from predictor.ui.masterdata.masterdata_abstract_window import AbstractAddMask, AbstractListMask
 from predictor.ui.ui_tools import DateWidget, add_column_to_treeview, show_info_dialog, show_error_dialog
+from predictor.helpers.db_connection import enum_retrieve_valid_values
 import datetime
 
 
@@ -163,11 +164,12 @@ class PersonAddMask(AbstractAddMask):
             return
 
         person = PersonDAO(None,
-                           self.common_name_text_entry.get_text(),
-                           self.__get_birth_date_from_mask())
+                           {"common_name": self.common_name_text_entry.get_text(),
+                           "birth_date": self.__get_birth_date_from_mask()})
 
         # insert person names
         # iterate over names treestore
+        """
         name_iter = self.namepart_treestore.get_iter_first()
         while name_iter:
             (person_name_sid, person_name_role) = self.namepart_treestore.get(name_iter, 0, 1)
@@ -184,6 +186,7 @@ class PersonAddMask(AbstractAddMask):
 
             person.addPersonnamepart(person_name_sid, person_name_role, self.current_object.sid, namepart_list)
             name_iter = self.namepart_treestore.iter_next(name_iter)
+        """
 
         return person
 
@@ -238,22 +241,20 @@ class PersonAddMask(AbstractAddMask):
 
     def populate_namepart_roles_model(self):
         namepart_roles_model = Gtk.ListStore(int, str)
-        #namepart_roles_list = enum_retrieve_valid_values("t_person_name_part_role")
-        #counter = 0
-        #for namepart_role in namepart_roles_list:
-        #    namepart_roles_model.append([counter,namepart_role])
-        #    counter += 1
-        namepart_roles_model.append([1, "a"])
+        namepart_roles_list = enum_retrieve_valid_values("t_person_name_part_role")
+        counter = 0
+        for namepart_role in namepart_roles_list:
+            namepart_roles_model.append([counter,namepart_role])
+            counter += 1
         return namepart_roles_model
 
     def populate_name_roles_model(self):
         name_roles_model = Gtk.ListStore(int, str)
-        #nameroles_list = enum_retrieve_valid_values("t_person_name_role")
-        #counter = 0
-        #for namerole in nameroles_list:
-        #    name_roles_model.append([counter,namerole])
-        #    counter += 1
-        name_roles_model.append([1, "a"])
+        nameroles_list = enum_retrieve_valid_values("t_person_name_role")
+        counter = 0
+        for namerole in nameroles_list:
+            name_roles_model.append([counter,namerole])
+            counter += 1
         return name_roles_model
 
 

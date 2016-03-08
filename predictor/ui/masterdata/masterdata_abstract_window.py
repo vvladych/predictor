@@ -6,6 +6,7 @@ Created on 27.04.2015
 
 from gi.repository import Gtk
 from predictor.ui.ui_tools import add_column_to_treeview, show_info_dialog, show_error_dialog
+from predictor.helpers.transaction_broker import transactional
 
 
 class MasterdataAbstractWindow(Gtk.Box):
@@ -82,7 +83,8 @@ class AbstractAddMask(Gtk.Grid):
 
     def parent_callback_func(self, widget, cb_func=None):
         self.reset_callback()
-        
+
+    @transactional
     def save_current_object(self, widget):
         new_object = self.create_object_from_mask()
         if self.current_object is None:

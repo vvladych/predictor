@@ -36,3 +36,28 @@ def get_uuid_from_database():
     with dbcursor_wrapper("SELECT uuid_generate_v4() as uuid") as cursor:
         rows = cursor.fetchall()
         return rows[0].uuid
+
+
+def enum_retrieve_valid_values(enum_type):
+    enum_values_list=[]
+    cur = get_db_connection().cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
+    cur.execute("""
+            select
+                e.enumlabel as enum_value
+            from
+                pg_type t
+            join
+                pg_enum e
+            on
+                t.oid = e.enumtypid
+            join
+                pg_catalog.pg_namespace n
+            ON
+                n.oid = t.typnamespace
+            where
+                t.typname='%s'
+            """ % enum_type)
+    for enum_values in cur.fetchall():
+        enum_values_list.append(enum_values.enum_value)
+    cur.close()
+    return enum_values_list

@@ -65,8 +65,6 @@ class DateWidget(Gtk.Grid):
         self.attach(Gtk.Label("MM"), 1, 1, 1, 1)
         self.attach(Gtk.Label("YYYY"), 2, 1, 1, 1)
         
-        #self.set_hexpand(False)
-        
         if show_calendar:
             pick_date_button=Gtk.Button("Pick date")
             self.attach(pick_date_button, 3, 0, 1, 1)
