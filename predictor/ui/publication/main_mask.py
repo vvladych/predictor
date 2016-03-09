@@ -7,7 +7,7 @@ Created on 20.10.2015
 from predictor.model.predictor_model import PublicationDAO
 from predictor.ui.base.abstract_mask import AbstractMask
 from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
-from predictor.ui.publication.publication_overview_window import PublicationOverviewWindow
+from predictor.ui.publication.overview_window import PublicationOverviewWindow
 
 
 class PublicationExtTreeview(ExtendedTreeView):

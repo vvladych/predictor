@@ -1,7 +1,7 @@
 from gi.repository import Gtk
 
 from predictor.ui.masterdata.masterdata_mask import MasterdataMask
-from predictor.ui.prediction.prediction_mask import PredictionMask
+from predictor.ui.prediction.main_mask import PredictionMask
 from predictor.ui.publication.main_mask import PublicationMask
 from predictor.ui.ui_tools import toolbutton_factory
 

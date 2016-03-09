@@ -9,8 +9,8 @@ from gi.repository import Gtk
 from predictor.model.predictor_model import PredictionDAO
 from predictor.ui.base.abstract_mask import AbstractMask
 from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
-from predictor.ui.prediction.prediction_new_dialog import PredictionNewDialog
-from predictor.ui.prediction.prediction_overview_window import PredictionOverviewWindow
+from predictor.ui.prediction.add_dialog import PredictionNewDialog
+from predictor.ui.prediction.overview_window import PredictionOverviewWindow
 from predictor.ui.ui_tools import show_info_dialog
 
 
