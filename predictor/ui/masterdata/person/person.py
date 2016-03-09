@@ -4,13 +4,15 @@ Created on 04.05.2015
 @author: vvladych
 """
 
-from gi.repository import Gtk
-from predictor.model.predictor_model import PersonDAO, PersonnamepartDAO
-from predictor.model.DAO import DAOList
-from predictor.ui.masterdata.masterdata_abstract_window import AbstractAddMask, AbstractListMask
-from predictor.ui.ui_tools import DateWidget, add_column_to_treeview, show_info_dialog, show_error_dialog
-from predictor.helpers.db_connection import enum_retrieve_valid_values
 import datetime
+
+from gi.repository import Gtk
+
+from predictor.helpers.db_connection import enum_retrieve_valid_values
+from predictor.model.DAO import DAOList
+from predictor.model.predictor_model import PersonDAO
+from predictor.ui.base.masterdata_abstract_window import AbstractAddMask, AbstractListMask
+from predictor.ui.ui_tools import DateWidget, add_column_to_treeview, show_error_dialog
 
 
 class PersonAddMask(AbstractAddMask):
