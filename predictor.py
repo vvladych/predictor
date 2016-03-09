@@ -1,6 +1,7 @@
 from gi.repository import Gtk
 
-from predictor.ui.masterdata.masterdata_mask import MasterdataMask
+#from predictor.ui.masterdata.masterdata_mask import MasterdataMask
+from predictor.ui.masterdata.main_mask import MDMask
 from predictor.ui.prediction.main_mask import PredictionMask
 from predictor.ui.publication.main_mask import PublicationMask
 from predictor.ui.ui_tools import toolbutton_factory
@@ -62,7 +63,7 @@ class MainWindow(Gtk.Window):
     def set_working_area(self, action="masterdata"):
         self.clean_working_area()
         if action == "masterdata":
-            self.working_area.pack_start(MasterdataMask(self), True, True, 0)
+            self.working_area.pack_start(MDMask(self), True, True, 0)
         elif action == "prediction":
             self.working_area.pack_start(PredictionMask(self), True, True, 0)
         elif action == "publication":
