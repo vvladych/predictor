@@ -5,9 +5,10 @@ Created on 03.05.2015
 """
 
 from gi.repository import Gtk
-from predictor.model.predictor_model import OrganisationDAO
+
 from predictor.model.DAO import DAOList
-from predictor.ui.masterdata.masterdata_abstract_window import AbstractAddMask, AbstractListMask
+from predictor.model.predictor_model import OrganisationDAO
+from predictor.ui.base.masterdata_abstract_window import AbstractAddMask, AbstractListMask
 
 
 class OrganisationAddMask(AbstractAddMask):
@@ -64,7 +65,7 @@ class OrganisationAddMask(AbstractAddMask):
 class OrganisationListMask(AbstractListMask):
 
     treeview_columns = [
-                        {"column": "organisation uuid", "hide": False},
+                        {"column": "organisation uuid", "hide": True},
                         {"column": "common_name", "hide": False}
                         ]
 

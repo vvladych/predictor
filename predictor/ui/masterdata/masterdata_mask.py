@@ -4,11 +4,12 @@ Created on 14.03.2015
 @author: vvladych
 """
 from gi.repository import Gtk
-from predictor.ui.masterdata.publisher import PublisherListMask
-from predictor.ui.masterdata.masterdata_abstract_window import MasterdataAbstractWindow
-from predictor.ui.masterdata.organisation import OrganisationListMask
-from predictor.ui.masterdata.person.person import PersonListMask
+
 from predictor.model.predictor_model import OrganisationDAO, PublicationDAO, PersonDAO
+from predictor.ui.base.masterdata_abstract_window import MasterdataAbstractWindow
+from predictor.ui.masterdata.organisation.organisation import OrganisationListMask
+from predictor.ui.masterdata.person.person import PersonListMask
+from predictor.ui.masterdata.publisher.publisher import PublisherListMask
 
 
 class MasterdataMask(Gtk.Grid):

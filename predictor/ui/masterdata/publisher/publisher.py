@@ -5,9 +5,9 @@ Created on 04.05.2015
 """
 from gi.repository import Gtk
 
-from predictor.ui.masterdata.masterdata_abstract_window import AbstractAddMask, AbstractListMask
-from predictor.model.predictor_model import PublisherDAO
 from predictor.model.DAO import DAOList
+from predictor.model.predictor_model import PublisherDAO
+from predictor.ui.base.masterdata_abstract_window import AbstractAddMask, AbstractListMask
 from predictor.ui.ui_tools import show_error_dialog
 
 
@@ -78,7 +78,7 @@ class PublisherAddMask(AbstractAddMask):
 
 class PublisherListMask(AbstractListMask):
 
-    treeview_columns = [{"column": "publisher uuid", "hide": False},
+    treeview_columns = [{"column": "publisher uuid", "hide": True},
                         {"column": "common_name", "hide": False},
                         {"column": "URL", "hide": False}]
 
@@ -94,4 +94,4 @@ class PublisherListMask(AbstractListMask):
         publishers = DAOList(PublisherDAO)
         publishers.load()
         for publisher in publishers:
-            self.store.append(["%s" % publisher.commonname, "%s" % publisher.url, "%s" % publisher.uuid])
+            self.store.append(["%s" % publisher.uuid, "%s" % publisher.commonname, "%s" % publisher.url])
