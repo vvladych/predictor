@@ -3,6 +3,9 @@
 from gi.repository import Gtk
 from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextViewWidget, TextEntryWidget
 from predictor.helpers.db_connection import enum_retrieve_valid_values
+from predictor.helpers.transaction_broker import transactional
+from predictor.model.predictor_model import PersonDAO
+
 
 
 class PersonOverviewWindow(Gtk.Grid):
@@ -32,7 +35,7 @@ class PersonOverviewWindow(Gtk.Grid):
 
         row += 1
         # Row 1: common name
-        self.common_name_text_entry = TextEntryWidget("Common name", None, False)
+        self.common_name_text_entry = TextEntryWidget("Common name", None, True)
         self.attach(self.common_name_text_entry, 0, row, 2, 1)
 
         row += 1
@@ -40,12 +43,9 @@ class PersonOverviewWindow(Gtk.Grid):
         birth_date_label = Gtk.Label("Birth Date")
         self.attach(birth_date_label, 0, row, 1, 1)
 
-        self.birth_date_day_text_entry = Gtk.Entry()
-        self.birth_date_month_text_entry = Gtk.Entry()
-        self.birth_date_year_text_entry = Gtk.Entry()
-        self.attach(DateWidget(self.birth_date_day_text_entry,
-                               self.birth_date_month_text_entry,
-                               self.birth_date_year_text_entry), 1, row, 1, 1)
+        self.birth_date_widget = DateWidget()
+        self.attach(self.birth_date_widget, 1, row, 1, 1)
+
         row += 1
 
         # Row: birth place
@@ -101,7 +101,7 @@ class PersonOverviewWindow(Gtk.Grid):
         row += 1
         # Row 5
         save_button = Gtk.Button("Save", Gtk.STOCK_SAVE)
-        save_button.connect("clicked", self.save_current_object)
+        save_button.connect("clicked", self.save_person_action)
         self.attach(save_button, 1, row, 1, 1)
 
     def load_person(self):
@@ -109,9 +109,9 @@ class PersonOverviewWindow(Gtk.Grid):
         self.common_name_text_entry.set_entry_value(self.person.common_name)
         ##self.birth_place_text_entry.set_entry_value(self.person.birth_place)
         if self.person.birth_date is not None:
-            self.birth_date_year_text_entry.set_text("%s" % self.person.birth_date.year)
-            self.birth_date_month_text_entry.set_text("%s" % self.person.birth_date.month)
-            self.birth_date_day_text_entry.set_text("%s" % self.person.birth_date.day)
+            self.birth_date_widget.set_date_from_string("%s-%s-%s" % (self.person.birth_date.year,
+                                                                      self.person.birth_date.month,
+                                                                      self.person.birth_date.day))
         self.namepart_treestore.clear()
         """
         for name in self.person.names:
@@ -147,8 +147,19 @@ class PersonOverviewWindow(Gtk.Grid):
     def delete_name_part(self, widget):
         print("in delete_name_part")
 
-    def save_current_object(self, widget):
-        print("in save")
+    @transactional
+    def save_person_action(self, widget):
+        common_name = self.common_name_text_entry.get_entry_value()
+
+        person = PersonDAO(None,
+                           {"common_name": common_name,
+                            "birth_date": self.birth_date_widget.get_date()})
+
+        person.save()
+
+        show_info_dialog(None, "Person inserted")
+        self.person = person
+        self.parent_callback()
 
     def create_namepart_treeview(self):
         self.namepart_treestore = Gtk.TreeStore(int, str, str)
