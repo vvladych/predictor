@@ -4,7 +4,7 @@ from gi.repository import Gtk
 from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextViewWidget, TextEntryWidget, add_column_to_treeview
 from predictor.helpers.db_connection import enum_retrieve_valid_values
 from predictor.helpers.transaction_broker import transactional
-from predictor.model.predictor_model import PersonDAO
+from predictor.model.predictor_model import PersonDAO, PersonnameDAO, PersonnamepartDAO
 
 
 
@@ -114,12 +114,16 @@ class PersonOverviewWindow(Gtk.Grid):
                                                                       self.person.birth_date.month,
                                                                       self.person.birth_date.day))
         self.namepart_treestore.clear()
-        """
-        for name in self.person.names:
-            tree_iter=self.namepart_treestore.append(None,[name.sid, name.name_role, None])
-            for namepart in name.nameparts:
-                self.namepart_treestore.append(tree_iter,[namepart.sid, namepart.namepart_role, namepart.namepart_value])
-        """
+
+        for name in self.person.PersontoPersonname:
+            personname = PersonnameDAO(name.secDAO_uuid)
+            personname.load()
+            tree_iter = self.namepart_treestore.append(None, ["%s" % personname.uuid, personname.personname_role, None])
+            for namepart in personname.PersonnametoPersonnamepart:
+                np = PersonnamepartDAO(namepart.secDAO_uuid)
+                np.load()
+                self.namepart_treestore.append(tree_iter,["%s" % np.uuid, np.namepart_role, np.namepart_value])
+
 
     def populate_namepart_roles_model(self):
         namepart_roles_model = Gtk.ListStore(int, str)
@@ -150,8 +154,27 @@ class PersonOverviewWindow(Gtk.Grid):
         person = PersonDAO(person_uuid,
                            {"common_name": common_name,
                             "birth_date": self.birth_date_widget.get_date()})
+        name_iter = self.namepart_treestore.get_iter_first()
+        while name_iter:
+            (person_name_uuid, person_name_role) = self.namepart_treestore.get(name_iter, 0, 1)
+            personname = PersonnameDAO(person_name_uuid, {"personname_role":person_name_role})
+            personname.save()
+            person.add_personname(personname)
 
-        person.save()
+            # children of name a nameparts
+            if self.namepart_treestore.iter_has_child(name_iter):
+                child_iter = self.namepart_treestore.iter_children(name_iter)
+                while child_iter:
+                    (namepart_uuid, namepart_role, namepart_value) = self.namepart_treestore.get(child_iter, 0, 1, 2)
+                    namepart = PersonnamepartDAO(namepart_uuid, {"namepart_role":namepart_role, "namepart_value":namepart_value})
+                    namepart.save()
+                    personname.add_personnamepart(namepart)
+                    personname.save()
+                    child_iter = self.namepart_treestore.iter_next(child_iter)
+
+            person.add_personname(personname)
+            person.save()
+            name_iter = self.namepart_treestore.iter_next(name_iter)
 
         show_info_dialog(None, "Person inserted")
         self.person = person
@@ -173,7 +196,7 @@ class PersonOverviewWindow(Gtk.Grid):
 
     def add_name(self, widget):
         name_role_id, name_role_value = self.get_active_name_role()
-        self.namepart_treestore.append(None, [name_role_id, name_role_value, None])
+        self.namepart_treestore.append(None, [None, name_role_value, None])
 
     def add_name_part(self,widget):
         (namepart_role_id, namepart_role_value) = self.get_active_namepart_role()
@@ -188,7 +211,7 @@ class PersonOverviewWindow(Gtk.Grid):
             return
 
         self.namepart_treestore.append(tree_iter,
-                                       [namepart_role_id,namepart_role_value,
+                                       [None, namepart_role_value,
                                         self.namepart_role_value_entry.get_text()])
         self.namepart_role_value_entry.set_text('')
 
@@ -207,9 +230,9 @@ class PersonOverviewWindow(Gtk.Grid):
         return name
 
     def create_namepart_treeview(self):
-        self.namepart_treestore = Gtk.TreeStore(int, str, str)
+        self.namepart_treestore = Gtk.TreeStore(str, str, str)
         self.nameparts_treeview = Gtk.TreeView(self.namepart_treestore)
-        self.nameparts_treeview.append_column(add_column_to_treeview("id", 0, True))
+        self.nameparts_treeview.append_column(add_column_to_treeview("UUID", 0, True))
         self.nameparts_treeview.append_column(add_column_to_treeview("Role", 1, False))
         self.nameparts_treeview.append_column(add_column_to_treeview("Value", 2, False))
         self.nameparts_treeview.set_size_request(200, 300)
