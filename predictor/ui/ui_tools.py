@@ -1,6 +1,7 @@
 
 from gi.repository import Gtk
 import time
+import datetime
 
 
 class TreeviewColumn(object):
@@ -38,11 +39,20 @@ def show_error_dialog(main_window, message):
     
 class DateWidget(Gtk.Grid):
     
-    def __init__(self, day_text_entry, month_text_entry, year_text_entry):
+    def __init__(self, day_text_entry = None, month_text_entry = None, year_text_entry = None):
         Gtk.Grid.__init__(self)
-        self.day_text_entry = day_text_entry
-        self.month_text_entry = month_text_entry
-        self.year_text_entry = year_text_entry
+        if day_text_entry is not None:
+            self.day_text_entry = day_text_entry
+        else:
+            self.day_text_entry = Gtk.Entry()
+        if month_text_entry is not None:
+            self.month_text_entry = month_text_entry
+        else:
+            self.month_text_entry = Gtk.Entry()
+        if year_text_entry is not None:
+            self.year_text_entry = year_text_entry
+        else:
+            self.year_text_entry = Gtk.Entry()
         self.create_date_grid(True)
 
     def create_date_grid(self, show_calendar=False):
@@ -96,6 +106,15 @@ class DateWidget(Gtk.Grid):
         self.day_text_entry.set_text("%s" % tm.tm_mday)
         self.month_text_entry.set_text("%s" % tm.tm_mon)
         self.year_text_entry.set_text("%s" % tm.tm_year)
+
+    def get_date(self):
+        if self.day_text_entry.get_text() != '' and \
+           self.month_text_entry.get_text() != '' and \
+           self.year_text_entry.get_text() != '':
+            return datetime.date(int(self.year_text_entry.get_text()),
+                                 int(self.month_text_entry.get_text()),
+                                 int(self.day_text_entry.get_text()))
+        return None
 
 
 class TextViewWidget(Gtk.Grid):

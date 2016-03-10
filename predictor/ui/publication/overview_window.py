@@ -7,9 +7,7 @@ Created on 20.08.2015
 from gi.repository import Gtk
 
 from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextViewWidget
-from predictor.model.predictor_model import PublisherDAO
-from predictor.model.predictor_model import PublicationDAO
-from predictor.model.predictor_model import PublicationtextDAO
+from predictor.model.predictor_model import PublisherDAO, PublicationDAO, PublicationtextDAO
 from predictor.model.DAO import DAOList
 from predictor.helpers.transaction_broker import transactional
 import datetime
@@ -135,12 +133,9 @@ class PublicationOverviewWindow(Gtk.Grid):
         publisher = self.publication.get_publisher()
         if publisher is not None:
             self.set_active_publisher(publisher.uuid)
-    
-    def save_publication_action(self, widget):
-        self.insert_new_publication_from_mask()
 
     @transactional
-    def insert_new_publication_from_mask(self):
+    def save_publication_action(self, widget):
         publication_title = self.publication_title_textentry.get_text()
         publication_text = self.textview_widget.get_textview_text()
         publication_url = self.publication_url_textentry.get_text()
