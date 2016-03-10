@@ -1,6 +1,8 @@
 
 from gi.repository import Gtk
 from predictor.ui.masterdata.person.main_mask import PersonMask
+from predictor.ui.masterdata.organisation.main_mask import OrganisationMask
+
 
 class MDMask(Gtk.Grid):
 
@@ -34,9 +36,10 @@ class MDMask(Gtk.Grid):
         return vbox
 
     def mask_combo_changed(self, mask_combo):
-        print(self.mask_combo.get_active())
         if self.mask_combo.get_active() == 0:
             self.set_working_area("person")
+        elif self.mask_combo.get_active() == 1:
+            self.set_working_area("organisation")
         else:
             print("unimplemented")
 
@@ -48,6 +51,8 @@ class MDMask(Gtk.Grid):
         self.clean_working_area()
         if action == "person":
             self.working_area.pack_start(PersonMask(self.main_window), True, True, 0)
+        elif action == "organisation":
+            self.working_area.pack_start(OrganisationMask(self.main_window), True, True, 0)
         else:
             print("unimplemented")
         self.working_area.show_all()

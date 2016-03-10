@@ -1,11 +1,10 @@
 
 
 from gi.repository import Gtk
-from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextViewWidget, TextEntryWidget, add_column_to_treeview
+from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextEntryWidget, add_column_to_treeview
 from predictor.helpers.db_connection import enum_retrieve_valid_values
 from predictor.helpers.transaction_broker import transactional
 from predictor.model.predictor_model import PersonDAO, PersonnameDAO, PersonnamepartDAO
-
 
 
 class PersonOverviewWindow(Gtk.Grid):
