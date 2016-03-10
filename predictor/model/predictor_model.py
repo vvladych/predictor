@@ -2,6 +2,26 @@ from predictor.model.DAO import DAO, VDAO
 from predictor.model.DAOtoDAO import DAOtoDAO
 
 
+class PersonnamepartDAO(DAO):
+    entity = "personnamepart"
+    data_fields = ["uuid", "namepart_role", "namepart_value"]
+
+
+class PersonnametoPersonnamepart(DAOtoDAO):
+    entity = "personname_to_personnamepart"
+    primDAO_PK = "personname_uuid"
+    secDAO_PK = "personnamepart_uuid"
+
+
+class PersonnameDAO(DAO):
+    entity = "personname"
+    data_fields = ["uuid", "personname_role"]
+    join_objects = {"PersonnametoPersonnamepart": PersonnametoPersonnamepart}
+
+    def add_personnamepart(self, personnamepart):
+        self.PersonnametoPersonnamepart.add(PersonnametoPersonnamepart(self.uuid, personnamepart.uuid))
+
+
 class PersontoPersonname(DAOtoDAO):
     entity = "person_to_personname"
     primDAO_PK = "person_uuid"
@@ -14,12 +34,8 @@ class PersonDAO(DAO):
     join_objects = {"PersontoPersonname": PersontoPersonname}
     sortkey = "common_name"
 
-    def add_personnamepart(self, personname):
+    def add_personname(self, personname):
         self.PersontoPersonname.add(PersontoPersonname(self.uuid, personname.uuid))
-
-
-class PersonnamepartDAO(DAO):
-    data_fields = ["uuid", "namepart_role", "namepart_value"]
 
 
 class OrganisationDAO(DAO):
