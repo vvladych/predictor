@@ -1,7 +1,7 @@
 
 
 from gi.repository import Gtk
-from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextViewWidget, TextEntryWidget
+from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextViewWidget, TextEntryWidget, add_column_to_treeview
 from predictor.helpers.db_connection import enum_retrieve_valid_values
 from predictor.helpers.transaction_broker import transactional
 from predictor.model.predictor_model import PersonDAO
@@ -19,6 +19,7 @@ class PersonOverviewWindow(Gtk.Grid):
         self.person = person
         self.create_layout()
         if person is not None:
+            self.person.load()
             self.load_person()
         self.parent_callback = callback
 
@@ -138,20 +139,15 @@ class PersonOverviewWindow(Gtk.Grid):
             counter += 1
         return name_roles_model
 
-    def add_name(self, widget):
-        print("in add_name")
-
-    def add_name_part(self, widget):
-        print("in add_name_part")
-
-    def delete_name_part(self, widget):
-        print("in delete_name_part")
-
     @transactional
     def save_person_action(self, widget):
         common_name = self.common_name_text_entry.get_entry_value()
 
-        person = PersonDAO(None,
+        person_uuid = None
+        if self.person is not None:
+            person_uuid = self.person.uuid
+
+        person = PersonDAO(person_uuid,
                            {"common_name": common_name,
                             "birth_date": self.birth_date_widget.get_date()})
 
@@ -159,9 +155,67 @@ class PersonOverviewWindow(Gtk.Grid):
 
         show_info_dialog(None, "Person inserted")
         self.person = person
+        self.person.load()
         self.parent_callback()
+
+    def get_active_name_role(self):
+        name_combobox_iter = self.name_role_combobox.get_active_iter()
+        if name_combobox_iter is not None:
+            model = self.name_roles_model
+            name = model[name_combobox_iter][:2]
+        else:
+            name = self.name_role_combobox.get_child()
+        return name
+
+    def get_active_name_treestore(self):
+        model, tree_iter = self.nameparts_treeview.get_selection().get_selected()
+        return tree_iter
+
+    def add_name(self, widget):
+        name_role_id, name_role_value = self.get_active_name_role()
+        self.namepart_treestore.append(None, [name_role_id, name_role_value, None])
+
+    def add_name_part(self,widget):
+        (namepart_role_id, namepart_role_value) = self.get_active_namepart_role()
+        tree_iter = self.get_active_name_treestore()
+
+        if tree_iter is None:
+            show_error_dialog(self.main_window, "Error: name part cannot be added as root element")
+            return
+
+        if self.namepart_treestore.iter_depth(tree_iter) != 0:
+            show_error_dialog(self.main_window, "Error: name part can be added to a root element only")
+            return
+
+        self.namepart_treestore.append(tree_iter,
+                                       [namepart_role_id,namepart_role_value,
+                                        self.namepart_role_value_entry.get_text()])
+        self.namepart_role_value_entry.set_text('')
+
+    # NamePart
+    def delete_name_part(self, widget):
+        model, tree_iter = self.nameparts_treeview.get_selection().get_selected()
+        model.remove(tree_iter)
+
+    def get_active_namepart_role(self):
+        tree_iter = self.namepart_role_combobox.get_active_iter()
+        if tree_iter is not None:
+            model = self.namepart_role_combobox.get_model()
+            name = model[tree_iter][:2]
+        else:
+            name = self.namepart_role_combobox.get_child()
+        return name
 
     def create_namepart_treeview(self):
         self.namepart_treestore = Gtk.TreeStore(int, str, str)
         self.nameparts_treeview = Gtk.TreeView(self.namepart_treestore)
+        self.nameparts_treeview.append_column(add_column_to_treeview("id", 0, True))
+        self.nameparts_treeview.append_column(add_column_to_treeview("Role", 1, False))
+        self.nameparts_treeview.append_column(add_column_to_treeview("Value", 2, False))
         self.nameparts_treeview.set_size_request(200, 300)
+        self.nameparts_treeview.connect("row-activated", self.on_row_selection)
+
+    def on_row_selection(self, treeview, path,column):
+        model, treeiter = self.nameparts_treeview.get_selection().get_selected()
+        self.namepart_role_combobox.set_active(model[treeiter][0])
+        self.namepart_role_value_entry.set_text(model[treeiter][2])
