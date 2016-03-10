@@ -94,10 +94,23 @@ class DAO(object):
 
     @transactional
     def save(self):
-        if self.__is_persisted:
+        if self.__exists():
             self.__update()
         else:
             self.__insert()
+
+    def __exists(self):
+        sql_exists = "SELECT count(*) as counter FROM %s WHERE uuid='%s'" % (self.entity, self.uuid)
+        counter = 0
+        with dbcursor_wrapper(sql_exists) as cursor:
+            row = cursor.fetchone()
+            if row is not None:
+                counter = getattr(row, "counter")
+        if counter > 0:
+            return True
+        else:
+            return False
+
 
     @consistcheck("insert")
     def __insert(self):
