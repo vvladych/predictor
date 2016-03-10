@@ -5,9 +5,8 @@ Created on 14.03.2015
 """
 from gi.repository import Gtk
 
-from predictor.model.predictor_model import OrganisationDAO, PublicationDAO, PersonDAO
+from predictor.model.predictor_model import PublicationDAO
 from predictor.ui.base.masterdata_abstract_window import MasterdataAbstractWindow
-from predictor.ui.masterdata.organisation.organisation import OrganisationListMask
 from predictor.ui.masterdata.publisher.publisher import PublisherListMask
 
 
@@ -60,12 +59,7 @@ class MasterdataMask(Gtk.Grid):
         if main_area_type == "person":
             pass
         elif main_area_type == "organisation":
-            self.main_middle_pane.pack_start(MasterdataAbstractWindow(self.main_window,
-                                                                      OrganisationListMask(self.main_window, OrganisationDAO),
-                                                                      None),
-                                             False,
-                                             False,
-                                             0)
+            pass
         elif main_area_type == "publisher":
             self.main_middle_pane.pack_start(MasterdataAbstractWindow(self.main_window,
                                                                       PublisherListMask(self.main_window, PublicationDAO),
