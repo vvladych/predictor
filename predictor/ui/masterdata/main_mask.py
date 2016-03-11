@@ -2,7 +2,7 @@
 from gi.repository import Gtk
 from predictor.ui.masterdata.person.main_mask import PersonMask
 from predictor.ui.masterdata.organisation.main_mask import OrganisationMask
-
+from predictor.ui.masterdata.publisher.main_mask import PublisherMask
 
 class MDMask(Gtk.Grid):
 
@@ -40,6 +40,8 @@ class MDMask(Gtk.Grid):
             self.set_working_area("person")
         elif self.mask_combo.get_active() == 1:
             self.set_working_area("organisation")
+        elif self.mask_combo.get_active() == 2:
+            self.set_working_area("publisher")
         else:
             print("unimplemented")
 
@@ -53,6 +55,8 @@ class MDMask(Gtk.Grid):
             self.working_area.pack_start(PersonMask(self.main_window), True, True, 0)
         elif action == "organisation":
             self.working_area.pack_start(OrganisationMask(self.main_window), True, True, 0)
+        elif action == "publisher":
+            self.working_area.pack_start(PublisherMask(self.main_window), True, True, 0)
         else:
             print("unimplemented")
         self.working_area.show_all()

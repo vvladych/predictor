@@ -1,6 +1,6 @@
 
 from gi.repository import Gtk
-from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextEntryWidget
+from predictor.ui.ui_tools import show_info_dialog, TextEntryWidget
 from predictor.model.predictor_model import OrganisationDAO
 
 
