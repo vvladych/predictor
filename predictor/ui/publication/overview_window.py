@@ -163,7 +163,7 @@ class PublicationOverviewWindow(Gtk.Grid):
 
         publication.save()
 
-        show_info_dialog(self.main_window, "Publication inserted")
+        show_info_dialog(None, "Publication inserted")
         self.publication = publication
         self.parent_callback()
 
@@ -174,4 +174,4 @@ class PublicationOverviewWindow(Gtk.Grid):
             publisher_uuid = model[tree_iter][:2]
             return publisher_uuid[0]
         else:
-            show_error_dialog(self.main_window, "please choose a publisher!")
+            show_error_dialog(None, "please choose a publisher!")
