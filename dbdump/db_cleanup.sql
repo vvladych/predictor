@@ -1,0 +1,11 @@
+delete from person;
+delete from prediction;
+delete from publication;
+delete from organisation;
+delete from publisher;
+delete from textmodel;
+delete from originator;
+delete from tmstatement;
+delete from personname;
+delete from personnamepart;
+delete from publicationtext;
