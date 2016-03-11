@@ -176,6 +176,7 @@ class PersonOverviewWindow(Gtk.Grid):
             name_iter = self.namepart_treestore.iter_next(name_iter)
 
         show_info_dialog(None, "Person inserted")
+        person.save()
         self.person = person
         self.person.load()
         self.parent_callback()
