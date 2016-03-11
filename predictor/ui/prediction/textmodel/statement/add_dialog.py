@@ -60,14 +60,8 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
         begin_pit_label.set_justify(Gtk.Justification.LEFT)
         layout_grid.attach(begin_pit_label,1,row,1,1)
 
-        self.state_begin_date_day_textentry = Gtk.Entry()
-        self.state_begin_date_month_textentry = Gtk.Entry()
-        self.state_begin_date_year_textentry = Gtk.Entry()
-
-        layout_grid.attach(DateWidget(self.state_begin_date_day_textentry,
-                                                  self.state_begin_date_month_textentry,
-                                                  self.state_begin_date_year_textentry),
-                                                  2, row, 1, 1)
+        self.state_begin_date_widget = DateWidget()
+        layout_grid.attach(self.state_begin_date_widget, 2, row, 1, 1)
 
         row += 1
 
@@ -75,14 +69,8 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
         end_pit_label.set_justify(Gtk.Justification.LEFT)
         layout_grid.attach(end_pit_label, 1, row, 1, 1)
 
-        self.state_end_date_day_textentry = Gtk.Entry()
-        self.state_end_date_month_textentry = Gtk.Entry()
-        self.state_end_date_year_textentry = Gtk.Entry()
-
-        layout_grid.attach(DateWidget(self.state_end_date_day_textentry,
-                                                  self.state_end_date_month_textentry,
-                                                  self.state_end_date_year_textentry),
-                                                  2, row, 1, 1)
+        self.state_end_date_widget = DateWidget()
+        layout_grid.attach(self.state_end_date_widget, 2, row, 1, 1)
 
         row += 2
 
@@ -103,23 +91,13 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
 
         self.show_all()
 
-    def get_point_in_time_begin(self):
-        return datetime.date(int(self.state_begin_date_year_textentry.get_text()),
-                             int(self.state_begin_date_month_textentry.get_text()),
-                             int(self.state_begin_date_day_textentry.get_text()))
-
-    def get_point_in_time_end(self):
-        return datetime.date(int(self.state_end_date_year_textentry.get_text()),
-                             int(self.state_end_date_month_textentry.get_text()),
-                             int(self.state_end_date_day_textentry.get_text()))
-
     def get_textmodel_statement_text(self):
         return self.prediction_model_textview_widget.get_textview_text()
 
     @transactional
     def add_statement_action(self, widget):
         tmstm = TmstatementDAO(None, self.get_textmodel_statement_text(),
-                               self.get_point_in_time_begin(), self.get_point_in_time_end())
+                               self.state_begin_date_widget.get_date(), self.state_end_date_widget.get_date())
         tmstm.save()
         self.textmodel.add_tmstatement(tmstm)
         self.textmodel.save()
