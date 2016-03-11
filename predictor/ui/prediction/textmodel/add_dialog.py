@@ -73,11 +73,9 @@ class TextModelAddDialog(Gtk.Dialog):
 
         layout_grid.attach(self.overview_component, 0, row, 2, 1)
 
-
     @transactional
     def add_model_action(self, widget):
-        textmodel = TextmodelDAO()
-        textmodel.short_description = self.model_short_desc_entry.get_text()
+        textmodel = TextmodelDAO(None, {"short_description":self.model_short_desc_entry.get_text()})
         textmodel.save()
         self.prediction.add_textmodel(textmodel)
         self.prediction.save()
@@ -86,7 +84,6 @@ class TextModelAddDialog(Gtk.Dialog):
 
     def on_edit(self):
         textmodel_row = self.overview_component.get_selected_row()
-        print(textmodel_row[1])
         textmodel = TextmodelDAO(textmodel_row[1])
         textmodel.load()
         dialog = TextmodelStatementAddDialog(self.main_window, textmodel)
