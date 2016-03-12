@@ -51,13 +51,8 @@ class PublicationOverviewWindow(Gtk.Grid):
         publication_date_label = Gtk.Label("Publication Date")
         publication_date_label.set_justify(Gtk.Justification.LEFT)
         self.attach(publication_date_label, 0, row, 1, 1)
-        
-        self.publication_date_day_textentry = Gtk.Entry()
-        self.publication_date_month_textentry = Gtk.Entry()
-        self.publication_date_year_textentry = Gtk.Entry()
-        
-        self.publication_date_widget = DateWidget(self.publication_date_day_textentry, self.publication_date_month_textentry, self.publication_date_year_textentry)
-        
+
+        self.publication_date_widget = DateWidget()
         self.attach(self.publication_date_widget, 1, row, 1, 1)
 
         row += 1
@@ -146,9 +141,7 @@ class PublicationOverviewWindow(Gtk.Grid):
             publication_uuid = self.publication.uuid
 
         publication = PublicationDAO(publication_uuid,
-                                     {"date": datetime.date(int(self.publication_date_year_textentry.get_text()),
-                                                             int(self.publication_date_month_textentry.get_text()),
-                                                             int(self.publication_date_day_textentry.get_text())),
+                                     {"date": self.publication_date_widget.get_date(),
                                       "title": publication_title,
                                       "url": publication_url})
 
