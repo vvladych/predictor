@@ -149,6 +149,7 @@ class CustomTreeview(Gtk.TreeView):
         renderer = Gtk.CellRendererText()
         column.pack_start(renderer, True)
         column.add_attribute(renderer, "text", counter)
+        column.set_resizable(True)
         self.append_column(column)
 
     def add_context_menu_overview_treeview(self):
