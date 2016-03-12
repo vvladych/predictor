@@ -1,10 +1,10 @@
-
 from gi.repository import Gtk
-from predictor.ui.ui_tools import show_info_dialog, TextEntryWidget
+
 from predictor.model.predictor_model import OrganisationDAO
 from predictor.ui.base.abstract_mask import AbstractMask
 from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
-from predictor.ui.masterdata.organisation.organisation import OrganisationOverviewWindow
+from predictor.ui.masterdata.organisation import OrganisationOverviewWindow
+from predictor.ui.ui_tools import show_info_dialog, TextEntryWidget
 
 
 class OrganisationExtTreeview(ExtendedTreeView):
