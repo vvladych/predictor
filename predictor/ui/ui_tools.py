@@ -39,20 +39,11 @@ def show_error_dialog(main_window, message):
     
 class DateWidget(Gtk.Grid):
     
-    def __init__(self, day_text_entry=None, month_text_entry=None, year_text_entry=None):
+    def __init__(self):
         Gtk.Grid.__init__(self)
-        if day_text_entry is not None:
-            self.day_text_entry = day_text_entry
-        else:
-            self.day_text_entry = Gtk.Entry()
-        if month_text_entry is not None:
-            self.month_text_entry = month_text_entry
-        else:
-            self.month_text_entry = Gtk.Entry()
-        if year_text_entry is not None:
-            self.year_text_entry = year_text_entry
-        else:
-            self.year_text_entry = Gtk.Entry()
+        self.day_text_entry = Gtk.Entry()
+        self.month_text_entry = Gtk.Entry()
+        self.year_text_entry = Gtk.Entry()
         self.create_date_grid(True)
 
     def create_date_grid(self, show_calendar=False):
