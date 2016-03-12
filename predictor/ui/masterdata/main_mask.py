@@ -1,7 +1,7 @@
 from gi.repository import Gtk
 
 from predictor.ui.masterdata.organisation import OrganisationMask
-from predictor.ui.masterdata.person.main_mask import PersonMask
+from predictor.ui.masterdata.person import PersonMask
 from predictor.ui.masterdata.publisher import PublisherMask
 
 
