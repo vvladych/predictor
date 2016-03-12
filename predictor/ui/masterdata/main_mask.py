@@ -2,7 +2,7 @@ from gi.repository import Gtk
 
 from predictor.ui.masterdata.organisation import OrganisationMask
 from predictor.ui.masterdata.person.main_mask import PersonMask
-from predictor.ui.masterdata.publisher.main_mask import PublisherMask
+from predictor.ui.masterdata.publisher import PublisherMask
 
 
 class MDMask(Gtk.Grid):
