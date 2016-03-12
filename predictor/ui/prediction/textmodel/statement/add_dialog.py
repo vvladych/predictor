@@ -6,14 +6,14 @@ Created on 29.07.2015
 from gi.repository import Gtk
 from predictor.ui.ui_tools import TextViewWidget, DateWidget, show_info_dialog
 from predictor.ui.prediction.textmodel.statement.exttreeview import TextmodelStatementExtTreeview
-import datetime
 from predictor.model.predictor_model import TmstatementDAO
 from predictor.helpers.transaction_broker import transactional
+from predictor.model.DAO import DAOList
 
 
 class TextmodelStatementAddDialog(Gtk.Dialog):
     
-    def __init__(self, parent, model):
+    def __init__(self, parent, model, prediction):
         Gtk.Dialog.__init__(self, "Model Dialog", None, 0,
             (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
              Gtk.STOCK_OK, Gtk.ResponseType.OK))
@@ -50,7 +50,7 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
 
         layout_grid.attach(self.prediction_model_textview_widget, 1, row, 2, 1)
 
-        row += 2
+        row += 1
 
         pit_label = Gtk.Label("Choose point-in-time")
         pit_label.set_justify(Gtk.Justification.LEFT)

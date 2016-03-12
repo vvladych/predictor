@@ -86,7 +86,7 @@ class TextModelAddDialog(Gtk.Dialog):
         textmodel_row = self.overview_component.get_selected_row()
         textmodel = TextmodelDAO(textmodel_row[1])
         textmodel.load()
-        dialog = TextmodelStatementAddDialog(self.main_window, textmodel)
+        dialog = TextmodelStatementAddDialog(self.main_window, textmodel, self.prediction)
         dialog.run()
         dialog.destroy()
 
