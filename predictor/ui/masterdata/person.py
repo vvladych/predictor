@@ -1,13 +1,12 @@
-
-
 from gi.repository import Gtk
-from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextEntryWidget, add_column_to_treeview
+
 from predictor.helpers.db_connection import enum_retrieve_valid_values
 from predictor.helpers.transaction_broker import transactional
 from predictor.model.predictor_model import PersonDAO, PersonnameDAO, PersonnamepartDAO
 from predictor.ui.base.abstract_mask import AbstractMask
 from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
-from predictor.ui.masterdata.person.overview_window import PersonOverviewWindow
+from predictor.ui.masterdata.person import PersonOverviewWindow
+from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextEntryWidget, add_column_to_treeview
 
 
 class PersonExtTreeview(ExtendedTreeView):
