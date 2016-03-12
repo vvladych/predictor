@@ -17,22 +17,6 @@ class PublisherExtTreeview(ExtendedTreeView):
         self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.commonname, "%s" % row.url])
 
 
-class PublisherMask(AbstractMask):
-
-    dao_type = PublisherDAO
-    exttreeview = PublisherExtTreeview
-    overview_window = PublisherOverviewWindow
-    default_height = 500
-    default_width = 200
-
-    def new_callback(self):
-        self.clear_main_middle_pane()
-        self.main_middle_pane.pack_start(PublisherOverviewWindow(self, None, self.overview_treeview.reset_treemodel),
-                                         False,
-                                         False,
-                                         0)
-        self.main_middle_pane.show_all()
-
 class PublisherOverviewWindow(Gtk.Grid):
 
     def __init__(self, main_window, publisher=None, callback=None):
@@ -98,3 +82,20 @@ class PublisherOverviewWindow(Gtk.Grid):
         self.publisher = publisher
         self.publisher.load()
         self.parent_callback()
+
+
+class PublisherMask(AbstractMask):
+
+    dao_type = PublisherDAO
+    exttreeview = PublisherExtTreeview
+    overview_window = PublisherOverviewWindow
+    default_height = 500
+    default_width = 200
+
+    def new_callback(self):
+        self.clear_main_middle_pane()
+        self.main_middle_pane.pack_start(PublisherOverviewWindow(self, None, self.overview_treeview.reset_treemodel),
+                                         False,
+                                         False,
+                                         0)
+        self.main_middle_pane.show_all()
