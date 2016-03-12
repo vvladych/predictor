@@ -5,7 +5,6 @@ from predictor.helpers.transaction_broker import transactional
 from predictor.model.predictor_model import PersonDAO, PersonnameDAO, PersonnamepartDAO
 from predictor.ui.base.abstract_mask import AbstractMask
 from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
-from predictor.ui.masterdata.person import PersonOverviewWindow
 from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextEntryWidget, add_column_to_treeview
 
 
@@ -19,22 +18,6 @@ class PersonExtTreeview(ExtendedTreeView):
     def append_treedata_row(self, row):
         self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.common_name, "%s" % row.birth_date])
 
-
-class PersonMask(AbstractMask):
-
-    dao_type = PersonDAO
-    exttreeview = PersonExtTreeview
-    overview_window = PersonOverviewWindow
-    default_height = 500
-    default_width = 200
-
-    def new_callback(self):
-        self.clear_main_middle_pane()
-        self.main_middle_pane.pack_start(PersonOverviewWindow(self, None, self.overview_treeview.reset_treemodel),
-                                         False,
-                                         False,
-                                         0)
-        self.main_middle_pane.show_all()
 
 class PersonOverviewWindow(Gtk.Grid):
 
@@ -271,3 +254,20 @@ class PersonOverviewWindow(Gtk.Grid):
         model, treeiter = self.nameparts_treeview.get_selection().get_selected()
         self.namepart_role_combobox.set_active(model[treeiter][0])
         self.namepart_role_value_entry.set_text(model[treeiter][2])
+
+
+class PersonMask(AbstractMask):
+
+    dao_type = PersonDAO
+    exttreeview = PersonExtTreeview
+    overview_window = PersonOverviewWindow
+    default_height = 500
+    default_width = 200
+
+    def new_callback(self):
+        self.clear_main_middle_pane()
+        self.main_middle_pane.pack_start(PersonOverviewWindow(self, None, self.overview_treeview.reset_treemodel),
+                                         False,
+                                         False,
+                                         0)
+        self.main_middle_pane.show_all()
