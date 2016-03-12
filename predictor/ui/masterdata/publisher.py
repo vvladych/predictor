@@ -1,9 +1,10 @@
 from gi.repository import Gtk
-from predictor.ui.ui_tools import show_info_dialog, TextEntryWidget
+
 from predictor.model.predictor_model import PublisherDAO
 from predictor.ui.base.abstract_mask import AbstractMask
 from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
-from predictor.ui.masterdata.publisher.publisher import PublisherOverviewWindow
+from predictor.ui.masterdata.publisher import PublisherOverviewWindow
+from predictor.ui.ui_tools import show_info_dialog, TextEntryWidget
 
 
 class PublisherExtTreeview(ExtendedTreeView):
