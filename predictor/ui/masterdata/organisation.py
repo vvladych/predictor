@@ -4,6 +4,7 @@ from predictor.model.predictor_model import OrganisationDAO
 from predictor.ui.base.abstract_mask import AbstractMask
 from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
 from predictor.ui.ui_tools import show_info_dialog, TextEntryWidget
+from predictor.ui.masterdata.mdo_window import MDOWindow
 
 
 class OrganisationExtTreeview(ExtendedTreeView):
@@ -16,20 +17,7 @@ class OrganisationExtTreeview(ExtendedTreeView):
         self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.commonname])
 
 
-class OrganisationWindow(Gtk.Grid):
-
-    def __init__(self, main_window, organisation=None, callback=None):
-        Gtk.Grid.__init__(self)
-        self.set_row_spacing(3)
-        self.set_column_spacing(3)
-
-        self.main_window = main_window
-        self.organisation = organisation
-        self.create_layout()
-        if organisation is not None:
-            self.organisation.load()
-            self.load_organisation()
-        self.parent_callback = callback
+class OrganisationWindow(MDOWindow):
 
     def create_layout(self):
 
@@ -51,26 +39,26 @@ class OrganisationWindow(Gtk.Grid):
 
         # last row
         save_button = Gtk.Button("Save", Gtk.STOCK_SAVE)
-        save_button.connect("clicked", self.save_organisation)
+        save_button.connect("clicked", self.save_dao)
         self.attach(save_button, 1, row, 1, 1)
 
-    def load_organisation(self):
-        self.uuid_text_entry.set_entry_value(self.organisation.uuid)
-        self.common_name_text_entry.set_entry_value(self.organisation.commonname)
+    def load_dao(self):
+        self.uuid_text_entry.set_entry_value(self.dao.uuid)
+        self.common_name_text_entry.set_entry_value(self.dao.commonname)
 
-    def save_organisation(self, widget):
+    def save_dao(self, widget):
         common_name = self.common_name_text_entry.get_entry_value()
 
         organisation_uuid = None
-        if self.organisation is not None:
-            organisation_uuid = self.organisation.uuid
+        if self.dao is not None:
+            organisation_uuid = self.dao.uuid
 
         organisation = OrganisationDAO(organisation_uuid,
                                        {"commonname": common_name})
         organisation.save()
         show_info_dialog(None, "Organisation inserted")
-        self.organisation = organisation
-        self.organisation.load()
+        self.dao = organisation
+        self.dao.load()
         self.parent_callback()
 
 
@@ -79,8 +67,6 @@ class OrganisationMask(AbstractMask):
     dao_type = OrganisationDAO
     exttreeview = OrganisationExtTreeview
     overview_window = OrganisationWindow
-    default_height = 500
-    default_width = 200
 
     def new_callback(self):
         self.clear_main_middle_pane()

@@ -92,7 +92,6 @@ class DAOtoDAOList(set):
                                                                                  e.primDAO_uuid,
                                                                                  e.secDAO_PK,
                                                                                  e.secDAO_uuid)
-            print(query)
             with dbcursor_wrapper(query) as cursor:
                 pass
             e.delete()

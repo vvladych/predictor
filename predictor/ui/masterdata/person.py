@@ -6,6 +6,7 @@ from predictor.model.predictor_model import PersonDAO, PersonnameDAO, Personname
 from predictor.ui.base.abstract_mask import AbstractMask
 from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
 from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextEntryWidget, add_column_to_treeview
+from predictor.ui.masterdata.mdo_window import MDOWindow
 
 
 class PersonExtTreeview(ExtendedTreeView):
@@ -19,20 +20,7 @@ class PersonExtTreeview(ExtendedTreeView):
         self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.common_name, "%s" % row.birth_date])
 
 
-class Personwindow(Gtk.Grid):
-
-    def __init__(self, main_window, person=None, callback=None):
-        Gtk.Grid.__init__(self)
-        self.set_row_spacing(3)
-        self.set_column_spacing(3)
-
-        self.main_window = main_window
-        self.person = person
-        self.create_layout()
-        if person is not None:
-            self.person.load()
-            self.load_person()
-        self.parent_callback = callback
+class Personwindow(MDOWindow):
 
     def create_layout(self):
 
@@ -113,20 +101,20 @@ class Personwindow(Gtk.Grid):
         row += 1
         # Row 5
         save_button = Gtk.Button("Save", Gtk.STOCK_SAVE)
-        save_button.connect("clicked", self.save_person_action)
+        save_button.connect("clicked", self.save_dao)
         self.attach(save_button, 1, row, 1, 1)
 
-    def load_person(self):
-        self.uuid_text_entry.set_entry_value(self.person.uuid)
-        self.common_name_text_entry.set_entry_value(self.person.common_name)
+    def load_dao(self):
+        self.uuid_text_entry.set_entry_value(self.dao.uuid)
+        self.common_name_text_entry.set_entry_value(self.dao.common_name)
         ##self.birth_place_text_entry.set_entry_value(self.person.birth_place)
-        if self.person.birth_date is not None:
-            self.birth_date_widget.set_date_from_string("%s-%s-%s" % (self.person.birth_date.year,
-                                                                      self.person.birth_date.month,
-                                                                      self.person.birth_date.day))
+        if self.dao.birth_date is not None:
+            self.birth_date_widget.set_date_from_string("%s-%s-%s" % (self.dao.birth_date.year,
+                                                                      self.dao.birth_date.month,
+                                                                      self.dao.birth_date.day))
         self.namepart_treestore.clear()
 
-        for name in self.person.PersontoPersonname:
+        for name in self.dao.PersontoPersonname:
             personname = PersonnameDAO(name.secDAO_uuid)
             personname.load()
             tree_iter = self.namepart_treestore.append(None, ["%s" % personname.uuid, personname.personname_role, None])
@@ -155,12 +143,12 @@ class Personwindow(Gtk.Grid):
         return name_roles_model
 
     @transactional
-    def save_person_action(self, widget):
+    def save_dao(self, widget):
         common_name = self.common_name_text_entry.get_entry_value()
 
         person_uuid = None
-        if self.person is not None:
-            person_uuid = self.person.uuid
+        if self.dao is not None:
+            person_uuid = self.dao.uuid
 
         person = PersonDAO(person_uuid,
                            {"common_name": common_name,
@@ -189,8 +177,8 @@ class Personwindow(Gtk.Grid):
 
         show_info_dialog(None, "Person inserted")
         person.save()
-        self.person = person
-        self.person.load()
+        self.dao = person
+        self.dao.load()
         self.parent_callback()
 
     def get_active_name_role(self):
@@ -261,8 +249,6 @@ class PersonMask(AbstractMask):
     dao_type = PersonDAO
     exttreeview = PersonExtTreeview
     overview_window = Personwindow
-    default_height = 500
-    default_width = 200
 
     def new_callback(self):
         self.clear_main_middle_pane()
