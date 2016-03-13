@@ -5,12 +5,12 @@ Created on 27.05.2015
 """
 
 from gi.repository import Gtk
+
 from predictor.helpers.transaction_broker import transactional
 from predictor.model.predictor_model import TextmodelDAO
 from predictor.ui.prediction.textmodel.exttreeview import PredictionTextmodelExtTreeview
-from predictor.ui.prediction.textmodel.statement.add_dialog import TextmodelStatementAddDialog
+from predictor.ui.prediction.textmodel.tmstatement import TextmodelStatementAddDialog
 from predictor.ui.ui_tools import show_info_dialog
-
 
 
 class TextModelAddDialog(Gtk.Dialog):
