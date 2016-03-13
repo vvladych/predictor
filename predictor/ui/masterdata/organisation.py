@@ -16,7 +16,7 @@ class OrganisationExtTreeview(ExtendedTreeView):
         self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.commonname])
 
 
-class OrganisationOverviewWindow(Gtk.Grid):
+class OrganisationWindow(Gtk.Grid):
 
     def __init__(self, main_window, organisation=None, callback=None):
         Gtk.Grid.__init__(self)
@@ -78,13 +78,13 @@ class OrganisationMask(AbstractMask):
 
     dao_type = OrganisationDAO
     exttreeview = OrganisationExtTreeview
-    overview_window = OrganisationOverviewWindow
+    overview_window = OrganisationWindow
     default_height = 500
     default_width = 200
 
     def new_callback(self):
         self.clear_main_middle_pane()
-        self.main_middle_pane.pack_start(OrganisationOverviewWindow(self, None, self.overview_treeview.reset_treemodel),
+        self.main_middle_pane.pack_start(OrganisationWindow(self, None, self.overview_treeview.reset_treemodel),
                                          False,
                                          False,
                                          0)

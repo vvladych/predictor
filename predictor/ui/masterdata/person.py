@@ -19,7 +19,7 @@ class PersonExtTreeview(ExtendedTreeView):
         self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.common_name, "%s" % row.birth_date])
 
 
-class PersonOverviewWindow(Gtk.Grid):
+class Personwindow(Gtk.Grid):
 
     def __init__(self, main_window, person=None, callback=None):
         Gtk.Grid.__init__(self)
@@ -260,13 +260,13 @@ class PersonMask(AbstractMask):
 
     dao_type = PersonDAO
     exttreeview = PersonExtTreeview
-    overview_window = PersonOverviewWindow
+    overview_window = Personwindow
     default_height = 500
     default_width = 200
 
     def new_callback(self):
         self.clear_main_middle_pane()
-        self.main_middle_pane.pack_start(PersonOverviewWindow(self, None, self.overview_treeview.reset_treemodel),
+        self.main_middle_pane.pack_start(Personwindow(self, None, self.overview_treeview.reset_treemodel),
                                          False,
                                          False,
                                          0)
