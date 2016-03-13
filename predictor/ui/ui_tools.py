@@ -140,12 +140,14 @@ class TextEntryWidget(Gtk.Grid):
 
     def __init__(self, title, text_entry_value=None, editable=True):
         Gtk.Grid.__init__(self)
-        label=Gtk.Label(title)
-        label.set_justify(Gtk.Justification.RIGHT)
+        label = Gtk.Label(title)
+        label.set_alignment(xalign=0, yalign=0.5)
         self.textentry = Gtk.Entry()
         self.set_entry_value(text_entry_value)
         self.textentry.set_editable(editable)
-        self.textentry.set_hexpand(True)
+
+        self.textentry.set_size_request(300, -1)
+        label.set_size_request(200, -1)
         self.attach(label, 0, 0, 1, 1)
         self.attach_next_to(self.textentry, label, Gtk.PositionType.RIGHT, 1, 1)
 

@@ -40,44 +40,43 @@ class OriginatorAddDialog(Gtk.Dialog):
 
         originator_label = Gtk.Label("Originator")
         originator_label.set_justify(Gtk.Justification.LEFT)
-        layout_grid.attach(originator_label,0,row,1,1)
+        layout_grid.attach(originator_label, 0, row, 1, 1)
 
-        row+=1
+        row += 1
 
         person_originator_label = Gtk.Label("Person")
         person_originator_label.set_justify(Gtk.Justification.LEFT)
-        layout_grid.attach(person_originator_label,0,row,1,1)
+        layout_grid.attach(person_originator_label, 0, row, 1, 1)
 
 
         self.person_combobox_model = self.populate_person_combobox_model()
-        self.person_combobox=Gtk.ComboBox.new_with_model_and_entry(self.person_combobox_model)
+        self.person_combobox = Gtk.ComboBox.new_with_model_and_entry(self.person_combobox_model)
         self.person_combobox.set_entry_text_column(1)
-        layout_grid.attach(self.person_combobox,1,row,1,1)
+        layout_grid.attach(self.person_combobox, 1, row, 1, 1)
 
         self.add_person_button=Gtk.Button("Add", Gtk.STOCK_ADD)
-        layout_grid.attach(self.add_person_button,2,row,1,1)
+        layout_grid.attach(self.add_person_button, 2, row, 1, 1)
         self.add_person_button.connect("clicked", self.add_person_action)
 
         row += 1
 
         organisation_originator_label = Gtk.Label("Organisation")
         organisation_originator_label.set_justify(Gtk.Justification.LEFT)
-        layout_grid.attach(organisation_originator_label,0,row,1,1)
+        layout_grid.attach(organisation_originator_label, 0, row, 1, 1)
 
 
         self.organisation_combobox_model = self.populate_organisation_combobox_model()
-        self.organisation_combobox=Gtk.ComboBox.new_with_model_and_entry(self.organisation_combobox_model)
+        self.organisation_combobox = Gtk.ComboBox.new_with_model_and_entry(self.organisation_combobox_model)
         self.organisation_combobox.set_entry_text_column(1)
-        layout_grid.attach(self.organisation_combobox,1,row,1,1)
+        layout_grid.attach(self.organisation_combobox, 1, row, 1, 1)
 
-        self.add_organisation_button=Gtk.Button("Add", Gtk.STOCK_ADD)
-        layout_grid.attach(self.add_organisation_button,2,row,1,1)
+        self.add_organisation_button = Gtk.Button("Add", Gtk.STOCK_ADD)
+        layout_grid.attach(self.add_organisation_button, 2, row, 1, 1)
         self.add_organisation_button.connect("clicked", self.add_organisation_action)
 
         row += 1
 
         layout_grid.attach(self.overview_component, 0, row, 2, 1)
-
 
     def populate_person_combobox_model(self):
         combobox_model = Gtk.ListStore(str,str)

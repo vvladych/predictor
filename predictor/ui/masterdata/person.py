@@ -20,7 +20,7 @@ class PersonExtTreeview(ExtendedTreeView):
         self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.common_name, "%s" % row.birth_date])
 
 
-class Personwindow(MDOWindow):
+class PersonWindow(MDOWindow):
 
     def create_layout(self):
 
@@ -41,6 +41,7 @@ class Personwindow(MDOWindow):
         row += 1
         # Row: birth date
         birth_date_label = Gtk.Label("Birth Date")
+        birth_date_label.set_size_request(200, -1)
         self.attach(birth_date_label, 0, row, 1, 1)
 
         self.birth_date_widget = DateWidget()
@@ -56,6 +57,7 @@ class Personwindow(MDOWindow):
 
         # name
         name_label = Gtk.Label("Name")
+        name_label.set_size_request(200, -1)
         self.attach(name_label, 0, row, 1, 1)
 
         self.name_roles_model = self.populate_name_roles_model()
@@ -71,7 +73,9 @@ class Personwindow(MDOWindow):
         row += 1
         # name part role
         namepart_label = Gtk.Label("Name part")
+        namepart_label.set_size_request(200, -1)
         self.attach(namepart_label, 0, row, 1, 1)
+
 
         namepart_add_button = Gtk.Button("Add", Gtk.STOCK_ADD)
         namepart_add_button.connect("clicked", self.add_name_part)
@@ -248,11 +252,11 @@ class PersonMask(AbstractMask):
 
     dao_type = PersonDAO
     exttreeview = PersonExtTreeview
-    overview_window = Personwindow
+    overview_window = PersonWindow
 
     def new_callback(self):
         self.clear_main_middle_pane()
-        self.main_middle_pane.pack_start(Personwindow(self, None, self.overview_treeview.reset_treemodel),
+        self.main_middle_pane.pack_start(PersonWindow(self, None, self.overview_treeview.reset_treemodel),
                                          False,
                                          False,
                                          0)
