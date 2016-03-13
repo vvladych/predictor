@@ -38,10 +38,20 @@ class PersonDAO(DAO):
         self.PersontoPersonname.add(PersontoPersonname(self.uuid, personname.uuid))
 
 
+class OrganisationtoCountry(DAOtoDAO):
+    entity = "organisation_to_country"
+    primDAO_PK = "organisation_uuid"
+    secDAO_PK = "country_uuid"
+
+
 class OrganisationDAO(DAO):
     data_fields = ["uuid", "commonname"]
     entity = "organisation"
     sortkey = "commonname"
+    join_objects = {"OrganisationtoCountry": OrganisationtoCountry}
+
+    def add_country(self, country):
+        self.OrganisationtoCountry.add(OrganisationtoCountry(self.uuid, country.uuid))
 
 
 class PublicationtoPublisher(DAOtoDAO):
@@ -89,9 +99,19 @@ class PublicationDAO(DAO):
         return publisher
 
 
+class PublishertoCountry(DAOtoDAO):
+    entity = "publisher_to_country"
+    primDAO_PK = "publisher_uuid"
+    secDAO_PK = "country_uuid"
+
+
 class PublisherDAO(DAO):
     data_fields = ["uuid", "commonname", "url"]
     entity = "publisher"
+    join_objects = {"PublishertoCountry":PublishertoCountry}
+
+    def add_country(self, country):
+        self.PublishertoCountry.add(PublishertoCountry(self.uuid, country.uuid))
 
 
 class PublicationtextDAO(DAO):
@@ -227,5 +247,10 @@ class PredictionTextmodelV(VDAO):
     data_fields = ["uuid", "date", "short_description", "textmodel_uuid"]
     entity = "public.\"prediction_textmodel_V\""
 
+
+class CountryDAO(DAO):
+    data_fields = ["uuid", "commonname"]
+    entity = "country"
+    sortkey = "commonname"
 
 

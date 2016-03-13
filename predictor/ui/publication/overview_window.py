@@ -6,11 +6,9 @@ Created on 20.08.2015
 
 from gi.repository import Gtk
 
-from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextViewWidget
+from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextViewWidget, ComboBoxWidget
 from predictor.model.predictor_model import PublisherDAO, PublicationDAO, PublicationtextDAO
-from predictor.model.DAO import DAOList
 from predictor.helpers.transaction_broker import transactional
-import datetime
 
 
 class PublicationOverviewWindow(Gtk.Grid):
@@ -37,14 +35,8 @@ class PublicationOverviewWindow(Gtk.Grid):
         
         row += 1
 
-        publisher_label = Gtk.Label("Publisher")
-        publisher_label.set_justify(Gtk.Justification.LEFT)
-        self.attach(publisher_label, 0, row, 1 ,1)
-
-        self.publisher_model = self.populate_publisher_combobox_model()
-        self.publisher_combobox = Gtk.ComboBox.new_with_model_and_entry(self.publisher_model)
-        self.publisher_combobox.set_entry_text_column(1)
-        self.attach(self.publisher_combobox, 1, row, 1, 1)
+        self.publisher_combobox_widget = ComboBoxWidget("Publisher", PublisherDAO)
+        self.attach(self.publisher_combobox_widget, 0, row, 2, 1)
         
         row += 1
 
@@ -99,24 +91,7 @@ class PublicationOverviewWindow(Gtk.Grid):
         save_publication_button.connect("clicked", self.save_publication_action)
         
         row += 1
-        
-    def populate_publisher_combobox_model(self):
-        combobox_model = Gtk.ListStore(str, str)
-        publishers = DAOList(PublisherDAO)
-        publishers.load()
-        for p in publishers:
-            combobox_model.append(["%s" % p.uuid, "%s" % p.commonname])
-        return combobox_model
 
-    def set_active_publisher(self, publisher_uuid):
-        publisher_uuid_str = "%s" % publisher_uuid
-        model_iter = self.publisher_model.get_iter_first()
-
-        while model_iter is not None and self.publisher_model.iter_is_valid(model_iter):
-            if publisher_uuid_str == self.publisher_model.get_value(model_iter,0):
-                self.publisher_combobox.set_active_iter(model_iter)
-            model_iter = self.publisher_model.iter_next(model_iter)
-    
     def load_publication(self):
         self.publication_title_textentry.set_text(self.publication.title)
         self.publication_url_textentry.set_text("%s" % self.publication.url)
@@ -127,7 +102,8 @@ class PublicationOverviewWindow(Gtk.Grid):
         self.publication_date_widget.set_date_from_string("%s" % self.publication.date)
         publisher = self.publication.get_publisher()
         if publisher is not None:
-            self.set_active_publisher(publisher.uuid)
+            self.publisher_combobox_widget.set_active_entry(publisher.uuid)
+            #self.set_active_publisher(publisher.uuid)
 
     @transactional
     def save_publication_action(self, widget):
@@ -150,7 +126,8 @@ class PublicationOverviewWindow(Gtk.Grid):
         publication_text_DAO.save()
         publication.add_publicationtext(publication_text_DAO)
 
-        publisher_uuid = self.get_active_publisher()
+        #publisher_uuid = self.get_active_publisher()
+        publisher_uuid = self.publisher_combobox_widget.get_active_entry()
         publisher = PublisherDAO(publisher_uuid)
         publication.add_publisher(publisher)
 
@@ -159,12 +136,3 @@ class PublicationOverviewWindow(Gtk.Grid):
         show_info_dialog(None, "Publication inserted")
         self.publication = publication
         self.parent_callback()
-
-    def get_active_publisher(self):
-        tree_iter = self.publisher_combobox.get_active_iter()
-        if tree_iter is not None:
-            model = self.publisher_combobox.get_model()
-            publisher_uuid = model[tree_iter][:2]
-            return publisher_uuid[0]
-        else:
-            show_error_dialog(None, "please choose a publisher!")

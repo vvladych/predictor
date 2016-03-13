@@ -2,6 +2,7 @@
 from gi.repository import Gtk
 import time
 import datetime
+from predictor.model.DAO import DAOList
 
 
 class TreeviewColumn(object):
@@ -156,6 +157,50 @@ class TextEntryWidget(Gtk.Grid):
 
     def set_entry_value(self, text_entry_value):
         self.textentry.set_text("%s" % text_entry_value)
+
+
+class ComboBoxWidget(Gtk.Grid):
+
+    def __init__(self, title, dao):
+        Gtk.Grid.__init__(self)
+        title_label = Gtk.Label(title)
+        title_label.set_size_request(200, -1)
+        title_label.set_alignment(xalign=0, yalign=0.5)
+        self.attach(title_label, 0, 0, 1 ,1)
+
+        self.model = self.populate_model(dao)
+        self.combobox = Gtk.ComboBox.new_with_model_and_entry(self.model)
+        self.combobox.set_entry_text_column(1)
+        self.attach(self.combobox, 1, 0, 1, 1)
+
+    def populate_model(self, dao):
+        combobox_model = Gtk.ListStore(str, str)
+        entries = DAOList(dao)
+        entries.load()
+        for p in entries:
+            combobox_model.append(["%s" % p.uuid, "%s" % p.commonname])
+        return combobox_model
+
+    def set_active_entry(self, entry_key):
+        model_iter = self.model.get_iter_first()
+
+        found = False
+        while model_iter is not None and self.model.iter_is_valid(model_iter):
+            if entry_key == self.model.get_value(model_iter,0):
+                self.combobox.set_active_iter(model_iter)
+                found = True
+                break
+            model_iter = self.model.iter_next(model_iter)
+        if not found:
+            print("entry_key %s not in model!" % entry_key)
+
+    def get_active_entry(self):
+        tree_iter = self.combobox.get_active_iter()
+        if tree_iter is not None:
+            model = self.combobox.get_model()
+            entry_key = model[tree_iter][:2]
+            return entry_key[0]
+        return None
 
 
 def toolbutton_factory(stock_item=None, tooltip_text="", clicked_action=None) -> Gtk.ToolButton:

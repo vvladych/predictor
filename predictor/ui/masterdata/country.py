@@ -1,24 +1,23 @@
 from gi.repository import Gtk
 
-from predictor.model.predictor_model import PublisherDAO
+from predictor.model.predictor_model import CountryDAO
 from predictor.ui.base.abstract_mask import AbstractMask
 from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
 from predictor.ui.ui_tools import show_info_dialog, TextEntryWidget
 from predictor.ui.masterdata.mdo_window import MDOWindow
 
 
-class PublisherExtTreeview(ExtendedTreeView):
+class CountryExtTreeview(ExtendedTreeView):
 
-    dao_type = PublisherDAO
+    dao_type = CountryDAO
     columns = [TreeviewColumn("uuid", 0, True),
-               TreeviewColumn("Common name", 1, False),
-               TreeviewColumn("URL", 2, False)]
+               TreeviewColumn("Common name", 1, False)]
 
     def append_treedata_row(self, row):
-        self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.commonname, "%s" % row.url])
+        self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.commonname])
 
 
-class PublisherWindow(MDOWindow):
+class CountryWindow(MDOWindow):
 
     def create_layout(self):
 
@@ -38,11 +37,6 @@ class PublisherWindow(MDOWindow):
 
         row += 1
 
-        self.url_text_entry = TextEntryWidget("URL", None, True)
-        self.attach(self.url_text_entry, 0, row, 2, 1)
-
-        row += 1
-
         # last row
         save_button = Gtk.Button("Save", Gtk.STOCK_SAVE)
         save_button.connect("clicked", self.save_dao)
@@ -51,35 +45,33 @@ class PublisherWindow(MDOWindow):
     def load_dao(self):
         self.uuid_text_entry.set_entry_value(self.dao.uuid)
         self.common_name_text_entry.set_entry_value(self.dao.commonname)
-        self.url_text_entry.set_entry_value(self.dao.url)
 
     def save_dao(self, widget):
         common_name = self.common_name_text_entry.get_entry_value()
-        url = self.url_text_entry.get_entry_value()
 
-        publisher_uuid = None
+        country_uuid = None
         if self.dao is not None:
-            publisher_uuid = self.dao.uuid
+            country_uuid = self.dao.uuid
 
-        publisher = PublisherDAO(publisher_uuid,
-                                 {"commonname": common_name,
-                                  "url": url})
-        publisher.save()
-        show_info_dialog(None, "Publisher inserted")
-        self.dao = publisher
+        country = CountryDAO(country_uuid,
+                             {"commonname": common_name})
+        country.save()
+        show_info_dialog(None, "Country inserted")
+        self.dao = country
         self.dao.load()
         self.parent_callback()
+        self.load_dao()
 
 
-class PublisherMask(AbstractMask):
+class CountryMask(AbstractMask):
 
-    dao_type = PublisherDAO
-    exttreeview = PublisherExtTreeview
-    overview_window = PublisherWindow
+    dao_type = CountryDAO
+    exttreeview = CountryExtTreeview
+    overview_window = CountryWindow
 
     def new_callback(self):
         self.clear_main_middle_pane()
-        self.main_middle_pane.pack_start(PublisherWindow(self, None, self.overview_treeview.reset_treemodel),
+        self.main_middle_pane.pack_start(CountryWindow(self, None, self.overview_treeview.reset_treemodel),
                                          False,
                                          False,
                                          0)

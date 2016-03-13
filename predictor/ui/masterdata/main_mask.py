@@ -3,6 +3,8 @@ from gi.repository import Gtk
 from predictor.ui.masterdata.organisation import OrganisationMask
 from predictor.ui.masterdata.person import PersonMask
 from predictor.ui.masterdata.publisher import PublisherMask
+from predictor.ui.masterdata.country import CountryMask
+
 
 
 class MDMask(Gtk.Grid):
@@ -28,7 +30,7 @@ class MDMask(Gtk.Grid):
         mask_store.append([1, "Person"])
         mask_store.append([2, "Organisation"])
         mask_store.append([3, "Publisher"])
-        mask_store.append([4, "Object catalog"])
+        mask_store.append([4, "Country"])
 
         self.mask_combo = Gtk.ComboBox.new_with_model_and_entry(mask_store)
         self.mask_combo.set_entry_text_column(1)
@@ -43,6 +45,8 @@ class MDMask(Gtk.Grid):
             self.set_working_area("organisation")
         elif self.mask_combo.get_active() == 2:
             self.set_working_area("publisher")
+        elif self.mask_combo.get_active() == 3:
+            self.set_working_area("country")
         else:
             print("unimplemented")
 
@@ -58,6 +62,8 @@ class MDMask(Gtk.Grid):
             self.working_area.pack_start(OrganisationMask(self.main_window), True, True, 0)
         elif action == "publisher":
             self.working_area.pack_start(PublisherMask(self.main_window), True, True, 0)
+        elif action == "country":
+            self.working_area.pack_start(CountryMask(self.main_window), True, True, 0)
         else:
             print("unimplemented")
         self.working_area.show_all()
