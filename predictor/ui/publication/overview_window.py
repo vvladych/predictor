@@ -126,7 +126,6 @@ class PublicationOverviewWindow(Gtk.Grid):
         publication_text_DAO.save()
         publication.add_publicationtext(publication_text_DAO)
 
-        #publisher_uuid = self.get_active_publisher()
         publisher_uuid = self.publisher_combobox_widget.get_active_entry()
         publisher = PublisherDAO(publisher_uuid)
         publication.add_publisher(publisher)
@@ -135,4 +134,6 @@ class PublicationOverviewWindow(Gtk.Grid):
 
         show_info_dialog(None, "Publication inserted")
         self.publication = publication
+        self.publication.load()
+        self.load_publication()
         self.parent_callback()
