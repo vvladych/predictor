@@ -3,10 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="55dd191c-26d7-44ee-bb6e-9e18ad298529" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/predictor/model/predictor_model.py" afterPath="$PROJECT_DIR$/predictor/model/predictor_model.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/predictor/ui/masterdata/country.py" afterPath="$PROJECT_DIR$/predictor/ui/masterdata/country.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/predictor/ui/masterdata/organisation.py" afterPath="$PROJECT_DIR$/predictor/ui/masterdata/organisation.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/predictor/ui/masterdata/person.py" afterPath="$PROJECT_DIR$/predictor/ui/masterdata/person.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/predictor/ui/publication/overview_window.py" afterPath="$PROJECT_DIR$/predictor/ui/publication/overview_window.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/predictor/ui/masterdata/publisher.py" afterPath="$PROJECT_DIR$/predictor/ui/masterdata/publisher.py" />
     </list>
     <ignored path="predictor.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -61,14 +61,60 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="organisation.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="organisation.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/organisation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.23404256">
-              <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="94" column="60" selection-start-line="94" selection-start-column="60" selection-end-line="94" selection-end-column="76" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="country.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/country.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="73" column="71" selection-start-line="73" selection-start-column="71" selection-end-line="73" selection-end-column="71" />
+              <folding>
+                <element signature="e#0#29#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="person.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/person.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="233" column="70" selection-start-line="233" selection-start-column="70" selection-end-line="233" selection-end-column="70" />
+              <folding>
+                <element signature="e#0#29#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="publisher.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/publisher.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.7545008">
+              <caret line="81" column="73" selection-start-line="81" selection-start-column="73" selection-end-line="81" selection-end-column="73" />
+              <folding>
+                <element signature="e#0#29#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mdo_window.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/mdo_window.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="3" column="6" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="6" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -134,15 +180,15 @@
         <option value="$PROJECT_DIR$/predictor/model/DAOtoDAO.py" />
         <option value="$PROJECT_DIR$/predictor/ui/base/abstract_mask.py" />
         <option value="$PROJECT_DIR$/predictor/ui/prediction/originator/add_dialog.py" />
-        <option value="$PROJECT_DIR$/predictor/ui/masterdata/country.py" />
-        <option value="$PROJECT_DIR$/predictor/ui/masterdata/publisher.py" />
         <option value="$PROJECT_DIR$/predictor/ui/masterdata/main_mask.py" />
         <option value="$PROJECT_DIR$/predictor/helpers/db_connection.py" />
         <option value="$PROJECT_DIR$/predictor/ui/ui_tools.py" />
-        <option value="$PROJECT_DIR$/predictor/ui/masterdata/person.py" />
         <option value="$PROJECT_DIR$/predictor/ui/publication/overview_window.py" />
         <option value="$PROJECT_DIR$/predictor/model/predictor_model.py" />
         <option value="$PROJECT_DIR$/predictor/ui/masterdata/organisation.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/masterdata/country.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/masterdata/person.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/masterdata/publisher.py" />
       </list>
     </option>
   </component>
@@ -310,7 +356,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="232" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
@@ -786,7 +832,13 @@
       <option name="project" value="LOCAL" />
       <updated>1458338194879</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="added country to organisation">
+      <created>1458338956430</created>
+      <option name="number" value="00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1458338956430</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -828,7 +880,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="masterdata refactoring: person exttreeview based implementation, beginning" />
     <MESSAGE value="fixed person birth date, refactoring datewidget" />
     <MESSAGE value="implemented DAO check for update / insert" />
     <MESSAGE value="name and namepart handling for person" />
@@ -853,7 +904,8 @@
     <MESSAGE value="added new widget for combobox, refactoring publication" />
     <MESSAGE value="added mask reload after insert" />
     <MESSAGE value="widgets refactoring: entries as widget; date widget" />
-    <option name="LAST_COMMIT_MESSAGE" value="widgets refactoring: entries as widget; date widget" />
+    <MESSAGE value="added country to organisation" />
+    <option name="LAST_COMMIT_MESSAGE" value="added country to organisation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1143,14 +1195,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/mdo_window.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.61374795">
-          <caret line="25" column="43" selection-start-line="25" selection-start-column="43" selection-end-line="25" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/predictor/ui/base/abstract_mask.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1187,23 +1231,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/publisher.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/country.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="33" column="28" selection-start-line="33" selection-start-column="28" selection-end-line="33" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/predictor/ui/publication/main_mask.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.43535188">
@@ -1229,11 +1256,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/person.py">
+    <entry file="file://$PROJECT_DIR$/predictor/model/predictor_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.2160392">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="60" column="17" selection-start-line="60" selection-start-column="17" selection-end-line="60" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1247,16 +1276,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/predictor/model/predictor_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="60" column="17" selection-start-line="60" selection-start-column="17" selection-end-line="60" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/predictor/ui/publication/overview_window.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1265,10 +1284,48 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/mdo_window.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="3" column="6" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/organisation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23404256">
-          <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="94" column="60" selection-start-line="94" selection-start-column="60" selection-end-line="94" selection-end-column="76" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/country.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="73" column="71" selection-start-line="73" selection-start-column="71" selection-end-line="73" selection-end-column="71" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/person.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="233" column="70" selection-start-line="233" selection-start-column="70" selection-end-line="233" selection-end-column="70" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/publisher.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7545008">
+          <caret line="81" column="73" selection-start-line="81" selection-start-column="73" selection-end-line="81" selection-end-column="73" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>

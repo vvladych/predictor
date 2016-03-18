@@ -78,7 +78,7 @@ class OrganisationWindow(MDOWindow):
 
         organisation.save()
 
-        show_info_dialog(None, "Organisation inserted")
+        show_info_dialog(self.main_window, "Organisation inserted")
         self.dao = organisation
         self.dao.load()
         self.parent_callback()
@@ -92,7 +92,7 @@ class OrganisationMask(AbstractMask):
 
     def new_callback(self):
         self.clear_main_middle_pane()
-        self.main_middle_pane.pack_start(OrganisationWindow(self, None, self.overview_treeview.reset_treemodel),
+        self.main_middle_pane.pack_start(OrganisationWindow(self.main_window, None, self.overview_treeview.reset_treemodel),
                                          False,
                                          False,
                                          0)

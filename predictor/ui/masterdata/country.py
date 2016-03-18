@@ -71,7 +71,7 @@ class CountryMask(AbstractMask):
 
     def new_callback(self):
         self.clear_main_middle_pane()
-        self.main_middle_pane.pack_start(CountryWindow(self, None, self.overview_treeview.reset_treemodel),
+        self.main_middle_pane.pack_start(CountryWindow(self.main_window, None, self.overview_treeview.reset_treemodel),
                                          False,
                                          False,
                                          0)
