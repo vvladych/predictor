@@ -5,8 +5,22 @@ from predictor.helpers.transaction_broker import transactional
 from predictor.model.predictor_model import PersonDAO, PersonnameDAO, PersonnamepartDAO
 from predictor.ui.base.abstract_mask import AbstractMask
 from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
-from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextEntryWidget, add_column_to_treeview
+from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextEntryWidget, add_column_to_treeview, DBEnumComboBoxWidget
 from predictor.ui.masterdata.mdo_window import MDOWindow
+
+
+class NamepartEnumComboBoxWidget(DBEnumComboBoxWidget):
+    enum_type = "t_person_name_part_role"
+
+    def add_entry(self, p):
+        self.model.append(["%s" % p[0], p[1]])
+
+
+class NameroleEnumComboBoxWidget(DBEnumComboBoxWidget):
+    enum_type = "t_person_name_role"
+
+    def add_entry(self, p):
+        self.model.append(["%s" % p[0], p[1]])
 
 
 class PersonExtTreeview(ExtendedTreeView):
@@ -39,13 +53,9 @@ class PersonWindow(MDOWindow):
         self.attach(self.common_name_text_entry, 0, row, 2, 1)
 
         row += 1
-        # Row: birth date
-        birth_date_label = Gtk.Label("Birth Date")
-        birth_date_label.set_size_request(200, -1)
-        self.attach(birth_date_label, 0, row, 1, 1)
 
-        self.birth_date_widget = DateWidget()
-        self.attach(self.birth_date_widget, 1, row, 1, 1)
+        self.birth_date_widget = DateWidget("Birth date")
+        self.attach(self.birth_date_widget, 0, row, 2, 1)
 
         row += 1
 
@@ -58,44 +68,35 @@ class PersonWindow(MDOWindow):
         # name
         name_label = Gtk.Label("Name")
         name_label.set_size_request(200, -1)
+        name_label.set_alignment(xalign=0, yalign=0.5)
         self.attach(name_label, 0, row, 1, 1)
 
-        self.name_roles_model = self.populate_name_roles_model()
-        self.name_role_combobox = Gtk.ComboBox.new_with_model_and_entry(self.name_roles_model)
-        self.name_role_combobox.set_entry_text_column(1)
-        self.name_role_combobox.set_active(0)
-        self.attach(self.name_role_combobox, 1, row, 1, 1)
+        row += 1
+
+        self.name_role_combobox_widget = NameroleEnumComboBoxWidget("Name role")
+        self.attach(self.name_role_combobox_widget, 0, row, 1, 1)
 
         name_add_button = Gtk.Button("Add", Gtk.STOCK_ADD)
         name_add_button.connect("clicked", self.add_name)
-        self.attach(name_add_button, 2, row, 1, 1)
+        self.attach(name_add_button, 1, row, 1, 1)
 
         row += 1
-        # name part role
-        namepart_label = Gtk.Label("Name part")
-        namepart_label.set_size_request(200, -1)
-        self.attach(namepart_label, 0, row, 1, 1)
-
 
         namepart_add_button = Gtk.Button("Add", Gtk.STOCK_ADD)
         namepart_add_button.connect("clicked", self.add_name_part)
-        self.attach(namepart_add_button, 2, row, 1, 1)
+        self.attach(namepart_add_button, 1, row, 1, 1)
 
         namepart_delete_button = Gtk.Button("Delete", Gtk.STOCK_DELETE)
         namepart_delete_button.connect("clicked", self.delete_name_part)
-        self.attach(namepart_delete_button, 3, row, 1, 1)
+        self.attach(namepart_delete_button, 2, row, 1, 1)
 
-        self.namepart_roles_model = self.populate_namepart_roles_model()
-        self.namepart_role_combobox = Gtk.ComboBox.new_with_model_and_entry(self.namepart_roles_model)
-        self.namepart_role_combobox.set_entry_text_column(1)
-        self.namepart_role_combobox.set_active(0)
-
-        self.attach(self.namepart_role_combobox, 1, row, 1, 1)
+        self.name_part_combobox_widget = NamepartEnumComboBoxWidget("Namepart")
+        self.attach(self.name_part_combobox_widget, 0, row, 1, 1)
 
         row += 1
         # Row 3: name part value
-        self.namepart_role_value_entry = Gtk.Entry()
-        self.attach(self.namepart_role_value_entry, 1, row, 1, 1)
+        self.namepart_role_value_entry = TextEntryWidget(" ")
+        self.attach(self.namepart_role_value_entry, 0, row, 2, 1)
 
         row += 1
         # Row 4: treeview
@@ -126,25 +127,6 @@ class PersonWindow(MDOWindow):
                 np = PersonnamepartDAO(namepart.secDAO_uuid)
                 np.load()
                 self.namepart_treestore.append(tree_iter,["%s" % np.uuid, np.namepart_role, np.namepart_value])
-
-
-    def populate_namepart_roles_model(self):
-        namepart_roles_model = Gtk.ListStore(int, str)
-        namepart_roles_list = enum_retrieve_valid_values("t_person_name_part_role")
-        counter = 0
-        for namepart_role in namepart_roles_list:
-            namepart_roles_model.append([counter,namepart_role])
-            counter += 1
-        return namepart_roles_model
-
-    def populate_name_roles_model(self):
-        name_roles_model = Gtk.ListStore(int, str)
-        nameroles_list = enum_retrieve_valid_values("t_person_name_role")
-        counter = 0
-        for namerole in nameroles_list:
-            name_roles_model.append([counter,namerole])
-            counter += 1
-        return name_roles_model
 
     @transactional
     def save_dao(self, widget):
@@ -179,31 +161,30 @@ class PersonWindow(MDOWindow):
             person.save()
             name_iter = self.namepart_treestore.iter_next(name_iter)
 
-        show_info_dialog(None, "Person inserted")
+        show_info_dialog(self.main_window , "Person inserted")
         person.save()
         self.dao = person
         self.dao.load()
         self.parent_callback()
 
     def get_active_name_role(self):
-        name_combobox_iter = self.name_role_combobox.get_active_iter()
-        if name_combobox_iter is not None:
-            model = self.name_roles_model
-            name = model[name_combobox_iter][:2]
-        else:
-            name = self.name_role_combobox.get_child()
-        return name
+        return self.name_role_combobox_widget.get_active_entry_visible()
+
+    def get_active_namepart_role(self):
+        return self.name_part_combobox_widget.get_active_entry_visible()
 
     def get_active_name_treestore(self):
         model, tree_iter = self.nameparts_treeview.get_selection().get_selected()
         return tree_iter
 
     def add_name(self, widget):
-        name_role_id, name_role_value = self.get_active_name_role()
+        #name_role_id, name_role_value = self.get_active_name_role()
+        name_role_value = self.get_active_name_role()
         self.namepart_treestore.append(None, [None, name_role_value, None])
 
     def add_name_part(self,widget):
-        (namepart_role_id, namepart_role_value) = self.get_active_namepart_role()
+        #(namepart_role_id, namepart_role_value) = self.get_active_namepart_role()
+        namepart_role_value = self.get_active_namepart_role()
         tree_iter = self.get_active_name_treestore()
 
         if tree_iter is None:
@@ -214,24 +195,19 @@ class PersonWindow(MDOWindow):
             show_error_dialog(self.main_window, "Error: name part can be added to a root element only")
             return
 
+        if self.namepart_role_value_entry.get_entry_value() is None:
+            show_error_dialog(self.main_window, "Error: name part cannot be empty!")
+            return
+
         self.namepart_treestore.append(tree_iter,
                                        [None, namepart_role_value,
-                                        self.namepart_role_value_entry.get_text()])
-        self.namepart_role_value_entry.set_text('')
+                                        self.namepart_role_value_entry.get_entry_value()])
+        self.namepart_role_value_entry.set_entry_value('')
 
     # NamePart
     def delete_name_part(self, widget):
         model, tree_iter = self.nameparts_treeview.get_selection().get_selected()
         model.remove(tree_iter)
-
-    def get_active_namepart_role(self):
-        tree_iter = self.namepart_role_combobox.get_active_iter()
-        if tree_iter is not None:
-            model = self.namepart_role_combobox.get_model()
-            name = model[tree_iter][:2]
-        else:
-            name = self.namepart_role_combobox.get_child()
-        return name
 
     def create_namepart_treeview(self):
         self.namepart_treestore = Gtk.TreeStore(str, str, str)

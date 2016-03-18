@@ -33,6 +33,7 @@ class MDMask(Gtk.Grid):
         mask_store.append([4, "Country"])
 
         self.mask_combo = Gtk.ComboBox.new_with_model_and_entry(mask_store)
+
         self.mask_combo.set_entry_text_column(1)
         self.mask_combo.connect("changed", self.mask_combo_changed)
         vbox.pack_start(self.mask_combo, False, False, 0)

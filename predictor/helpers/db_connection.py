@@ -39,7 +39,7 @@ def get_uuid_from_database():
 
 
 def enum_retrieve_valid_values(enum_type):
-    enum_values_list=[]
+    enum_values_list = []
     cur = get_db_connection().cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
     cur.execute("""
             select
@@ -57,7 +57,9 @@ def enum_retrieve_valid_values(enum_type):
             where
                 t.typname='%s'
             """ % enum_type)
+    counter = 0
     for enum_values in cur.fetchall():
-        enum_values_list.append(enum_values.enum_value)
+        enum_values_list.append([counter, enum_values.enum_value])
+        counter += 1
     cur.close()
     return enum_values_list

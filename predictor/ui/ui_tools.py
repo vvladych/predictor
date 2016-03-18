@@ -3,6 +3,7 @@ from gi.repository import Gtk
 import time
 import datetime
 from predictor.model.DAO import DAOList
+from predictor.helpers.db_connection import enum_retrieve_valid_values
 
 
 class TreeviewColumn(object):
@@ -40,37 +41,47 @@ def show_error_dialog(main_window, message):
     
 class DateWidget(Gtk.Grid):
     
-    def __init__(self):
+    def __init__(self, title=None):
         Gtk.Grid.__init__(self)
+        if title is not None:
+            self.title_label = Gtk.Label(title)
+            self.title_label.set_size_request(200, -1)
+            self.title_label.set_alignment(xalign=0, yalign=0.5)
+
         self.day_text_entry = Gtk.Entry()
         self.month_text_entry = Gtk.Entry()
         self.year_text_entry = Gtk.Entry()
         self.create_date_grid(True)
 
     def create_date_grid(self, show_calendar=False):
-        self.set_column_spacing(5)
-        self.day_text_entry.set_max_length(2)
+        self.set_column_spacing(1)
+        self.day_text_entry.set_max_width_chars(2)
         self.day_text_entry.set_width_chars(2)
-        self.day_text_entry.set_hexpand(False)
-
-        self.attach(self.day_text_entry, 0, 0, 1, 1)
-            
-        self.month_text_entry.set_max_length(2)
+        self.month_text_entry.set_max_width_chars(2)
         self.month_text_entry.set_width_chars(2)
-        self.attach_next_to(self.month_text_entry, self.day_text_entry, Gtk.PositionType.RIGHT, 1, 1)
-        
-        self.year_text_entry.set_max_length(4)
+        self.year_text_entry.set_max_width_chars(4)
         self.year_text_entry.set_width_chars(4)
+
+        column = 0
+
+        if self.title_label is not None:
+            self.attach(self.title_label, column, 0, 1, 1)
+            column += 1
+
+        self.attach(self.day_text_entry, column, 0, 1, 1)
+        self.attach_next_to(Gtk.Label("DD"), self.day_text_entry, Gtk.PositionType.BOTTOM, 1, 1)
+
+        self.attach_next_to(self.month_text_entry, self.day_text_entry, Gtk.PositionType.RIGHT, 1, 1)
+        self.attach_next_to(Gtk.Label("MM"), self.month_text_entry, Gtk.PositionType.BOTTOM, 1, 1)
+
         self.attach_next_to(self.year_text_entry, self.month_text_entry, Gtk.PositionType.RIGHT, 1, 1)
-        
-        self.attach(Gtk.Label("DD"), 0, 1, 1, 1)
-        self.attach(Gtk.Label("MM"), 1, 1, 1, 1)
-        self.attach(Gtk.Label("YYYY"), 2, 1, 1, 1)
-        
+        self.attach_next_to(Gtk.Label("YYYY"), self.year_text_entry, Gtk.PositionType.BOTTOM, 1, 1)
+
         if show_calendar:
             pick_date_button=Gtk.Button("Pick date")
-            self.attach(pick_date_button, 3, 0, 1, 1)
+            self.attach_next_to(pick_date_button, self.year_text_entry, Gtk.PositionType.RIGHT, 1, 1)
             pick_date_button.connect("clicked", self.show_calendar)
+
 
     def show_calendar(self, widget ):
         self.calendar_window = Gtk.Dialog()
@@ -156,30 +167,30 @@ class TextEntryWidget(Gtk.Grid):
         return self.textentry.get_text()
 
     def set_entry_value(self, text_entry_value):
-        self.textentry.set_text("%s" % text_entry_value)
+        if text_entry_value is not None:
+            self.textentry.set_text("%s" % text_entry_value)
 
 
 class ComboBoxWidget(Gtk.Grid):
 
-    def __init__(self, title, dao):
+    def __init__(self, title, list_to_load):
         Gtk.Grid.__init__(self)
         title_label = Gtk.Label(title)
         title_label.set_size_request(200, -1)
         title_label.set_alignment(xalign=0, yalign=0.5)
         self.attach(title_label, 0, 0, 1 ,1)
-
-        self.model = self.populate_model(dao)
+        self.model = Gtk.ListStore(str, str)
+        self.populate_model(list_to_load)
         self.combobox = Gtk.ComboBox.new_with_model_and_entry(self.model)
         self.combobox.set_entry_text_column(1)
         self.attach(self.combobox, 1, 0, 1, 1)
 
-    def populate_model(self, dao):
-        combobox_model = Gtk.ListStore(str, str)
-        entries = DAOList(dao)
-        entries.load()
-        for p in entries:
-            combobox_model.append(["%s" % p.uuid, "%s" % p.commonname])
-        return combobox_model
+    def populate_model(self, list_to_load):
+        for p in list_to_load:
+            self.add_entry(p)
+
+    def add_entry(self, p):
+        raise NotImplementedError("add_entry still not implemented!")
 
     def set_active_entry(self, entry_key):
         model_iter = self.model.get_iter_first()
@@ -198,9 +209,45 @@ class ComboBoxWidget(Gtk.Grid):
         tree_iter = self.combobox.get_active_iter()
         if tree_iter is not None:
             model = self.combobox.get_model()
-            entry_key = model[tree_iter][:2]
-            return entry_key[0]
+            (entry_key, entry_value) = model[tree_iter][:2]
+            return entry_key
         return None
+
+    def get_active_entry_visible(self):
+        tree_iter = self.combobox.get_active_iter()
+        if tree_iter is not None:
+            model = self.combobox.get_model()
+            entry_key = model[tree_iter][:2]
+            return entry_key[1]
+        return None
+
+    def get_entry_key_for_value(self, entry_value):
+        model_iter = self.model.get_iter_first()
+
+        found = False
+        entry_key = None
+        while model_iter is not None and self.model.iter_is_valid(model_iter):
+            if entry_value == self.model.get_value(model_iter, 1):
+                entry_key = self.model.get_value(model_iter, 0)
+                found = True
+                break
+            model_iter = self.model.iter_next(model_iter)
+        return entry_key
+
+
+class DAOComboBoxWidget(ComboBoxWidget):
+    dao = None
+    def __init__(self, title):
+        daos = DAOList(self.__class__.dao)
+        daos.load()
+        ComboBoxWidget.__init__(self, title, daos)
+
+
+class DBEnumComboBoxWidget(ComboBoxWidget):
+    enum_type = None
+    def __init__(self, title):
+        enumlist = enum_retrieve_valid_values(self.__class__.enum_type)
+        ComboBoxWidget.__init__(self, title, enumlist)
 
 
 def toolbutton_factory(stock_item=None, tooltip_text="", clicked_action=None) -> Gtk.ToolButton:

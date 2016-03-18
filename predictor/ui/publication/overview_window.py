@@ -6,9 +6,15 @@ Created on 20.08.2015
 
 from gi.repository import Gtk
 
-from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextViewWidget, ComboBoxWidget
+from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextViewWidget, DAOComboBoxWidget
 from predictor.model.predictor_model import PublisherDAO, PublicationDAO, PublicationtextDAO
 from predictor.helpers.transaction_broker import transactional
+
+
+class PublisherComboBoxWidget(DAOComboBoxWidget):
+    dao = PublisherDAO
+    def add_entry(self, publisher):
+        self.model.append(["%s" % publisher.uuid, "%s" % publisher.commonname])
 
 
 class PublicationOverviewWindow(Gtk.Grid):
@@ -35,17 +41,13 @@ class PublicationOverviewWindow(Gtk.Grid):
         
         row += 1
 
-        self.publisher_combobox_widget = ComboBoxWidget("Publisher", PublisherDAO)
+        self.publisher_combobox_widget = PublisherComboBoxWidget("Publisher")
         self.attach(self.publisher_combobox_widget, 0, row, 2, 1)
         
         row += 1
 
-        publication_date_label = Gtk.Label("Publication Date")
-        publication_date_label.set_justify(Gtk.Justification.LEFT)
-        self.attach(publication_date_label, 0, row, 1, 1)
-
-        self.publication_date_widget = DateWidget()
-        self.attach(self.publication_date_widget, 1, row, 1, 1)
+        self.publication_date_widget = DateWidget("Publication Date")
+        self.attach(self.publication_date_widget, 0, row, 2, 1)
 
         row += 1
 
