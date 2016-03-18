@@ -86,21 +86,13 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
         pit_label.set_justify(Gtk.Justification.LEFT)
         layout_grid.attach(pit_label,0,row,1,1)
 
-        begin_pit_label = Gtk.Label("Begin")
-        begin_pit_label.set_justify(Gtk.Justification.LEFT)
-        layout_grid.attach(begin_pit_label,1,row,1,1)
-
-        self.state_begin_date_widget = DateWidget()
-        layout_grid.attach(self.state_begin_date_widget, 2, row, 1, 1)
+        self.state_begin_date_widget = DateWidget("Begin")
+        layout_grid.attach(self.state_begin_date_widget, 1, row, 1, 1)
 
         row += 1
 
-        end_pit_label=Gtk.Label("End")
-        end_pit_label.set_justify(Gtk.Justification.LEFT)
-        layout_grid.attach(end_pit_label, 1, row, 1, 1)
-
-        self.state_end_date_widget = DateWidget()
-        layout_grid.attach(self.state_end_date_widget, 2, row, 1, 1)
+        self.state_end_date_widget = DateWidget("End")
+        layout_grid.attach(self.state_end_date_widget, 1, row, 1, 1)
 
         row += 2
 
