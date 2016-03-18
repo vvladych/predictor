@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="55dd191c-26d7-44ee-bb6e-9e18ad298529" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/predictor/model/DAO.py" afterPath="$PROJECT_DIR$/predictor/model/DAO.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/predictor/model/predictor_model.py" afterPath="$PROJECT_DIR$/predictor/model/predictor_model.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/predictor/ui/prediction/main_mask.py" afterPath="$PROJECT_DIR$/predictor/ui/prediction/main_mask.py" />
     </list>
     <ignored path="predictor.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -59,12 +59,34 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="predictor_model.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="predictor_model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/predictor/model/predictor_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5660377">
-              <caret line="83" column="86" selection-start-line="83" selection-start-column="86" selection-end-line="83" selection-end-column="86" />
+            <state vertical-scroll-proportion="-17.607143">
+              <caret line="247" column="37" selection-start-line="247" selection-start-column="6" selection-end-line="247" selection-end-column="37" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="overview_window.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/predictor/ui/prediction/overview_window.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main_mask.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/predictor/ui/prediction/main_mask.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.07364976">
+              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+              <folding>
+                <element signature="e#50#79#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -140,6 +162,7 @@
         <option value="$PROJECT_DIR$/predictor/ui/prediction/textmodel/tmstatement.py" />
         <option value="$PROJECT_DIR$/predictor/model/DAO.py" />
         <option value="$PROJECT_DIR$/predictor/model/predictor_model.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/main_mask.py" />
       </list>
     </option>
   </component>
@@ -221,6 +244,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="predictor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="predictor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="predictor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="prediction" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -450,12 +495,6 @@
       <created>1456003020171</created>
       <option name="number" value="Default" />
       <updated>1456003020171</updated>
-    </task>
-    <task id="LOCAL-00003" summary="textmodel functionality finalized">
-      <created>1456700508125</created>
-      <option name="number" value="00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1456700508125</updated>
     </task>
     <task id="LOCAL-00004" summary="textmodel statement implemented as exttreeview, refactoring">
       <created>1456787265103</created>
@@ -745,7 +784,13 @@
       <option name="project" value="LOCAL" />
       <updated>1458339907720</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="refactoring joined dao objects: simplified access to joined daos">
+      <created>1458340951527</created>
+      <option name="number" value="00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1458340951527</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -787,7 +832,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="name and namepart handling for person" />
     <MESSAGE value="removed outdated person module" />
     <MESSAGE value="added organisation to masterdata" />
     <MESSAGE value="added publisher to masterdata, removed outdated files" />
@@ -812,7 +856,8 @@
     <MESSAGE value="added country to organisation" />
     <MESSAGE value="bugfix: orphaned gtk dialogs for masterdata fixed" />
     <MESSAGE value="bugfix: tmstatement dialog fixed, date label" />
-    <option name="LAST_COMMIT_MESSAGE" value="bugfix: tmstatement dialog fixed, date label" />
+    <MESSAGE value="refactoring joined dao objects: simplified access to joined daos" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactoring joined dao objects: simplified access to joined daos" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -989,24 +1034,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/predictor/ui/prediction/main_mask.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="33" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/predictor/ui/base/masterdata_abstract_window.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="51" column="6" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/predictor/ui/prediction/overview_window.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="46" selection-end-column="57" />
         </state>
       </provider>
     </entry>
@@ -1086,6 +1117,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6628478">
           <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding>
+            <element signature="e#1#63#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1166,7 +1200,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="94" column="60" selection-start-line="94" selection-start-column="60" selection-end-line="94" selection-end-column="76" />
           <folding>
-            <element signature="e#0#29#0" expanded="true" />
+            <element signature="e#0#29#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1231,9 +1265,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/predictor/model/predictor_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5660377">
-          <caret line="83" column="86" selection-start-line="83" selection-start-column="86" selection-end-line="83" selection-end-column="86" />
+        <state vertical-scroll-proportion="-17.607143">
+          <caret line="247" column="37" selection-start-line="247" selection-start-column="6" selection-end-line="247" selection-end-column="37" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/prediction/overview_window.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/prediction/main_mask.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.07364976">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding>
+            <element signature="e#50#79#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -6,7 +6,7 @@ Created on 14.03.2015
 
 from gi.repository import Gtk
 
-from predictor.model.predictor_model import PredictionDAO
+from predictor.model.predictor_model import PredictionDAO, PredictionPublicationPublisherV
 from predictor.ui.base.abstract_mask import AbstractMask
 from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
 from predictor.ui.prediction.add_dialog import PredictionNewDialog
@@ -16,15 +16,16 @@ from predictor.ui.ui_tools import show_info_dialog
 
 class PredictionExtTreeview(ExtendedTreeView):
 
-    dao_type = PredictionDAO
+    dao_type = PredictionPublicationPublisherV
 
     columns = [TreeviewColumn("uuid", 0, True),
-               TreeviewColumn("Publisher", 1, False),
+               TreeviewColumn("Common name", 1, False),
                TreeviewColumn("Date", 2, False),
-               TreeviewColumn("Prediction", 3, False)]
+               TreeviewColumn("Publication", 3, False),
+               TreeviewColumn("Publisher", 4, False)]
 
     def append_treedata_row(self, row):
-        self.treeview.treemodel.append(["%s" % row.uuid, "publisher", "%s" % row.created_date, "%s" % row.commonname])
+        self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.commonname, "%s" % row.created_date, "%s" % row.publication_title, "%s" % row.publisher_commonname])
 
     def on_menu_item_new(self, widget):
         new_prediction_dialog = PredictionNewDialog(self.main_window)
