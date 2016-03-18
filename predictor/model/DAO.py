@@ -155,6 +155,17 @@ class DAO(object):
             pass
         self.__is_persisted = False
 
+    def get_joined_dao(self, dao_to_dao_type, joined_dao_type):
+        joined_dao = None
+        joined_dao_list = getattr(self, dao_to_dao_type)
+
+        if joined_dao_list is not None and len(joined_dao_list) > 0:
+            dao_to_dao = list(joined_dao_list)[0]
+            joined_dao_uuid = dao_to_dao.secDAO_uuid
+            joined_dao = joined_dao_type(joined_dao_uuid)
+            joined_dao.load()
+        return joined_dao
+
 
 class VDAO(DAO):
 

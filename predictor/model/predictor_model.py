@@ -54,13 +54,7 @@ class OrganisationDAO(DAO):
         self.OrganisationtoCountry.add(OrganisationtoCountry(self.uuid, country.uuid))
 
     def get_country(self):
-        country = None
-        if len(self.OrganisationtoCountry) > 0:
-            organisation_to_country = list(self.OrganisationtoCountry)[0]
-            country_uuid = organisation_to_country.secDAO_uuid
-            country = CountryDAO(country_uuid)
-            country.load()
-        return country
+        return self.get_joined_dao("OrganisationtoCountry", CountryDAO)
 
 
 class PublicationtoPublisher(DAOtoDAO):
@@ -87,25 +81,13 @@ class PublicationDAO(DAO):
         self.PublicationtoPublicationtext.add(PublicationtoPublicationtext(self.uuid, publicationtext.uuid))
 
     def get_publicationtext(self):
-        publicationtext = None
-        if len(self.PublicationtoPublicationtext) > 0:
-            publication_to_publicationtext = list(self.PublicationtoPublicationtext)[0]
-            publicationtext_uuid = publication_to_publicationtext.secDAO_uuid
-            publicationtext = PublicationtextDAO(publicationtext_uuid)
-            publicationtext.load()
-        return publicationtext
+        return self.get_joined_dao("PublicationtoPublicationtext", PublicationtextDAO)
 
     def add_publisher(self, publisher):
         self.PublicationtoPublisher.add(PublicationtoPublisher(self.uuid, publisher.uuid))
 
     def get_publisher(self):
-        publisher = None
-        if len(self.PublicationtoPublisher) > 0:
-            publication_to_publisher = list(self.PublicationtoPublisher)[0]
-            publisher_uuid = publication_to_publisher.secDAO_uuid
-            publisher = PublisherDAO(publisher_uuid)
-            publisher.load()
-        return publisher
+        return self.get_joined_dao("PublicationtoPublisher", PublisherDAO)
 
 
 class PublishertoCountry(DAOtoDAO):
