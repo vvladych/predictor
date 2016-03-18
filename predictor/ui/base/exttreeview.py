@@ -1,4 +1,5 @@
 from gi.repository import Gtk
+from gi.repository import Pango
 
 from predictor.model.DAO import DAOListl
 from predictor.helpers.transaction_broker import transactional
@@ -147,6 +148,8 @@ class CustomTreeview(Gtk.TreeView):
         if c.hidden:
             column.set_visible(False)
         renderer = Gtk.CellRendererText()
+        renderer.set_property("width-chars", 40)
+        renderer.set_property("ellipsize", Pango.EllipsizeMode.END)
         column.pack_start(renderer, True)
         column.add_attribute(renderer, "text", counter)
         column.set_resizable(True)
