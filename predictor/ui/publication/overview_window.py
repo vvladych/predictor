@@ -13,6 +13,7 @@ from predictor.helpers.transaction_broker import transactional
 
 class PublisherComboBoxWidget(DAOComboBoxWidget):
     dao = PublisherDAO
+
     def add_entry(self, publisher):
         self.model.append(["%s" % publisher.uuid, "%s" % publisher.commonname])
 

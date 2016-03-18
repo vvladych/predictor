@@ -1,6 +1,5 @@
 from gi.repository import Gtk
 
-from predictor.helpers.db_connection import enum_retrieve_valid_values
 from predictor.helpers.transaction_broker import transactional
 from predictor.model.predictor_model import PersonDAO, PersonnameDAO, PersonnamepartDAO
 from predictor.ui.base.abstract_mask import AbstractMask

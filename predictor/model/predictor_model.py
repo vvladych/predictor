@@ -53,6 +53,15 @@ class OrganisationDAO(DAO):
     def add_country(self, country):
         self.OrganisationtoCountry.add(OrganisationtoCountry(self.uuid, country.uuid))
 
+    def get_country(self):
+        country = None
+        if len(self.OrganisationtoCountry) > 0:
+            organisation_to_country = list(self.OrganisationtoCountry)[0]
+            country_uuid = organisation_to_country.secDAO_uuid
+            country = CountryDAO(country_uuid)
+            country.load()
+        return country
+
 
 class PublicationtoPublisher(DAOtoDAO):
     entity = "publication_to_publisher"
