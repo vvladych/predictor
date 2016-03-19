@@ -1,11 +1,6 @@
-from gi.repository import Gtk
-
+from .pkg import *
 from predictor.helpers.transaction_broker import transactional
 from predictor.model.predictor_model import PersonDAO, PersonnameDAO, PersonnamepartDAO
-from predictor.ui.base.abstract_mask import AbstractMask
-from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
-from predictor.ui.ui_tools import show_info_dialog, show_error_dialog, DateWidget, TextEntryWidget, add_column_to_treeview, DBEnumComboBoxWidget
-from predictor.ui.masterdata.mdo_window import MDOWindow
 
 
 class NamepartEnumComboBoxWidget(DBEnumComboBoxWidget):
