@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="55dd191c-26d7-44ee-bb6e-9e18ad298529" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/predictor/ui/masterdata/person.py" afterPath="$PROJECT_DIR$/predictor/ui/masterdata/person.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/predictor/ui/masterdata/pkg.py" afterPath="$PROJECT_DIR$/predictor/ui/masterdata/pkg.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/predictor/ui/publication/overview_window.py" afterPath="$PROJECT_DIR$/predictor/ui/publication/overview_window.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/predictor/ui/ui_tools.py" afterPath="$PROJECT_DIR$/predictor/ui/ui_tools.py" />
     </list>
@@ -27,11 +25,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="person.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="person.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/person.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36824876">
-              <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="32" column="48" selection-start-line="32" selection-start-column="48" selection-end-line="32" selection-end-column="48" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -43,13 +41,11 @@
         <entry file="file://$PROJECT_DIR$/predictor/ui/ui_tools.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="255" column="0" selection-start-line="255" selection-start-column="0" selection-end-line="255" selection-end-column="0" />
+              <caret line="143" column="40" selection-start-line="143" selection-start-column="40" selection-end-line="143" selection-end-column="40" />
               <folding>
                 <element signature="e#1#30#0" expanded="true" />
                 <element signature="e#1176#4497#0" expanded="false" />
-                <element signature="e#4537#5480#0" expanded="false" />
-                <element signature="e#5521#6265#0" expanded="false" />
-                <element signature="e#8784#8940#0" expanded="false" />
+                <element signature="e#9145#9301#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -59,18 +55,20 @@
         <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/pkg.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="3" column="170" selection-start-line="3" selection-start-column="170" selection-end-line="3" selection-end-column="170" />
+              <caret line="3" column="98" selection-start-line="3" selection-start-column="83" selection-end-line="3" selection-end-column="98" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="overview_window.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="overview_window.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/predictor/ui/publication/overview_window.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="108" column="0" selection-start-line="108" selection-start-column="0" selection-end-line="108" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.60229135">
+              <caret line="70" column="51" selection-start-line="70" selection-start-column="51" selection-end-line="70" selection-end-column="51" />
+              <folding>
+                <element signature="e#50#79#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -145,10 +143,10 @@
         <option value="$PROJECT_DIR$/predictor/ui/masterdata/country.py" />
         <option value="$PROJECT_DIR$/predictor/ui/masterdata/organisation.py" />
         <option value="$PROJECT_DIR$/predictor/ui/masterdata/publisher.py" />
-        <option value="$PROJECT_DIR$/predictor/ui/publication/overview_window.py" />
-        <option value="$PROJECT_DIR$/predictor/ui/ui_tools.py" />
         <option value="$PROJECT_DIR$/predictor/ui/masterdata/pkg.py" />
         <option value="$PROJECT_DIR$/predictor/ui/masterdata/person.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/ui_tools.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/publication/overview_window.py" />
       </list>
     </option>
   </component>
@@ -544,12 +542,6 @@
       <option name="number" value="Default" />
       <updated>1456003020171</updated>
     </task>
-    <task id="LOCAL-00008" summary="added size request to the abstract mask to prevent null size">
-      <created>1457214496716</created>
-      <option name="number" value="00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1457214496716</updated>
-    </task>
     <task id="LOCAL-00009" summary="bugfix masterdata person and organisation">
       <created>1457218538706</created>
       <option name="number" value="00009" />
@@ -838,7 +830,13 @@
       <option name="project" value="LOCAL" />
       <updated>1458600875096</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="added new custom widget for label">
+      <created>1458601334120</created>
+      <option name="number" value="00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1458601334120</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -880,7 +878,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="bugfix publication: success dialog crashed" />
     <MESSAGE value="bugfix textmodel: dao construction fixed" />
     <MESSAGE value="replaced outdated date handling with datewidget" />
     <MESSAGE value="masterdata refactoring: create organisation module" />
@@ -905,7 +902,8 @@
     <MESSAGE value="added ellipsizing to the treeview by default" />
     <MESSAGE value="package refactoring: added &quot;pkg&quot; to masterdata" />
     <MESSAGE value="refactoring combobox widgets for name part: added lambda func as parameter, removed unnecessary classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactoring combobox widgets for name part: added lambda func as parameter, removed unnecessary classes" />
+    <MESSAGE value="added new custom widget for label" />
+    <option name="LAST_COMMIT_MESSAGE" value="added new custom widget for label" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -940,9 +938,7 @@
           <folding>
             <element signature="e#1#30#0" expanded="true" />
             <element signature="e#1176#4497#0" expanded="false" />
-            <element signature="e#4537#5480#0" expanded="false" />
-            <element signature="e#5521#6265#0" expanded="false" />
-            <element signature="e#8784#8940#0" expanded="false" />
+            <element signature="e#9145#9301#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -961,9 +957,7 @@
           <folding>
             <element signature="e#1#30#0" expanded="true" />
             <element signature="e#1176#4497#0" expanded="false" />
-            <element signature="e#4537#5480#0" expanded="false" />
-            <element signature="e#5521#6265#0" expanded="false" />
-            <element signature="e#8784#8940#0" expanded="false" />
+            <element signature="e#9145#9301#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1177,6 +1171,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="247" column="37" selection-start-line="247" selection-start-column="6" selection-end-line="247" selection-end-column="37" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1297,24 +1292,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/predictor/ui/publication/overview_window.py">
+    <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/person.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="108" column="0" selection-start-line="108" selection-start-column="0" selection-end-line="108" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/predictor/ui/ui_tools.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="255" column="0" selection-start-line="255" selection-start-column="0" selection-end-line="255" selection-end-column="0" />
+          <caret line="32" column="48" selection-start-line="32" selection-start-column="48" selection-end-line="32" selection-end-column="48" />
           <folding>
-            <element signature="e#1#30#0" expanded="true" />
-            <element signature="e#1176#4497#0" expanded="false" />
-            <element signature="e#4537#5480#0" expanded="false" />
-            <element signature="e#5521#6265#0" expanded="false" />
-            <element signature="e#8784#8940#0" expanded="false" />
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1322,17 +1305,29 @@
     <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/pkg.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="3" column="170" selection-start-line="3" selection-start-column="170" selection-end-line="3" selection-end-column="170" />
+          <caret line="3" column="98" selection-start-line="3" selection-start-column="83" selection-end-line="3" selection-end-column="98" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/person.py">
+    <entry file="file://$PROJECT_DIR$/predictor/ui/ui_tools.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36824876">
-          <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="143" column="40" selection-start-line="143" selection-start-column="40" selection-end-line="143" selection-end-column="40" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#1#30#0" expanded="true" />
+            <element signature="e#1176#4497#0" expanded="false" />
+            <element signature="e#9145#9301#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/publication/overview_window.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.60229135">
+          <caret line="70" column="51" selection-start-line="70" selection-start-column="51" selection-end-line="70" selection-end-column="51" />
+          <folding>
+            <element signature="e#50#79#0" expanded="true" />
           </folding>
         </state>
       </provider>
