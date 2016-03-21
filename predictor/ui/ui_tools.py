@@ -3,7 +3,6 @@ from gi.repository import Gtk
 import time
 import datetime
 from predictor.model.DAO import DAOList
-from predictor.helpers.db_connection import enum_retrieve_valid_values
 
 
 class TreeviewColumn(object):
@@ -173,13 +172,14 @@ class TextEntryWidget(Gtk.Grid):
 
 class ComboBoxWidget(Gtk.Grid):
 
-    def __init__(self, title, list_to_load):
+    def __init__(self, title, list_to_load, append_func=None):
         Gtk.Grid.__init__(self)
         title_label = Gtk.Label(title)
         title_label.set_size_request(200, -1)
         title_label.set_alignment(xalign=0, yalign=0.5)
         self.attach(title_label, 0, 0, 1 ,1)
         self.model = Gtk.ListStore(str, str)
+        self.append_func = append_func
         self.populate_model(list_to_load)
         self.combobox = Gtk.ComboBox.new_with_model_and_entry(self.model)
         self.combobox.set_entry_text_column(1)
@@ -190,7 +190,10 @@ class ComboBoxWidget(Gtk.Grid):
             self.add_entry(p)
 
     def add_entry(self, p):
-        raise NotImplementedError("add_entry still not implemented!")
+        if self.append_func is not None:
+            self.model.append(self.append_func(p))
+        else:
+            raise NotImplementedError("add_entry still not implemented!")
 
     def set_active_entry(self, entry_key):
         model_iter = self.model.get_iter_first()
@@ -237,17 +240,11 @@ class ComboBoxWidget(Gtk.Grid):
 
 class DAOComboBoxWidget(ComboBoxWidget):
     dao = None
+
     def __init__(self, title):
         daos = DAOList(self.__class__.dao)
         daos.load()
         ComboBoxWidget.__init__(self, title, daos)
-
-
-class DBEnumComboBoxWidget(ComboBoxWidget):
-    enum_type = None
-    def __init__(self, title):
-        enumlist = enum_retrieve_valid_values(self.__class__.enum_type)
-        ComboBoxWidget.__init__(self, title, enumlist)
 
 
 def toolbutton_factory(stock_item=None, tooltip_text="", clicked_action=None) -> Gtk.ToolButton:

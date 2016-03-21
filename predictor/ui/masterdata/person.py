@@ -1,20 +1,7 @@
 from .pkg import *
 from predictor.helpers.transaction_broker import transactional
 from predictor.model.predictor_model import PersonDAO, PersonnameDAO, PersonnamepartDAO
-
-
-class NamepartEnumComboBoxWidget(DBEnumComboBoxWidget):
-    enum_type = "t_person_name_part_role"
-
-    def add_entry(self, p):
-        self.model.append(["%s" % p[0], p[1]])
-
-
-class NameroleEnumComboBoxWidget(DBEnumComboBoxWidget):
-    enum_type = "t_person_name_role"
-
-    def add_entry(self, p):
-        self.model.append(["%s" % p[0], p[1]])
+from predictor.helpers.db_connection import enum_retrieve_valid_values
 
 
 class PersonExtTreeview(ExtendedTreeView):
@@ -67,7 +54,9 @@ class PersonWindow(MDOWindow):
 
         row += 1
 
-        self.name_role_combobox_widget = NameroleEnumComboBoxWidget("Name role")
+        self.name_role_combobox_widget = ComboBoxWidget("Name role",
+                                                        enum_retrieve_valid_values("t_person_name_role"),
+                                                        lambda x: ["%s" % x[0], "%s" % x[1]])
         self.attach(self.name_role_combobox_widget, 0, row, 1, 1)
 
         name_add_button = Gtk.Button("Add", Gtk.STOCK_ADD)
@@ -84,7 +73,10 @@ class PersonWindow(MDOWindow):
         namepart_delete_button.connect("clicked", self.delete_name_part)
         self.attach(namepart_delete_button, 2, row, 1, 1)
 
-        self.name_part_combobox_widget = NamepartEnumComboBoxWidget("Namepart")
+        self.name_part_combobox_widget = ComboBoxWidget("Name role",
+                                                        enum_retrieve_valid_values("t_person_name_part_role"),
+                                                        lambda x: ["%s" % x[0], "%s" % x[1]])
+
         self.attach(self.name_part_combobox_widget, 0, row, 1, 1)
 
         row += 1
@@ -172,12 +164,10 @@ class PersonWindow(MDOWindow):
         return tree_iter
 
     def add_name(self, widget):
-        #name_role_id, name_role_value = self.get_active_name_role()
         name_role_value = self.get_active_name_role()
         self.namepart_treestore.append(None, [None, name_role_value, None])
 
     def add_name_part(self,widget):
-        #(namepart_role_id, namepart_role_value) = self.get_active_namepart_role()
         namepart_role_value = self.get_active_namepart_role()
         tree_iter = self.get_active_name_treestore()
 
@@ -198,7 +188,6 @@ class PersonWindow(MDOWindow):
                                         self.namepart_role_value_entry.get_entry_value()])
         self.namepart_role_value_entry.set_entry_value('')
 
-    # NamePart
     def delete_name_part(self, widget):
         model, tree_iter = self.nameparts_treeview.get_selection().get_selected()
         model.remove(tree_iter)
