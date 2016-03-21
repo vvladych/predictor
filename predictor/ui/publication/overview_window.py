@@ -106,7 +106,6 @@ class PublicationOverviewWindow(Gtk.Grid):
         publisher = self.publication.get_publisher()
         if publisher is not None:
             self.publisher_combobox_widget.set_active_entry(publisher.uuid)
-            #self.set_active_publisher(publisher.uuid)
 
     @transactional
     def save_publication_action(self, widget):

@@ -247,6 +247,14 @@ class DAOComboBoxWidget(ComboBoxWidget):
         ComboBoxWidget.__init__(self, title, daos)
 
 
+class LabelWidget(Gtk.Label):
+
+    def __init__(self, title):
+        Gtk.Label.__init__(self, title)
+        self.set_size_request(200, -1)
+        self.set_alignment(xalign=0, yalign=0.5)
+
+
 def toolbutton_factory(stock_item=None, tooltip_text="", clicked_action=None) -> Gtk.ToolButton:
     toolbutton = Gtk.ToolButton(stock_item)
     toolbutton.set_tooltip_text(tooltip_text)

@@ -46,11 +46,7 @@ class PersonWindow(MDOWindow):
 
         row += 1
 
-        # name
-        name_label = Gtk.Label("Name")
-        name_label.set_size_request(200, -1)
-        name_label.set_alignment(xalign=0, yalign=0.5)
-        self.attach(name_label, 0, row, 1, 1)
+        self.attach(LabelWidget("Name"), 0, row, 1, 1)
 
         row += 1
 
