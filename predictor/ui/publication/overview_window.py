@@ -22,16 +22,16 @@ class PublicationOverviewWindow(Gtk.Grid):
     
     def __init__(self, main_window, publication=None, callback=None):
         Gtk.Grid.__init__(self)
-        #self.set_row_spacing(3)
-        #self.set_column_spacing(3)
+        self.set_row_spacing(3)
+        self.set_column_spacing(3)
 
         self.main_window = main_window
         self.publication = publication
         self.create_layout()
-        """
+
         if publication is not None:
             self.load_publication()
-        """
+
         self.parent_callback = callback
         
     def create_layout(self):
@@ -75,6 +75,12 @@ class PublicationOverviewWindow(Gtk.Grid):
         save_publication_button = Gtk.Button("Save", Gtk.STOCK_SAVE)
         self.attach(save_publication_button, 1, row, 1, 1)
         save_publication_button.connect("clicked", self.save_publication_action)
+
+        placeholder_label = Gtk.Label("")
+        placeholder_label.set_size_request(400, 400)
+        placeholder_label.set_vexpand(True)
+        placeholder_label.set_hexpand(True)
+        self.attach(placeholder_label, 2, 0, 1, 9)
 
     def load_publication(self):
         self.publication_title_entry_widget.set_entry_value(self.publication.title)

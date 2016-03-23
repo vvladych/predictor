@@ -121,8 +121,9 @@ class DateWidget(Gtk.Grid):
 
 class TextViewWidget(Gtk.Grid):
 
-    def __init__(self, textview=None, model_text=None, title=None):
+    def __init__(self, textview=None, model_text=None, title=""):
         Gtk.Grid.__init__(self)
+
         label = Gtk.Label(title)
         label.set_alignment(xalign=0, yalign=0.5)
         label.set_size_request(200, -1)
@@ -131,7 +132,7 @@ class TextViewWidget(Gtk.Grid):
             self.textview = Gtk.TextView()
         else:
             self.textview = textview
-        #self.textview.set_size_request(500, -1)
+
         self.textview.set_wrap_mode(Gtk.WrapMode.WORD)
         self.model_text = model_text
 
@@ -140,13 +141,14 @@ class TextViewWidget(Gtk.Grid):
 
     def create_textview_widget(self):
         scrolledwindow = Gtk.ScrolledWindow()
+        scrolledwindow.set_size_request(800, 100)
         scrolledwindow.set_hexpand(True)
         scrolledwindow.set_vexpand(True)
+
         if self.model_text is not None:
             self.textview.get_buffer().set_text(self.model_text)
         scrolledwindow.add(self.textview)
         return scrolledwindow
-
 
     def get_textview_text(self):
         textbuffer = self.textview.get_buffer()
