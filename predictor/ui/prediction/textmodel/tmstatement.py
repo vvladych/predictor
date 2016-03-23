@@ -6,14 +6,14 @@ Created on 29.07.2015
 from gi.repository import Gtk
 from predictor.ui.ui_tools import TextViewWidget, DateWidget, show_info_dialog
 from predictor.helpers.transaction_broker import transactional
-from predictor.model.predictor_model import TextmodelDAO, TextmodelStatementV, TmstatementDAO
+from predictor.model.predictor_model import PredictionDAO, PredictionStatementV, TmstatementDAO
 from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
 
 
 class TextmodelStatementExtTreeview(ExtendedTreeView):
 
-    dao_type = TextmodelStatementV
-    columns = [TreeviewColumn("textmodel_uuid", 0, True),
+    dao_type = PredictionStatementV
+    columns = [TreeviewColumn("prediction_uuid", 0, True),
                TreeviewColumn("tmstatement_uuid", 1, True),
                TreeviewColumn("State PIT begin", 2, False),
                TreeviewColumn("State PIT end", 3, False),
@@ -33,17 +33,17 @@ class TextmodelStatementExtTreeview(ExtendedTreeView):
     def on_menu_item_delete(self, widget):
         row = super(TextmodelStatementExtTreeview, self).get_selected_row()
         if row is not None:
-            textmodel = TextmodelDAO(row[0])
-            textmodel.load()
+            prediction = PredictionDAO(row[0])
+            prediction.load()
             tmstatement = TmstatementDAO(row[1])
-            textmodel.remove_tmstatement(tmstatement)
-            textmodel.save()
+            prediction.remove_tmstatement(tmstatement)
+            prediction.save()
             self.fill_treeview(0)
 
 
 class TextmodelStatementAddDialog(Gtk.Dialog):
     
-    def __init__(self, parent, model, prediction):
+    def __init__(self, parent, prediction):
         Gtk.Dialog.__init__(self, "Model Dialog", None, 0,
             (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
              Gtk.STOCK_OK, Gtk.ResponseType.OK))
@@ -51,7 +51,7 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
         self.set_default_size(150, 400)
         layout_grid = Gtk.Grid()
         
-        self.textmodel = model
+        self.prediction = prediction
         self.main_window = parent
 
         self.overview_component = TextmodelStatementExtTreeview(self,
@@ -60,14 +60,14 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
                                                                  self.noop,
                                                                  self.noop,
                                                                  self.noop,
-                                                                 self.textmodel)
+                                                                 self.prediction)
 
         box = self.get_content_area()
 
         box.add(layout_grid)
 
         row = 0
-        label = Gtk.Label("prediction model(s)")
+        label = Gtk.Label("Statement(s)")
         layout_grid.attach(label, 0, row, 1, 1)
 
         row += 3
@@ -121,8 +121,8 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
         tmstm = TmstatementDAO(None, self.get_textmodel_statement_text(),
                                self.state_begin_date_widget.get_date(), self.state_end_date_widget.get_date())
         tmstm.save()
-        self.textmodel.add_tmstatement(tmstm)
-        self.textmodel.save()
+        self.prediction.add_tmstatement(tmstm)
+        self.prediction.save()
         show_info_dialog(None, "Add successful")
         self.overview_component.fill_treeview(0)
 

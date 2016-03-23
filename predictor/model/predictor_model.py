@@ -122,6 +122,12 @@ class PredictiontoTextmodel(DAOtoDAO):
     secDAO_PK = "textmodel_uuid"
 
 
+class PredictiontoTmstatement(DAOtoDAO):
+    entity = "prediction_to_tmstatement"
+    primDAO_PK = "prediction_uuid"
+    secDAO_PK = "tmstatement_uuid"
+
+
 class OriginatortoPerson(DAOtoDAO):
     entity = "originator_to_person"
     primDAO_PK = "originator_uuid"
@@ -163,7 +169,7 @@ class PredictionDAO(DAO):
     data_fields = ["uuid", "commonname", "short_description", "created_date"]
     entity = "prediction"
     join_objects = {"PredictiontoPublication": PredictiontoPublication,
-                    "PredictiontoTextmodel": PredictiontoTextmodel,
+                    "PredictiontoTmstatement": PredictiontoTmstatement,
                     "PredictiontoOriginator": PredictiontoOriginator }
     sortkey = "commonname"
 
@@ -177,11 +183,11 @@ class PredictionDAO(DAO):
         else:
             print("publication %s is not dedicated to prediction %s" %  (publication.uuid, self.uuid))
 
-    def add_textmodel(self, textmodel):
-        self.PredictiontoTextmodel.add(PredictiontoTextmodel(self.uuid, textmodel.uuid))
+    def add_tmstatement(self, tmstatement):
+        self.PredictiontoTmstatement.add(PredictiontoTmstatement(self.uuid, tmstatement.uuid))
 
-    def remove_textmodel(self, textmodel):
-        self.PredictiontoTextmodel.remove(PredictiontoTextmodel(self.uuid, textmodel.uuid))
+    def remove_tmstatement(self, tmstatement):
+        self.PredictiontoTmstatement.remove(PredictiontoTmstatement(self.uuid, tmstatement.uuid))
 
     def add_originator(self, originator):
         self.PredictiontoOriginator.add(PredictiontoOriginator(self.uuid, originator.uuid))
@@ -229,9 +235,9 @@ class TmstatementDAO(DAO):
         setattr(self, "tmend", tmend)
 
 
-class TextmodelStatementV(VDAO):
+class PredictionStatementV(VDAO):
     data_fields = ["uuid", "tmstatement_uuid", "tmbegin", "tmend", "text"]
-    entity = "public.\"textmodel_tmstatement_V\""
+    entity = "public.\"prediction_tmstatement_V\""
 
 
 class PredictionTextmodelV(VDAO):

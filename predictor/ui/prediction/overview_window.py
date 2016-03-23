@@ -10,7 +10,8 @@ from predictor.ui.prediction.publication.exttreeview import PredictionPublicatio
 from predictor.ui.prediction.textmodel.exttreeview import PredictionTextmodelExtTreeview
 from predictor.ui.prediction.publication.add_dialog import PublicationAddDialog
 from predictor.ui.prediction.originator.add_dialog import OriginatorAddDialog
-from predictor.ui.prediction.textmodel.add_dialog import TextModelAddDialog
+#from predictor.ui.prediction.textmodel.add_dialog import TextModelAddDialog
+from predictor.ui.prediction.textmodel.tmstatement import TextmodelStatementAddDialog, TextmodelStatementExtTreeview
 from predictor.ui.ui_tools import TextViewWidget, TextEntryWidget, LabelWidget
 from predictor.ui.prediction.originator.exttreeview import PredictionOriginatorExtTreeview
 
@@ -21,7 +22,7 @@ class PredictionOverviewWindow(Gtk.Grid):
         Gtk.Grid.__init__(self)
         self.main_window = main_window
         self.publication_overview_component = PredictionPublicationExtTreeview(main_window, 0, 20, None, None, self.show_publication_dialog, prediction)
-        self.textmodel_overview_component = PredictionTextmodelExtTreeview(main_window, 0, 20, None, None, self.show_textmodel_dialog, prediction)
+        self.tmstatement_overview_component = TextmodelStatementExtTreeview(main_window, 0, 20, None, None, self.show_tmstatement_dialog, prediction)
         self.originator_overview_component = PredictionOriginatorExtTreeview(main_window, 0, 20, None, None, self.show_originator_dialog, prediction)
         self.prediction = prediction
         self.create_layout()
@@ -71,11 +72,11 @@ class PredictionOverviewWindow(Gtk.Grid):
 
         row += 3
         # prediction model
-        self.attach(LabelWidget("Model"), 0, row, 2, 1)
+        self.attach(LabelWidget("Statements"), 0, row, 2, 1)
 
         row += 1
 
-        self.attach(self.textmodel_overview_component, 0, row, 2, 1)
+        self.attach(self.tmstatement_overview_component, 0, row, 2, 1)
 
         row += 1
         self.attach(Gtk.Label(""), 0, row, 3, 1)
@@ -98,8 +99,8 @@ class PredictionOverviewWindow(Gtk.Grid):
         dialog.destroy()
         self.originator_overview_component.fill_treeview(0)
 
-    def show_textmodel_dialog(self):
-        dialog = TextModelAddDialog(self.main_window, self.prediction)
+    def show_tmstatement_dialog(self):
+        dialog = TextmodelStatementAddDialog(self.main_window, self.prediction)
         dialog.run()
         dialog.destroy()
-        self.textmodel_overview_component.fill_treeview(0)
+        self.tmstatement_overview_component.fill_treeview(0)
