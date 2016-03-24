@@ -4,7 +4,7 @@ Created on 29.07.2015
 @author: vvladych
 """
 from gi.repository import Gtk
-from predictor.ui.ui_tools import TextViewWidget, DateWidget, show_info_dialog
+from predictor.ui.ui_tools import TextViewWidget, DateWidget, show_info_dialog, LabelWidget
 from predictor.helpers.transaction_broker import transactional
 from predictor.model.predictor_model import PredictionDAO, PredictionStatementV, TmstatementDAO
 from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
@@ -50,6 +50,9 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
         
         self.set_default_size(150, 400)
         layout_grid = Gtk.Grid()
+
+        layout_grid.set_column_spacing(5)
+        layout_grid.set_row_spacing(3)
         
         self.prediction = prediction
         self.main_window = parent
@@ -67,24 +70,12 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
         box.add(layout_grid)
 
         row = 0
-        label = Gtk.Label("Statement(s)")
-        layout_grid.attach(label, 0, row, 1, 1)
 
-        row += 3
-
-        statement_label=Gtk.Label("Statement")
-        layout_grid.attach(statement_label, 0, row, 1, 1)
-
-        self.prediction_model_textview = Gtk.TextView()
-        self.prediction_model_textview_widget = TextViewWidget(self.prediction_model_textview)
-
-        layout_grid.attach(self.prediction_model_textview_widget, 1, row, 2, 1)
+        layout_grid.attach(LabelWidget("Statement(s)"), 0, row, 1, 1)
 
         row += 1
 
-        pit_label = Gtk.Label("Choose point-in-time")
-        pit_label.set_justify(Gtk.Justification.LEFT)
-        layout_grid.attach(pit_label,0,row,1,1)
+        layout_grid.attach(LabelWidget("Point-in-time"), 0, row, 1, 1)
 
         self.state_begin_date_widget = DateWidget("Begin")
         layout_grid.attach(self.state_begin_date_widget, 1, row, 1, 1)
@@ -94,15 +85,16 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
         self.state_end_date_widget = DateWidget("End")
         layout_grid.attach(self.state_end_date_widget, 1, row, 1, 1)
 
+        row += 3
+
+        self.prediction_model_textview_widget = TextViewWidget(None, None, "Statement")
+        layout_grid.attach(self.prediction_model_textview_widget, 1, row, 2, 1)
+
         row += 2
 
         add_statement_button = Gtk.Button("Add", Gtk.STOCK_ADD)
         layout_grid.attach(add_statement_button, 0, row, 1, 1)
         add_statement_button.connect("clicked", self.add_statement_action)
-
-        delete_button = Gtk.Button("Delete", Gtk.STOCK_DELETE)
-        delete_button.connect("clicked", self.delete_action)
-        layout_grid.attach(delete_button, 1, row, 1, 1)
 
         row += 3
 
@@ -113,12 +105,9 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
 
         self.show_all()
 
-    def get_textmodel_statement_text(self):
-        return self.prediction_model_textview_widget.get_textview_text()
-
     @transactional
     def add_statement_action(self, widget):
-        tmstm = TmstatementDAO(None, self.get_textmodel_statement_text(),
+        tmstm = TmstatementDAO(None, self.prediction_model_textview_widget.get_textview_text(),
                                self.state_begin_date_widget.get_date(), self.state_end_date_widget.get_date())
         tmstm.save()
         self.prediction.add_tmstatement(tmstm)
@@ -129,5 +118,3 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
     def noop(self, widget):
         pass
 
-    def delete_action(self, widget):
-        pass

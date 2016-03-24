@@ -11,7 +11,7 @@ class MainWindow(Gtk.Window):
 
     def __init__(self):
         Gtk.Window.__init__(self, title="Predictor")
-        self.set_default_size(800, 600)
+        self.set_default_size(1200, 800)
 
         # The main area, grid
         self.grid = Gtk.Grid()
