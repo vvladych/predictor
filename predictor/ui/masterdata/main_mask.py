@@ -12,6 +12,9 @@ class MDMask(Gtk.Grid):
     def __init__(self, main_window):
         Gtk.Grid.__init__(self)
 
+        self.set_column_spacing(5)
+        self.set_row_spacing(3)
+
         self.main_window = main_window
 
         self.attach(self.mask_chooser(), 0, 0, 1, 1)
@@ -20,12 +23,9 @@ class MDMask(Gtk.Grid):
         self.mask_combo.set_active(0)
 
     def mask_chooser(self):
-        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        grid = Gtk.Grid()
+        grid.attach(Gtk.Label(""), 0, 0, 1, 1)
 
-        # add empty Label
-        vbox.pack_start(Gtk.Label(" "), False, False, 0)
-
-        # add mask chooser
         mask_store = Gtk.ListStore(int, str)
         mask_store.append([1, "Person"])
         mask_store.append([2, "Organisation"])
@@ -33,11 +33,19 @@ class MDMask(Gtk.Grid):
         mask_store.append([4, "Country"])
 
         self.mask_combo = Gtk.ComboBox.new_with_model_and_entry(mask_store)
+        self.mask_combo.set_size_request(200, -1)
 
         self.mask_combo.set_entry_text_column(1)
         self.mask_combo.connect("changed", self.mask_combo_changed)
-        vbox.pack_start(self.mask_combo, False, False, 0)
-        return vbox
+        grid.attach(self.mask_combo, 1, 0, 1, 1)
+
+        placeholder_label = Gtk.Label("")
+        placeholder_label.set_size_request(200, -1)
+        placeholder_label.set_hexpand(True)
+
+        grid.attach(placeholder_label, 2, 0, 1, 1)
+
+        return grid
 
     def mask_combo_changed(self, mask_combo):
         if self.mask_combo.get_active() == 0:

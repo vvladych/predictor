@@ -60,7 +60,7 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
         self.overview_component = TextmodelStatementExtTreeview(self,
                                                                  0,
                                                                  20,
-                                                                 self.noop,
+                                                                 self.load_tmstatement,
                                                                  self.noop,
                                                                  self.noop,
                                                                  self.prediction)
@@ -117,4 +117,10 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
 
     def noop(self, widget):
         pass
+
+    def load_tmstatement(self, widget):
+        row = self.overview_component.get_selected_row()
+        self.state_begin_date_widget.set_date_from_string(row[2])
+        self.state_end_date_widget.set_date_from_string(row[3])
+        self.prediction_model_textview_widget.set_text(row[4])
 
