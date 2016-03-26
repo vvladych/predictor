@@ -183,6 +183,7 @@ class TextEntryWidget(Gtk.Grid):
             self.textentry.set_text("%s" % text_entry_value)
 
 
+
 class ComboBoxWidget(Gtk.Grid):
 
     def __init__(self, title, list_to_load, append_func=None):
@@ -260,12 +261,38 @@ class DAOComboBoxWidget(ComboBoxWidget):
         ComboBoxWidget.__init__(self, title, daos)
 
 
-class LabelWidget(Gtk.Label):
+class TextEntryFileChooserWidget(TextEntryWidget):
 
     def __init__(self, title):
-        Gtk.Label.__init__(self, title)
-        self.set_size_request(200, -1)
-        self.set_alignment(xalign=0, yalign=0.5)
+        TextEntryWidget.__init__(self, title)
+        choose_file_button = Gtk.Button("Choose File")
+        choose_file_button.connect("clicked", self.choose_file)
+        self.attach(choose_file_button, 2, 0, 1, 1)
+
+    def choose_file(self, widget):
+        file_chooser_dialog = Gtk.FileChooserDialog("Please choose a file", None,
+                                                    Gtk.FileChooserAction.OPEN,
+                                                    (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                                                     "Select", Gtk.ResponseType.OK))
+        file_chooser_dialog.set_default_size(400, 400)
+        response = file_chooser_dialog.run()
+        if response == Gtk.ResponseType.OK:
+            #print("chosen file: %s" % file_chooser_dialog.get_filename())
+            self.set_entry_value(file_chooser_dialog.get_filename())
+        elif response == Gtk.ResponseType.CANCEL:
+            print("Cancel")
+        else:
+            print("undefined")
+        file_chooser_dialog.destroy()
+
+class LabelWidget(Gtk.Grid):
+
+    def __init__(self, title):
+        Gtk.Grid.__init__(self)
+        label = Gtk.Label(title)
+        label.set_size_request(200, -1)
+        label.set_alignment(xalign=0, yalign=0.5)
+        self.attach(label, 0, 0, 1, 1)
 
 
 def toolbutton_factory(stock_item=None, tooltip_text="", clicked_action=None) -> Gtk.ToolButton:

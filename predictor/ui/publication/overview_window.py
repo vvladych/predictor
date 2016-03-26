@@ -6,7 +6,7 @@ Created on 20.08.2015
 
 from gi.repository import Gtk
 
-from predictor.ui.ui_tools import show_info_dialog, DateWidget, TextViewWidget, DAOComboBoxWidget, LabelWidget, TextEntryWidget
+from predictor.ui.ui_tools import show_info_dialog, DateWidget, TextViewWidget, DAOComboBoxWidget, LabelWidget, TextEntryWidget, ComboBoxWidget, TextEntryFileChooserWidget
 from predictor.model.predictor_model import PublisherDAO, PublicationDAO, PublicationtextDAO
 from predictor.helpers.transaction_broker import transactional
 
@@ -36,7 +36,7 @@ class PublicationOverviewWindow(Gtk.Grid):
         
     def create_layout(self):
         
-        row = 1
+        row = 0
         
         self.attach(LabelWidget("Publication"), 0, row, 2, 1)
 
@@ -57,13 +57,40 @@ class PublicationOverviewWindow(Gtk.Grid):
 
         row += 1
 
-        self.publication_file_entry_widget = TextEntryWidget("File")
+        self.publication_url_entry_widget = TextEntryWidget("URL")
+        self.attach(self.publication_url_entry_widget, 0, row, 1, 1)
+
+        row += 1
+
+        self.attach(LabelWidget("Publication File"), 0, row, 2, 1)
+
+        row += 1
+
+        self.publication_file_entry_widget = TextEntryFileChooserWidget("File")
         self.attach(self.publication_file_entry_widget, 0, row, 1, 1)
 
         row += 1
 
-        self.publication_url_entry_widget = TextEntryWidget("URL")
-        self.attach(self.publication_url_entry_widget, 0, row, 1, 1)
+        self.file_uuid_entry_widget = TextEntryWidget("File UUID")
+        self.attach(self.file_uuid_entry_widget, 0, row, 1, 1)
+
+        row += 1
+
+        choose_file_grid = Gtk.Grid()
+
+        self.filetype_combobox_widget = ComboBoxWidget("", ["application/pdf","text/html"], lambda x: [None, "%s" % x])
+        choose_file_grid.attach(self.filetype_combobox_widget, 1, 0, 1, 1)
+
+        preview_file_button = Gtk.Button("Preview")
+        preview_file_button.set_size_request(100, -1)
+        preview_file_button.connect("clicked", self.preview_file)
+        choose_file_grid.attach(preview_file_button, 2, 0, 1, 1)
+
+        self.attach(choose_file_grid, 0, row, 1, 1)
+
+        row += 1
+
+        self.attach(LabelWidget("Content"), 0, row, 2, 1)
 
         row += 1
 
@@ -80,7 +107,7 @@ class PublicationOverviewWindow(Gtk.Grid):
         placeholder_label.set_size_request(400, 400)
         placeholder_label.set_vexpand(True)
         placeholder_label.set_hexpand(True)
-        self.attach(placeholder_label, 2, 0, 1, 9)
+        self.attach(placeholder_label, 2, 0, 1, 11)
 
     def load_publication(self):
         self.publication_title_entry_widget.set_entry_value(self.publication.title)
@@ -126,3 +153,8 @@ class PublicationOverviewWindow(Gtk.Grid):
         self.publication.load()
         self.load_publication()
         self.parent_callback()
+
+    def preview_file(self, widget):
+        print("in preview file")
+
+
