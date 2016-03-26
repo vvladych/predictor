@@ -7,8 +7,10 @@ Created on 20.08.2015
 from gi.repository import Gtk
 
 from predictor.ui.ui_tools import show_info_dialog, DateWidget, TextViewWidget, DAOComboBoxWidget, LabelWidget, TextEntryWidget, ComboBoxWidget, TextEntryFileChooserWidget
-from predictor.model.predictor_model import PublisherDAO, PublicationDAO, PublicationtextDAO
+from predictor.model.predictor_model import PublisherDAO, PublicationDAO, PublicationtextDAO, BinaryfileDAO
 from predictor.helpers.transaction_broker import transactional
+import tempfile
+import subprocess
 
 
 class PublisherComboBoxWidget(DAOComboBoxWidget):
@@ -71,8 +73,8 @@ class PublicationOverviewWindow(Gtk.Grid):
 
         row += 1
 
-        self.file_uuid_entry_widget = TextEntryWidget("File UUID")
-        self.attach(self.file_uuid_entry_widget, 0, row, 1, 1)
+        self.binaryfile_uuid_entry_widget = TextEntryWidget("File UUID", None, False)
+        self.attach(self.binaryfile_uuid_entry_widget, 0, row, 1, 1)
 
         row += 1
 
@@ -121,11 +123,18 @@ class PublicationOverviewWindow(Gtk.Grid):
         if publisher is not None:
             self.publisher_combobox_widget.set_active_entry(publisher.uuid)
 
+        binaryfile = self.publication.get_binaryfile()
+        if binaryfile is not None:
+            self.publication_file_entry_widget.set_entry_value(binaryfile.filename)
+            self.binaryfile_uuid_entry_widget.set_entry_value(binaryfile.uuid)
+
     @transactional
     def save_publication_action(self, widget):
         publication_title = self.publication_title_entry_widget.get_entry_value()
         publication_text = self.textview_widget.get_textview_text()
-        publication_url = self.publication_url_entry_widget.get_text()
+        publication_url = self.publication_url_entry_widget.get_entry_value()
+        publication_binaryfile_name = self.publication_file_entry_widget.get_entry_value()
+        publication_binaryfile_type = self.filetype_combobox_widget.get_active_entry_visible()
                 
         # insert publication
         publication_uuid = None
@@ -146,6 +155,13 @@ class PublicationOverviewWindow(Gtk.Grid):
         publisher = PublisherDAO(publisher_uuid)
         publication.add_publisher(publisher)
 
+        binaryfile_DAO = BinaryfileDAO()
+        binaryfile_DAO.filecontent = open(publication_binaryfile_name, mode='rb').read()
+        binaryfile_DAO.filetype = publication_binaryfile_type
+        binaryfile_DAO.filename = publication_binaryfile_name
+        binaryfile_DAO.save()
+        publication.add_binaryfile(binaryfile_DAO)
+
         publication.save()
 
         show_info_dialog(None, "Publication inserted")
@@ -155,6 +171,13 @@ class PublicationOverviewWindow(Gtk.Grid):
         self.parent_callback()
 
     def preview_file(self, widget):
-        print("in preview file")
+        if self.publication is not None:
+            binaryfile = self.publication.get_binaryfile()
+            if binaryfile is not None:
+                if binaryfile.filetype == "application/pdf":
+                    tmpfile = tempfile.NamedTemporaryFile()
+                    tmpfile.write(binaryfile.filecontent)
+                    subprocess.call(["evince", tmpfile.name])
+                    tmpfile.close()
 
 

@@ -119,7 +119,8 @@ class DAO(object):
         for key in self.data_fields:
             fieldlist.append(key)
             if key in self.binary_fields:
-                data.append(psycopg2.Binary(bytes(getattr(self, key), "utf-8")))
+                #data.append(psycopg2.Binary(bytes(getattr(self, key), "utf-8")))
+                data.append(psycopg2.Binary(getattr(self, key),))
             else:
                 data.append(getattr(self, key))
         sql_save = self.sql_dict[DAO.__INSERT_OBJECT] % (self.entity, ",".join(fieldlist), ",".join(list(map(lambda x: "%s", data))))

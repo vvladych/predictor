@@ -69,11 +69,24 @@ class PublicationtoPublicationtext(DAOtoDAO):
     secDAO_PK = "publicationtext_uuid"
 
 
+class PublicationtoBinaryfile(DAOtoDAO):
+    entity = "publication_to_binaryfile"
+    primDAO_PK = "publication_uuid"
+    secDAO_PK = "binaryfile_uuid"
+
+
+class BinaryfileDAO(DAO):
+    data_fields = ["uuid", "filecontent", "filetype", "filename"]
+    entity = "binaryfile"
+    binary_fields = ["filecontent"]
+
+
 class PublicationDAO(DAO):
     data_fields = ["uuid", "date", "title", "url"]
     entity = "publication"
     join_objects = {"PublicationtoPublisher": PublicationtoPublisher,
-                    "PublicationtoPublicationtext": PublicationtoPublicationtext}
+                    "PublicationtoPublicationtext": PublicationtoPublicationtext,
+                    "PublicationtoBinaryfile": PublicationtoBinaryfile}
 
     sortkey = "date"
 
@@ -88,6 +101,13 @@ class PublicationDAO(DAO):
 
     def get_publisher(self):
         return self.get_joined_dao("PublicationtoPublisher", PublisherDAO)
+
+    def add_binaryfile(self, binaryfile):
+        self.PublicationtoBinaryfile.add(PublicationtoBinaryfile(self.uuid, binaryfile.uuid))
+
+    def get_binaryfile(self):
+        return self.get_joined_dao("PublicationtoBinaryfile", BinaryfileDAO)
+
 
 
 class PublishertoCountry(DAOtoDAO):
@@ -256,7 +276,3 @@ class PredictionPublicationPublisherV(VDAO):
     entity = "public.\"prediction_publication_publisher_V\""
 
 
-class Binaryfiles(DAO):
-    data_fields = ["uuid", "filecontent"]
-    entity = "binaryfiles_tst"
-    binary_fields = ["filecontent"]
