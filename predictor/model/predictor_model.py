@@ -254,3 +254,9 @@ class CountryDAO(DAO):
 class PredictionPublicationPublisherV(VDAO):
     data_fields = ["uuid", "commonname", "created_date", "publication_title", "publication_date", "publisher_commonname"]
     entity = "public.\"prediction_publication_publisher_V\""
+
+
+class Binaryfiles(DAO):
+    data_fields = ["uuid", "filecontent"]
+    entity = "binaryfiles_tst"
+    binary_fields = ["filecontent"]

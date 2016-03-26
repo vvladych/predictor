@@ -20,6 +20,7 @@ class DAO(object):
 
     entity = None
     data_fields = ["uuid"]
+    binary_fields = []
     join_objects = {}
     sortkey = "uuid"
 
@@ -111,14 +112,16 @@ class DAO(object):
         else:
             return False
 
-
     @consistcheck("insert")
     def __insert(self):
         fieldlist = []
         data = []
         for key in self.data_fields:
             fieldlist.append(key)
-            data.append(getattr(self, key))
+            if key in self.binary_fields:
+                data.append(psycopg2.Binary(bytes(getattr(self, key), "utf-8")))
+            else:
+                data.append(getattr(self, key))
         sql_save = self.sql_dict[DAO.__INSERT_OBJECT] % (self.entity, ",".join(fieldlist), ",".join(list(map(lambda x: "%s", data))))
         with dbcursor_wrapper(sql_save, data) as cursor:
             pass
