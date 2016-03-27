@@ -11,6 +11,7 @@ from predictor.model.predictor_model import PublisherDAO, PublicationDAO, Public
 from predictor.helpers.transaction_broker import transactional
 import tempfile
 import subprocess
+from predictor.helpers import config
 
 
 class PublisherComboBoxWidget(DAOComboBoxWidget):
@@ -127,6 +128,7 @@ class PublicationOverviewWindow(Gtk.Grid):
         if binaryfile is not None:
             self.publication_file_entry_widget.set_entry_value(binaryfile.filename)
             self.binaryfile_uuid_entry_widget.set_entry_value(binaryfile.uuid)
+            self.filetype_combobox_widget.set_active_entry(self.filetype_combobox_widget.get_entry_key_for_value(binaryfile.filetype))
 
     @transactional
     def save_publication_action(self, widget):
@@ -177,7 +179,5 @@ class PublicationOverviewWindow(Gtk.Grid):
                 if binaryfile.filetype == "application/pdf":
                     tmpfile = tempfile.NamedTemporaryFile()
                     tmpfile.write(binaryfile.filecontent)
-                    subprocess.call(["evince", tmpfile.name])
+                    subprocess.call([config.get('binaryfileviewer', 'application/pdf'), tmpfile.name])
                     tmpfile.close()
-
-
