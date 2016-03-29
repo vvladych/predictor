@@ -7,11 +7,12 @@ Created on 20.08.2015
 from gi.repository import Gtk
 
 from predictor.ui.ui_tools import show_info_dialog, DateWidget, TextViewWidget, DAOComboBoxWidget, LabelWidget, TextEntryWidget, ComboBoxWidget, TextEntryFileChooserWidget
-from predictor.model.predictor_model import PublisherDAO, PublicationDAO, PublicationtextDAO, BinaryfileDAO
+from predictor.model.predictor_model import PublisherDAO, PublicationDAO, PublicationtextDAO, BinaryfileDAO, LanguageDAO
 from predictor.helpers.transaction_broker import transactional
 import tempfile
 import subprocess
 from predictor.helpers import config
+import os
 
 
 class PublisherComboBoxWidget(DAOComboBoxWidget):
@@ -19,6 +20,14 @@ class PublisherComboBoxWidget(DAOComboBoxWidget):
 
     def add_entry(self, publisher):
         self.model.append(["%s" % publisher.uuid, "%s" % publisher.commonname])
+
+
+class LanguageComboBoxWidget(DAOComboBoxWidget):
+    dao = LanguageDAO
+
+    def add_entry(self, language):
+        self.model.append(["%s" % language.uuid, "%s" % language.commonname])
+
 
 
 class PublicationOverviewWindow(Gtk.Grid):
@@ -55,6 +64,11 @@ class PublicationOverviewWindow(Gtk.Grid):
 
         row += 1
 
+        self.language_combobox_widget = LanguageComboBoxWidget("Language")
+        self.attach(self.language_combobox_widget, 0, row, 1, 1)
+
+        row += 1
+
         self.publication_title_entry_widget = TextEntryWidget("Title")
         self.attach(self.publication_title_entry_widget, 0, row, 1, 1)
 
@@ -81,7 +95,7 @@ class PublicationOverviewWindow(Gtk.Grid):
 
         choose_file_grid = Gtk.Grid()
 
-        self.filetype_combobox_widget = ComboBoxWidget("", ["application/pdf","text/html"], lambda x: [None, "%s" % x])
+        self.filetype_combobox_widget = ComboBoxWidget("", ["application/pdf", "text/html"], lambda x: [None, "%s" % x])
         choose_file_grid.attach(self.filetype_combobox_widget, 1, 0, 1, 1)
 
         preview_file_button = Gtk.Button("Preview")
@@ -110,7 +124,7 @@ class PublicationOverviewWindow(Gtk.Grid):
         placeholder_label.set_size_request(400, 400)
         placeholder_label.set_vexpand(True)
         placeholder_label.set_hexpand(True)
-        self.attach(placeholder_label, 2, 0, 1, 11)
+        self.attach(placeholder_label, 2, 0, 1, 12)
 
     def load_publication(self):
         self.publication_title_entry_widget.set_entry_value(self.publication.title)
@@ -123,6 +137,10 @@ class PublicationOverviewWindow(Gtk.Grid):
         publisher = self.publication.get_publisher()
         if publisher is not None:
             self.publisher_combobox_widget.set_active_entry(publisher.uuid)
+
+        language = self.publication.get_language()
+        if language is not None:
+            self.language_combobox_widget.set_active_entry(language.uuid)
 
         binaryfile = self.publication.get_binaryfile()
         if binaryfile is not None:
@@ -157,12 +175,17 @@ class PublicationOverviewWindow(Gtk.Grid):
         publisher = PublisherDAO(publisher_uuid)
         publication.add_publisher(publisher)
 
-        binaryfile_DAO = BinaryfileDAO()
-        binaryfile_DAO.filecontent = open(publication_binaryfile_name, mode='rb').read()
-        binaryfile_DAO.filetype = publication_binaryfile_type
-        binaryfile_DAO.filename = publication_binaryfile_name
-        binaryfile_DAO.save()
-        publication.add_binaryfile(binaryfile_DAO)
+        language_uuid = self.language_combobox_widget.get_active_entry()
+        language = LanguageDAO(language_uuid)
+        publication.add_language(language)
+
+        if publication_binaryfile_name is not None and len(publication_binaryfile_name)>0 and os.path.isfile(publication_binaryfile_name):
+            binaryfile_DAO = BinaryfileDAO()
+            binaryfile_DAO.filecontent = open(publication_binaryfile_name, mode='rb').read()
+            binaryfile_DAO.filetype = publication_binaryfile_type
+            binaryfile_DAO.filename = publication_binaryfile_name
+            binaryfile_DAO.save()
+            publication.add_binaryfile(binaryfile_DAO)
 
         publication.save()
 

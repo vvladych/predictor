@@ -75,6 +75,12 @@ class PublicationtoBinaryfile(DAOtoDAO):
     secDAO_PK = "binaryfile_uuid"
 
 
+class PublicationtoLanguage(DAOtoDAO):
+    entity = "publication_to_language"
+    primDAO_PK = "publication_uuid"
+    secDAO_PK = "language_uuid"
+
+
 class BinaryfileDAO(DAO):
     data_fields = ["uuid", "filecontent", "filetype", "filename"]
     entity = "binaryfile"
@@ -86,7 +92,8 @@ class PublicationDAO(DAO):
     entity = "publication"
     join_objects = {"PublicationtoPublisher": PublicationtoPublisher,
                     "PublicationtoPublicationtext": PublicationtoPublicationtext,
-                    "PublicationtoBinaryfile": PublicationtoBinaryfile}
+                    "PublicationtoBinaryfile": PublicationtoBinaryfile,
+                    "PublicationtoLanguage": PublicationtoLanguage}
 
     sortkey = "date"
 
@@ -108,6 +115,11 @@ class PublicationDAO(DAO):
     def get_binaryfile(self):
         return self.get_joined_dao("PublicationtoBinaryfile", BinaryfileDAO)
 
+    def add_language(self, language):
+        self.PublicationtoLanguage.add(PublicationtoLanguage(self.uuid, language.uuid))
+
+    def get_language(self):
+        return self.get_joined_dao("PublicationtoLanguage", LanguageDAO)
 
 
 class PublishertoCountry(DAOtoDAO):
@@ -276,3 +288,7 @@ class PredictionPublicationPublisherV(VDAO):
     entity = "public.\"prediction_publication_publisher_V\""
 
 
+class LanguageDAO(DAO):
+    data_fields = ["uuid", "commonname"]
+    entity = "language"
+    sortkey = "commonname"
