@@ -1,11 +1,8 @@
-"""
-Created on 20.08.2015
-
-@author: vvladych
-"""
 
 from gi.repository import Gtk
 
+from predictor.ui.base.abstract_mask import AbstractMask
+from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
 from predictor.ui.ui_tools import show_info_dialog, TextViewWidget, DAOComboBoxWidget, LabelWidget, TextEntryWidget, ComboBoxWidget, TextEntryFileChooserWidget
 from predictor.ui.widgets.date_widget import DateWidget
 from predictor.model.predictor_model import PublisherDAO, PublicationDAO, PublicationtextDAO, BinaryfileDAO, LanguageDAO
@@ -14,6 +11,8 @@ import tempfile
 import subprocess
 from predictor.helpers import config
 import os
+
+
 
 
 class PublisherComboBoxWidget(DAOComboBoxWidget):
@@ -31,7 +30,7 @@ class LanguageComboBoxWidget(DAOComboBoxWidget):
 
 
 class PublicationOverviewWindow(Gtk.Grid):
-    
+
     def __init__(self, main_window, publication=None, callback=None):
         Gtk.Grid.__init__(self)
         self.set_row_spacing(3)
@@ -45,11 +44,11 @@ class PublicationOverviewWindow(Gtk.Grid):
             self.load_publication()
 
         self.parent_callback = callback
-        
+
     def create_layout(self):
-        
+
         row = 0
-        
+
         self.attach(LabelWidget("Publication"), 0, row, 2, 1)
 
         row += 1
@@ -115,7 +114,7 @@ class PublicationOverviewWindow(Gtk.Grid):
         self.attach(self.textview_widget, 0, row, 2, 1)
 
         row += 1
-        
+
         save_publication_button = Gtk.Button("Save", Gtk.STOCK_SAVE)
         self.attach(save_publication_button, 1, row, 1, 1)
         save_publication_button.connect("clicked", self.save_publication_action)
@@ -155,7 +154,7 @@ class PublicationOverviewWindow(Gtk.Grid):
         publication_url = self.publication_url_entry_widget.get_entry_value()
         publication_binaryfile_name = self.publication_file_entry_widget.get_entry_value()
         publication_binaryfile_type = self.filetype_combobox_widget.get_active_entry_visible()
-                
+
         # insert publication
         publication_uuid = None
         if self.publication is not None:
@@ -204,3 +203,32 @@ class PublicationOverviewWindow(Gtk.Grid):
                     tmpfile.write(binaryfile.filecontent)
                     subprocess.call([config.get('binaryfileviewer', 'application/pdf'), tmpfile.name])
                     tmpfile.close()
+
+
+class PublicationExtTreeview(ExtendedTreeView):
+
+    dao_type = PublicationDAO
+    columns = [TreeviewColumn("uuid", 0, True),
+               TreeviewColumn("Title", 1, False),
+               TreeviewColumn("Date", 2, False),
+               TreeviewColumn("URL", 3, False)]
+
+    def append_treedata_row(self, row):
+        self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.title, "%s" % row.date, "%s" % row.url])
+
+
+class PublicationMask(AbstractMask):
+
+    dao_type = PublicationDAO
+    exttreeview = PublicationExtTreeview
+    overview_window = PublicationOverviewWindow
+    default_height = 500
+    default_width = 200
+
+    def new_callback(self):
+        self.clear_main_middle_pane()
+        self.main_middle_pane.pack_start(PublicationOverviewWindow(self, None, self.overview_treeview.reset_treemodel),
+                                         False,
+                                         False,
+                                         0)
+        self.main_middle_pane.show_all()
