@@ -6,7 +6,8 @@ Created on 20.08.2015
 
 from gi.repository import Gtk
 
-from predictor.ui.ui_tools import show_info_dialog, DateWidget, TextViewWidget, DAOComboBoxWidget, LabelWidget, TextEntryWidget, ComboBoxWidget, TextEntryFileChooserWidget
+from predictor.ui.ui_tools import show_info_dialog, TextViewWidget, DAOComboBoxWidget, LabelWidget, TextEntryWidget, ComboBoxWidget, TextEntryFileChooserWidget
+from predictor.ui.widgets.date_widget import DateWidget
 from predictor.model.predictor_model import PublisherDAO, PublicationDAO, PublicationtextDAO, BinaryfileDAO, LanguageDAO
 from predictor.helpers.transaction_broker import transactional
 import tempfile
