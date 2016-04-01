@@ -208,8 +208,6 @@ class PublicationMask(AbstractMask):
     dao_type = PublicationDAO
     exttreeview = PublicationExtTreeview
     overview_window = PublicationOverviewWindow
-    default_height = 500
-    default_width = 200
 
     def new_callback(self):
         self.clear_main_middle_pane()
