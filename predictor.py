@@ -30,10 +30,9 @@ class MainWindow(Gtk.Window):
         self.grid.add(self.working_area)
         self.set_working_area("prediction")
 
-
     def create_toolbar(self) -> Gtk.Toolbar:
         toolbar = Gtk.Toolbar()
-        toolbar.add(toolbutton_factory(Gtk.STOCK_ABOUT, "prediction", self.set_working_area, "prediction"))
+        toolbar.add(toolbutton_factory(Gtk.STOCK_ABOUT, "predictions", self.set_working_area, "prediction"))
         toolbar.add(toolbutton_factory(Gtk.STOCK_EDIT, "publications", self.set_working_area, "publication"))
         toolbar.add(toolbutton_factory(Gtk.STOCK_EXECUTE, "master data", self.set_working_area, "masterdata"))
         toolbar.add(toolbutton_factory(Gtk.STOCK_CONNECT, "concepts", self.set_working_area, "concept"))
