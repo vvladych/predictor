@@ -1,11 +1,18 @@
 
+
 from gi.repository import Gtk
 
-from predictor.ui.prediction.textmodel.tmstatement import TextmodelStatementAddDialog, TextmodelStatementExtTreeview
-from predictor.ui.prediction.predpublication.predpublication import PredictionPublicationExtTreeview, PredictionPublicationAddDialog
-from predictor.ui.ui_tools import TextViewWidget, TextEntryWidget, LabelWidget, show_info_dialog
-from predictor.ui.prediction.originator.originator import PredictionOriginatorExtTreeview, OriginatorAddDialog
+from predictor.ui.ui_tools import show_info_dialog, TextEntryWidget, TextViewWidget, LabelWidget
+from predictor.ui.widgets.date_widget import DateWidget
+from predictor.model.DAO import DAOList
 
-from predictor.model.predictor_model import PredictionDAO, PredictionPublicationPublisherV
-from predictor.ui.base.abstract_mask import AbstractMask
+from predictor.helpers.transaction_broker import transactional
+from predictor.model.predictor_model import PredictionOriginatorV, PredictionDAO, OriginatorDAO, PersonDAO
+from predictor.model.predictor_model import OrganisationDAO, PredictionPublicationPublisherV, PublicationDAO
+from predictor.model.predictor_model import PublicationPublisherV, PredictionPublisherV, PredictionStatementV, TmstatementDAO
 from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
+from predictor.ui.base.abstract_mask import AbstractMask
+
+from predictor.ui.prediction.tmstatement import TextmodelStatementAddDialog, TextmodelStatementExtTreeview
+from predictor.ui.prediction.predpublication import PredictionPublicationAddDialog, PredictionPublicationExtTreeview
+from predictor.ui.prediction.originator import PredictionOriginatorExtTreeview, OriginatorAddDialog
