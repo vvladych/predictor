@@ -142,6 +142,11 @@ class PublicationtextDAO(DAO):
     entity = "publicationtext"
 
 
+class PublicationPublisherV(VDAO):
+    data_fields = ["uuid", "publication_title", "publication_date", "publisher_commonname"]
+    entity = "public.\"publication_publisher_V\""
+
+
 class PredictiontoPublication(DAOtoDAO):
     entity = "prediction_to_publication"
     primDAO_PK = "prediction_uuid"

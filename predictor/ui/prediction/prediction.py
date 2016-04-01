@@ -47,7 +47,6 @@ class PredictionNewDialog(Gtk.Dialog):
         layout_grid.attach(textview_widget, 1, row, 1, 1)
 
 
-
 class PredictionOverviewWindow(Gtk.Grid):
 
     def __init__(self, main_window, prediction=None, callback=None):
@@ -136,6 +135,7 @@ class PredictionOverviewWindow(Gtk.Grid):
         dialog.run()
         dialog.destroy()
         self.tmstatement_overview_component.fill_treeview(0)
+
 
 class PredictionExtTreeview(ExtendedTreeView):
 
