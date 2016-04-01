@@ -29,10 +29,10 @@ class PersontoPersonname(DAOtoDAO):
 
 
 class PersonDAO(DAO):
-    data_fields = ["uuid", "common_name", "birth_date"]
+    data_fields = ["uuid", "commonname", "birth_date"]
     entity = "person"
     join_objects = {"PersontoPersonname": PersontoPersonname}
-    sortkey = "common_name"
+    sortkey = "commonname"
 
     def add_personname(self, personname):
         self.PersontoPersonname.add(PersontoPersonname(self.uuid, personname.uuid))

@@ -52,7 +52,7 @@ class LanguageWindow(MDOWindow):
         language = LanguageDAO(language_uuid,
                              {"commonname": common_name})
         language.save()
-        show_info_dialog(None, "Language inserted")
+        show_info_dialog(None, "Language  inserted")
         self.dao = language
         self.dao.load()
         self.parent_callback()

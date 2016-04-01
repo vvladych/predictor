@@ -12,7 +12,7 @@ class PersonExtTreeview(ExtendedTreeView):
                TreeviewColumn("Birth date", 2, False)]
 
     def append_treedata_row(self, row):
-        self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.common_name, "%s" % row.birth_date])
+        self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.commonname, "%s" % row.birth_date])
 
 
 class PersonWindow(MDOWindow):
@@ -93,7 +93,7 @@ class PersonWindow(MDOWindow):
 
     def load_dao(self):
         self.uuid_text_entry.set_entry_value(self.dao.uuid)
-        self.common_name_text_entry.set_entry_value(self.dao.common_name)
+        self.common_name_text_entry.set_entry_value(self.dao.commonname)
         ##self.birth_place_text_entry.set_entry_value(self.person.birth_place)
         if self.dao.birth_date is not None:
             self.birth_date_widget.set_date_from_string("%s-%s-%s" % (self.dao.birth_date.year,
@@ -119,7 +119,7 @@ class PersonWindow(MDOWindow):
             person_uuid = self.dao.uuid
 
         person = PersonDAO(person_uuid,
-                           {"common_name": common_name,
+                           {"commonname": common_name,
                             "birth_date": self.birth_date_widget.get_date()})
         name_iter = self.namepart_treestore.get_iter_first()
         while name_iter:

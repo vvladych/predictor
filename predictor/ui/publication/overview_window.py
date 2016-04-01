@@ -29,7 +29,6 @@ class LanguageComboBoxWidget(DAOComboBoxWidget):
         self.model.append(["%s" % language.uuid, "%s" % language.commonname])
 
 
-
 class PublicationOverviewWindow(Gtk.Grid):
     
     def __init__(self, main_window, publication=None, callback=None):
