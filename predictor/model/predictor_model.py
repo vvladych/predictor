@@ -297,3 +297,9 @@ class LanguageDAO(DAO):
     data_fields = ["uuid", "commonname"]
     entity = "language"
     sortkey = "commonname"
+
+
+class ConceptDAO(DAO):
+    data_fields = ["uuid", "commonname", "uri"]
+    entity = "concept"
+    sortkey = "commonname"

@@ -4,6 +4,7 @@ from gi.repository import Gtk
 from predictor.ui.masterdata.main_mask import MDMask
 from predictor.ui.prediction.prediction import PredictionMask
 from predictor.ui.publication.publication import PublicationMask
+from predictor.ui.formmodel.concept import ConceptMask
 from predictor.ui.ui_tools import toolbutton_factory
 
 
@@ -39,10 +40,11 @@ class MainWindow(Gtk.Window):
 
     def create_toolbar(self) -> Gtk.Toolbar:
         toolbar = Gtk.Toolbar()
-        toolbar.add(toolbutton_factory(Gtk.STOCK_ABOUT, "prediction", self.on_toolbutton_prediction))
-        toolbar.add(toolbutton_factory(Gtk.STOCK_EDIT, "publications", self.on_toolbutton_publication))
-        toolbar.add(toolbutton_factory(Gtk.STOCK_EXECUTE, "master_data", self.on_toolbutton_masterdata))
-        toolbar.add(toolbutton_factory(Gtk.STOCK_QUIT, "quit", self.on_menu_file_quit))
+        toolbar.add(toolbutton_factory(Gtk.STOCK_ABOUT, "prediction", self.set_working_area, "prediction"))
+        toolbar.add(toolbutton_factory(Gtk.STOCK_EDIT, "publications", self.set_working_area, "publication"))
+        toolbar.add(toolbutton_factory(Gtk.STOCK_EXECUTE, "master data", self.set_working_area, "masterdata"))
+        toolbar.add(toolbutton_factory(Gtk.STOCK_CONNECT, "concepts", self.set_working_area, "concept"))
+        toolbar.add(toolbutton_factory(Gtk.STOCK_QUIT, "quit", self.on_menu_file_quit, None))
         return toolbar
 
     def create_menubar(self) -> Gtk.MenuBar:
@@ -60,7 +62,7 @@ class MainWindow(Gtk.Window):
         for child in self.working_area.get_children():
             self.working_area.remove(child)
 
-    def set_working_area(self, action="masterdata"):
+    def set_working_area(self, widget=None, action="masterdata"):
         self.clean_working_area()
         if action == "masterdata":
             self.working_area.pack_start(MDMask(self), True, True, 0)
@@ -68,22 +70,15 @@ class MainWindow(Gtk.Window):
             self.working_area.pack_start(PredictionMask(self), True, True, 0)
         elif action == "publication":
             self.working_area.pack_start(PublicationMask(self), True, True, 0)
+        elif action == "concept":
+            self.working_area.pack_start(ConceptMask(self), True, True, 0)
         else:
             print("unimplemented")
 
         self.working_area.show_all()
 
-    def on_menu_file_quit(self, widget):
+    def on_menu_file_quit(self, widget, data=None):
         Gtk.main_quit()
-
-    def on_toolbutton_masterdata(self, widget):
-        self.set_working_area("masterdata")
-
-    def on_toolbutton_prediction(self, widget):
-        self.set_working_area("prediction")
-
-    def on_toolbutton_publication(self, widget):
-        self.set_working_area("publication")
 
 
 win = MainWindow()

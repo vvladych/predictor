@@ -1,5 +1,3 @@
-
-
 from gi.repository import Gtk
 
 from predictor.ui.ui_tools import show_info_dialog, TextEntryWidget, TextViewWidget, LabelWidget

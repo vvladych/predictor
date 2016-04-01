@@ -212,8 +212,8 @@ class LabelWidget(Gtk.Grid):
         self.attach(label, 0, 0, 1, 1)
 
 
-def toolbutton_factory(stock_item=None, tooltip_text="", clicked_action=None) -> Gtk.ToolButton:
+def toolbutton_factory(stock_item=None, tooltip_text="", clicked_action=None, data=None) -> Gtk.ToolButton:
     toolbutton = Gtk.ToolButton(stock_item)
     toolbutton.set_tooltip_text(tooltip_text)
-    toolbutton.connect("clicked", clicked_action)
+    toolbutton.connect("clicked", clicked_action, data)
     return toolbutton

@@ -9,8 +9,7 @@ class PredictionOriginatorExtTreeview(ExtendedTreeView):
                TreeviewColumn("concrete_uuid", 2, True),
                TreeviewColumn("common_name", 3, False, True),
                TreeviewColumn("person", 4, False),
-               TreeviewColumn("organisation", 5, False),
-
+               TreeviewColumn("organisation", 5, False)
                ]
 
     def append_treedata_row(self, row):
