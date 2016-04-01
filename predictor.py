@@ -66,7 +66,7 @@ class MainWindow(Gtk.Window):
             self.working_area.pack_start(MDMask(self), True, True, 0)
         elif action == "prediction":
             self.working_area.pack_start(PredictionMask(self), True, True, 0)
-        elif action == "predpublication":
+        elif action == "publication":
             self.working_area.pack_start(PublicationMask(self), True, True, 0)
         else:
             print("unimplemented")
@@ -83,7 +83,7 @@ class MainWindow(Gtk.Window):
         self.set_working_area("prediction")
 
     def on_toolbutton_publication(self, widget):
-        self.set_working_area("predpublication")
+        self.set_working_area("publication")
 
 
 win = MainWindow()

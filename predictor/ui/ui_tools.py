@@ -58,7 +58,7 @@ class TextViewWidget(Gtk.Grid):
 
     def create_textview_widget(self):
         scrolledwindow = Gtk.ScrolledWindow()
-        scrolledwindow.set_size_request(800, 100)
+        scrolledwindow.set_size_request(600, 100)
         scrolledwindow.set_hexpand(True)
         scrolledwindow.set_vexpand(True)
 

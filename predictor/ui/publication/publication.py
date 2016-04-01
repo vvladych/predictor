@@ -35,7 +35,7 @@ class PublicationOverviewWindow(Gtk.Grid):
 
         row = 0
 
-        self.attach(LabelWidget("Publication"), 0, row, 2, 1)
+        self.attach(LabelWidget("Publication"), 0, row, 1, 1)
 
         row += 1
 
@@ -64,7 +64,7 @@ class PublicationOverviewWindow(Gtk.Grid):
 
         row += 1
 
-        self.attach(LabelWidget("Publication File"), 0, row, 2, 1)
+        self.attach(LabelWidget("Publication File"), 0, row, 1, 1)
 
         row += 1
 
@@ -92,24 +92,20 @@ class PublicationOverviewWindow(Gtk.Grid):
 
         row += 1
 
-        self.attach(LabelWidget("Content"), 0, row, 2, 1)
+        self.attach(LabelWidget("Content"), 0, row, 1, 1)
 
         row += 1
 
         self.textview_widget = TextViewWidget(None, None, "Text")
-        self.attach(self.textview_widget, 0, row, 2, 1)
+        self.attach(self.textview_widget, 0, row, 1, 1)
 
         row += 1
 
         save_publication_button = Gtk.Button("Save", Gtk.STOCK_SAVE)
-        self.attach(save_publication_button, 1, row, 1, 1)
+        save_publication_button.set_size_request(100, -1)
+        self.attach(save_publication_button, 0, row, 1, 1)
         save_publication_button.connect("clicked", self.save_publication_action)
 
-        placeholder_label = Gtk.Label("")
-        placeholder_label.set_size_request(400, 400)
-        placeholder_label.set_vexpand(True)
-        placeholder_label.set_hexpand(True)
-        self.attach(placeholder_label, 2, 0, 1, 12)
 
     def load_publication(self):
         self.publication_title_entry_widget.set_entry_value(self.publication.title)
