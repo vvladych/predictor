@@ -1,4 +1,4 @@
-from .pkg import *
+from . import *
 from predictor.helpers.transaction_broker import transactional
 from predictor.model.predictor_model import PersonDAO, PersonnameDAO, PersonnamepartDAO
 from predictor.helpers.db_connection import enum_retrieve_valid_values

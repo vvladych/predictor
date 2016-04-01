@@ -194,7 +194,6 @@ class TextEntryFileChooserWidget(TextEntryWidget):
         file_chooser_dialog.set_default_size(400, 400)
         response = file_chooser_dialog.run()
         if response == Gtk.ResponseType.OK:
-            #print("chosen file: %s" % file_chooser_dialog.get_filename())
             self.set_entry_value(file_chooser_dialog.get_filename())
         elif response == Gtk.ResponseType.CANCEL:
             print("Cancel")

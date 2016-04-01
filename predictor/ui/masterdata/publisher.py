@@ -1,4 +1,4 @@
-from .pkg import *
+from . import *
 
 from predictor.model.predictor_model import PublisherDAO
 

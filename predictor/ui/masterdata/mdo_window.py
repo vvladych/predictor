@@ -1,4 +1,4 @@
-from gi.repository import Gtk
+from . import *
 
 
 class MDOWindow(Gtk.Grid):

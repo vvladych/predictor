@@ -1,4 +1,4 @@
-from gi.repository import Gtk
+from . import *
 
 from predictor.ui.masterdata.organisation import OrganisationMask
 from predictor.ui.masterdata.person import PersonMask
