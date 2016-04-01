@@ -120,7 +120,7 @@ class PredictionOverviewWindow(Gtk.Grid):
             self.desc_textview_widget.set_text(self.prediction.short_description)
 
     def show_publication_dialog(self):
-        dialog = PublicationAddDialog(self.main_window, self.prediction)
+        dialog = PredictionPublicationAddDialog(self.main_window, self.prediction)
         dialog.run()
         dialog.destroy()
         self.publication_overview_component.fill_treeview(0)

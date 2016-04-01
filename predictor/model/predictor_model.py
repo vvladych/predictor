@@ -89,7 +89,7 @@ class BinaryfileDAO(DAO):
 
 class PublicationDAO(DAO):
     data_fields = ["uuid", "date", "title", "url"]
-    entity = "publication"
+    entity = "predpublication"
     join_objects = {"PublicationtoPublisher": PublicationtoPublisher,
                     "PublicationtoPublicationtext": PublicationtoPublicationtext,
                     "PublicationtoBinaryfile": PublicationtoBinaryfile,
@@ -213,7 +213,7 @@ class PredictionDAO(DAO):
         if ptop in self.PredictiontoPublication:
             self.PredictiontoPublication.remove(ptop)
         else:
-            print("publication %s is not dedicated to prediction %s" %  (publication.uuid, self.uuid))
+            print("predpublication %s is not dedicated to prediction %s" %  (publication.uuid, self.uuid))
 
     def add_tmstatement(self, tmstatement):
         self.PredictiontoTmstatement.add(PredictiontoTmstatement(self.uuid, tmstatement.uuid))

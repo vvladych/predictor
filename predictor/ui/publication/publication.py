@@ -141,7 +141,7 @@ class PublicationOverviewWindow(Gtk.Grid):
         publication_binaryfile_name = self.publication_file_entry_widget.get_entry_value()
         publication_binaryfile_type = self.filetype_combobox_widget.get_active_entry_visible()
 
-        # insert publication
+        # insert predpublication
         publication_uuid = None
         if self.publication is not None:
             publication_uuid = self.publication.uuid
