@@ -170,7 +170,7 @@ class PublicationOverviewWindow(Gtk.Grid):
 
         publication.save()
 
-        show_info_dialog(None, "Publication inserted")
+        show_info_dialog(self.main_window, "Publication inserted")
         self.publication = publication
         self.publication.load()
         self.load_publication()
