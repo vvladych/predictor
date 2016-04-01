@@ -1,23 +1,7 @@
-"""
-Created on 14.03.2015
-
-@author: vvladych
-"""
-
-from gi.repository import Gtk
-
-from predictor.ui.prediction.publication.exttreeview import PredictionPublicationExtTreeview
-from predictor.ui.prediction.textmodel.exttreeview import PredictionTextmodelExtTreeview
-from predictor.ui.prediction.publication.add_dialog import PublicationAddDialog
-from predictor.ui.prediction.originator.add_dialog import OriginatorAddDialog
-#from predictor.ui.prediction.textmodel.add_dialog import TextModelAddDialog
-from predictor.ui.prediction.textmodel.tmstatement import TextmodelStatementAddDialog, TextmodelStatementExtTreeview
-from predictor.ui.ui_tools import TextViewWidget, TextEntryWidget, LabelWidget
-from predictor.ui.prediction.originator.exttreeview import PredictionOriginatorExtTreeview
-
+from . import *
 
 class PredictionOverviewWindow(Gtk.Grid):
-    
+
     def __init__(self, main_window, prediction=None, callback=None):
         Gtk.Grid.__init__(self)
         self.main_window = main_window
@@ -57,7 +41,7 @@ class PredictionOverviewWindow(Gtk.Grid):
         row += 3
         # originators
         self.attach(LabelWidget("Originators"), 0, row, 2, 1)
-        
+
         row += 1
         self.attach(self.originator_overview_component, 0, row, 2, 1)
 
@@ -104,3 +88,40 @@ class PredictionOverviewWindow(Gtk.Grid):
         dialog.run()
         dialog.destroy()
         self.tmstatement_overview_component.fill_treeview(0)
+
+class PredictionExtTreeview(ExtendedTreeView):
+
+    dao_type = PredictionPublicationPublisherV
+
+    columns = [TreeviewColumn("uuid", 0, True),
+               TreeviewColumn("Common name", 1, False),
+               TreeviewColumn("Date", 2, False),
+               TreeviewColumn("Publication", 3, False),
+               TreeviewColumn("Publisher", 4, False)]
+
+    def append_treedata_row(self, row):
+        self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.commonname, "%s" % row.created_date, "%s" % row.publication_title, "%s" % row.publisher_commonname])
+
+    def on_menu_item_new(self, widget):
+        new_prediction_dialog = PredictionNewDialog(self.main_window)
+        response = new_prediction_dialog.run()
+
+        if response == Gtk.ResponseType.OK:
+            new_prediction_dialog.perform_insert()
+
+        elif response == Gtk.ResponseType.CANCEL:
+            show_info_dialog(self.main_window, "Canceled")
+        else:
+            show_info_dialog(self.main_window, "Unknown action")
+
+        new_prediction_dialog.destroy()
+        self.reset_treemodel()
+
+
+class PredictionMask(AbstractMask):
+
+    dao_type = PredictionDAO
+    overview_window = PredictionOverviewWindow
+    exttreeview = PredictionExtTreeview
+    default_height = 500
+    default_width = 300
