@@ -11,4 +11,3 @@ from predictor.ui.prediction.originator.exttreeview import PredictionOriginatorE
 from predictor.model.predictor_model import PredictionDAO, PredictionPublicationPublisherV
 from predictor.ui.base.abstract_mask import AbstractMask
 from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
-from predictor.ui.prediction.add_dialog import PredictionNewDialog

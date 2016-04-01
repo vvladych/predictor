@@ -1,5 +1,53 @@
 from . import *
 
+
+class PredictionNewDialog(Gtk.Dialog):
+
+    def __init__(self, parent):
+        Gtk.Dialog.__init__(self, "Create new prediction", parent, 0,
+                            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK))
+
+        self.set_default_size(400, 400)
+
+        self.__create_ui()
+        self.show_all()
+
+    def perform_insert(self):
+        prediction = PredictionDAO(None, {'commonname':self.project_name_text_entry.get_text(),
+                                          'short_description':self.__get_desc_text()})
+        prediction.save()
+
+    def __get_desc_text(self):
+        textbuffer = self.desc_textview.get_buffer()
+        short_desc = textbuffer.get_text(textbuffer.get_start_iter(), textbuffer.get_end_iter(), True)
+        return short_desc
+
+    def __create_ui(self):
+        box = self.get_content_area()
+        layout_grid = Gtk.Grid()
+        box.add(layout_grid)
+        row = 0
+        label = Gtk.Label("Create new prediction")
+        layout_grid.attach(label, 0, row, 1, 1)
+
+        row += 1
+        prediction_name_label = Gtk.Label("Prediction name")
+        prediction_name_label.set_justify(Gtk.Justification.LEFT)
+        layout_grid.attach(prediction_name_label, 0, row, 1, 1)
+        self.project_name_text_entry = Gtk.Entry()
+        layout_grid.attach(self.project_name_text_entry, 1, row, 1, 1)
+
+        row += 1
+        project_desc_label = Gtk.Label("Short description")
+        project_desc_label.set_justify(Gtk.Justification.LEFT)
+        layout_grid.attach(project_desc_label, 0, row, 1, 1)
+        self.desc_textview = Gtk.TextView()
+        textview_widget = TextViewWidget(self.desc_textview)
+
+        layout_grid.attach(textview_widget, 1, row, 1, 1)
+
+
+
 class PredictionOverviewWindow(Gtk.Grid):
 
     def __init__(self, main_window, prediction=None, callback=None):
@@ -24,12 +72,12 @@ class PredictionOverviewWindow(Gtk.Grid):
         row = 0
         # Row 0: prediction uuid
         self.prediction_uuid_text_entry = TextEntryWidget("prediction UUID", None, False)
-        self.attach(self.prediction_uuid_text_entry, 0, row, 2, 1)
+        self.attach(self.prediction_uuid_text_entry, 0, row, 1, 1)
 
         row += 1
 
         self.common_name_text_entry = TextEntryWidget("Common name", None, False)
-        self.attach(self.common_name_text_entry, 0, row, 2, 1)
+        self.attach(self.common_name_text_entry, 0, row, 1, 1)
 
         row += 1
 
@@ -40,30 +88,30 @@ class PredictionOverviewWindow(Gtk.Grid):
 
         row += 3
         # originators
-        self.attach(LabelWidget("Originators"), 0, row, 2, 1)
+        self.attach(LabelWidget("Originators"), 0, row, 1, 1)
 
         row += 1
-        self.attach(self.originator_overview_component, 0, row, 2, 1)
+        self.attach(self.originator_overview_component, 0, row, 1, 1)
 
         row += 3
 
         # publications
-        self.attach(LabelWidget("Publications"), 0, row, 2, 1)
+        self.attach(LabelWidget("Publications"), 0, row, 1, 1)
 
         row += 1
 
-        self.attach(self.publication_overview_component, 0, row, 2, 1)
+        self.attach(self.publication_overview_component, 0, row, 1, 1)
 
         row += 3
         # prediction model
-        self.attach(LabelWidget("Statements"), 0, row, 2, 1)
+        self.attach(LabelWidget("Statements"), 0, row, 1, 1)
 
         row += 1
 
-        self.attach(self.tmstatement_overview_component, 0, row, 2, 1)
+        self.attach(self.tmstatement_overview_component, 0, row, 1, 1)
 
         row += 1
-        self.attach(Gtk.Label(""), 0, row, 3, 1)
+        self.attach(Gtk.Label(""), 0, row, 1, 1)
 
     def load_prediction(self):
         if self.prediction is not None:
