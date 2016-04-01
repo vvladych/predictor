@@ -30,13 +30,6 @@ class MainWindow(Gtk.Window):
         self.grid.add(self.working_area)
         self.set_working_area("prediction")
 
-        self.statusbar = self.create_status_bar()
-        #self.grid.add(self.statusbar)
-
-    def create_status_bar(self) -> Gtk.Statusbar:
-        statusbar = Gtk.Statusbar()
-        statusbar.add(Gtk.Label("statusbar"))
-        return statusbar
 
     def create_toolbar(self) -> Gtk.Toolbar:
         toolbar = Gtk.Toolbar()
