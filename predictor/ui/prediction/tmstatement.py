@@ -1,9 +1,5 @@
-"""
-Created on 29.07.2015
-
-@author: vvladych
-"""
 from . import *
+
 
 class TextmodelStatementExtTreeview(ExtendedTreeView):
 
@@ -64,50 +60,39 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
 
         box.add(layout_grid)
 
-        row = 0
+        stm_label = LabelWidget("Statement(s)")
+        layout_grid.attach(stm_label, 0, 0, 1, 1)
 
-        layout_grid.attach(LabelWidget("Statement(s)"), 0, row, 1, 1)
-
-        row += 1
-
-        layout_grid.attach(LabelWidget("Point-in-time"), 0, row, 1, 1)
+        pit_label = LabelWidget("Point-in-time")
+        layout_grid.attach_next_to(pit_label, stm_label, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.state_begin_date_widget = DateWidget("Begin")
-        layout_grid.attach(self.state_begin_date_widget, 1, row, 1, 1)
-
-        row += 1
+        layout_grid.attach_next_to(self.state_begin_date_widget, pit_label, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.state_end_date_widget = DateWidget("End")
-        layout_grid.attach(self.state_end_date_widget, 1, row, 1, 1)
-
-        row += 3
+        layout_grid.attach_next_to(self.state_end_date_widget, self.state_begin_date_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.prediction_model_textview_widget = TextViewWidget(None, None, "Statement")
-        layout_grid.attach(self.prediction_model_textview_widget, 1, row, 2, 1)
-
-        row += 2
+        layout_grid.attach_next_to(self.prediction_model_textview_widget, self.state_end_date_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
         add_statement_button = Gtk.Button("Add", Gtk.STOCK_ADD)
-        layout_grid.attach(add_statement_button, 0, row, 1, 1)
         add_statement_button.connect("clicked", self.add_statement_action)
+        layout_grid.attach_next_to(add_statement_button, self.prediction_model_textview_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
-        row += 3
-
-        layout_grid.attach(self.overview_component, 0, row, 3, 1)
-
-        row += 2
-        layout_grid.attach(Gtk.Label(""), 0, row, 3, 1)
+        layout_grid.attach_next_to(self.overview_component, add_statement_button, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.show_all()
 
     @transactional
     def add_statement_action(self, widget):
-        tmstm = TmstatementDAO(None, self.prediction_model_textview_widget.get_textview_text(),
-                               self.state_begin_date_widget.get_date(), self.state_end_date_widget.get_date())
+        tmstm = TmstatementDAO(None,
+                               self.prediction_model_textview_widget.get_textview_text(),
+                               self.state_begin_date_widget.get_date(),
+                               self.state_end_date_widget.get_date())
         tmstm.save()
         self.prediction.add_tmstatement(tmstm)
         self.prediction.save()
-        show_info_dialog(None, "Add successful")
+        show_info_dialog(self.main_window, "Add successful")
         self.overview_component.fill_treeview(0)
 
     def noop(self, widget):
@@ -118,4 +103,3 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
         self.state_begin_date_widget.set_date_from_string(row[2])
         self.state_end_date_widget.set_date_from_string(row[3])
         self.prediction_model_textview_widget.set_text(row[4])
-

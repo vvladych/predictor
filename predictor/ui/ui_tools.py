@@ -100,7 +100,6 @@ class TextEntryWidget(Gtk.Grid):
             self.textentry.set_text("%s" % text_entry_value)
 
 
-
 class ComboBoxWidget(Gtk.Grid):
 
     def __init__(self, title, list_to_load, append_func=None):

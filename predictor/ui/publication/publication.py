@@ -33,79 +33,55 @@ class PublicationOverviewWindow(Gtk.Grid):
 
     def create_layout(self):
 
-        row = 0
-
-        self.attach(LabelWidget("Publication"), 0, row, 1, 1)
-
-        row += 1
+        main_label = LabelWidget("Publication")
+        self.attach(main_label, 0, 0, 1, 1)
 
         self.publisher_combobox_widget = PublisherComboBoxWidget("Publisher")
-        self.attach(self.publisher_combobox_widget, 0, row, 1, 1)
-
-        row += 1
+        self.attach_next_to(self.publisher_combobox_widget, main_label, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.publication_date_widget = DateWidget("Date")
-        self.attach(self.publication_date_widget, 0, row, 1, 1)
-
-        row += 1
+        self.attach_next_to(self.publication_date_widget, self.publisher_combobox_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.language_combobox_widget = LanguageComboBoxWidget("Language")
-        self.attach(self.language_combobox_widget, 0, row, 1, 1)
-
-        row += 1
+        self.attach_next_to(self.language_combobox_widget, self.publication_date_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.publication_title_entry_widget = TextEntryWidget("Title")
-        self.attach(self.publication_title_entry_widget, 0, row, 1, 1)
-
-        row += 1
+        self.attach_next_to(self.publication_title_entry_widget, self.language_combobox_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.publication_url_entry_widget = TextEntryWidget("URL")
-        self.attach(self.publication_url_entry_widget, 0, row, 1, 1)
+        self.attach_next_to(self.publication_url_entry_widget, self.publication_title_entry_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
-        row += 1
-
-        self.attach(LabelWidget("Publication File"), 0, row, 1, 1)
-
-        row += 1
+        pubfile_label = LabelWidget("Publication File")
+        self.attach_next_to(pubfile_label, self.publication_url_entry_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.publication_file_entry_widget = TextEntryFileChooserWidget("File")
-        self.attach(self.publication_file_entry_widget, 0, row, 1, 1)
-
-        row += 1
+        self.attach_next_to(self.publication_file_entry_widget, pubfile_label, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.binaryfile_uuid_entry_widget = TextEntryWidget("File UUID", None, False)
-        self.attach(self.binaryfile_uuid_entry_widget, 0, row, 1, 1)
-
-        row += 1
+        self.attach_next_to(self.binaryfile_uuid_entry_widget, self.publication_file_entry_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
         choose_file_grid = Gtk.Grid()
 
         self.filetype_combobox_widget = ComboBoxWidget("", ["application/pdf", "text/html"], lambda x: [None, "%s" % x])
-        choose_file_grid.attach(self.filetype_combobox_widget, 1, 0, 1, 1)
+        choose_file_grid.attach(self.filetype_combobox_widget, 0, 0, 1, 1)
 
         preview_file_button = Gtk.Button("Preview")
         preview_file_button.set_size_request(100, -1)
         preview_file_button.connect("clicked", self.preview_file)
-        choose_file_grid.attach(preview_file_button, 2, 0, 1, 1)
+        choose_file_grid.attach(preview_file_button, 1, 0, 1, 1)
 
-        self.attach(choose_file_grid, 0, row, 1, 1)
+        self.attach_next_to(choose_file_grid, self.binaryfile_uuid_entry_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
-        row += 1
-
-        self.attach(LabelWidget("Content"), 0, row, 1, 1)
-
-        row += 1
+        content_label = LabelWidget("Content")
+        self.attach_next_to(content_label, choose_file_grid, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.textview_widget = TextViewWidget(None, None, "Text")
-        self.attach(self.textview_widget, 0, row, 1, 1)
-
-        row += 1
+        self.attach_next_to(self.textview_widget, content_label, Gtk.PositionType.BOTTOM, 1, 1)
 
         save_publication_button = Gtk.Button("Save", Gtk.STOCK_SAVE)
         save_publication_button.set_size_request(100, -1)
-        self.attach(save_publication_button, 0, row, 1, 1)
         save_publication_button.connect("clicked", self.save_publication_action)
-
+        self.attach_next_to(save_publication_button, self.textview_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
     def load_publication(self):
         self.publication_title_entry_widget.set_entry_value(self.publication.title)

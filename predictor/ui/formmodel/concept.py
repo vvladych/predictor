@@ -18,32 +18,22 @@ class ConceptOverviewWindow(Gtk.Grid):
         self.parent_callback = callback
 
     def create_layout(self):
-
-        row = 0
-
-        self.attach(LabelWidget("Concept"), 0, row, 1, 1)
-
-        row +=1
+        main_label = LabelWidget("Concept")
+        self.attach(main_label, 0, 0, 1, 1)
 
         self.concept_uuid_entry_widget = TextEntryWidget("concept UUID", None, True)
-        self.attach(self.concept_uuid_entry_widget, 0, row, 1, 1)
-
-        row += 1
+        self.attach_next_to(self.concept_uuid_entry_widget, main_label, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.commonname_entry_widget = TextEntryWidget("common name", None, True)
-        self.attach(self.commonname_entry_widget, 0, row, 1, 1)
-
-        row += 1
+        self.attach_next_to(self.commonname_entry_widget, self.concept_uuid_entry_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.uri_entry_widget = TextEntryWidget("URI", None, True)
-        self.attach(self.uri_entry_widget, 0, row, 1, 1)
-
-        row += 1
+        self.attach_next_to(self.uri_entry_widget, self.commonname_entry_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
         save_button = Gtk.Button("Save", Gtk.STOCK_SAVE)
         save_button.set_size_request(100, -1)
-        self.attach(save_button, 0, row, 1, 1)
         save_button.connect("clicked", self.save_concept_action)
+        self.attach_next_to(save_button, self.uri_entry_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
     def load_concept(self):
         self.concept_uuid_entry_widget.set_entry_value("%s" % self.concept.uuid)

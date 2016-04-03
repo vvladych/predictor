@@ -1,6 +1,13 @@
 from . import *
 
 
+class PublicationPublisherComboBoxWidget(DAOComboBoxWidget):
+    dao = PublicationPublisherV
+
+    def add_entry(self, p):
+        self.model.append(["%s" % p.uuid, "%s %s %s" % (p.publisher_commonname, p.publication_date, p.publication_title)])
+
+
 class PredictionPublicationAddDialog(Gtk.Dialog):
 
     def __init__(self, parent, prediction):
@@ -9,6 +16,7 @@ class PredictionPublicationAddDialog(Gtk.Dialog):
                             parent,
                             0,
                             (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK))
+        self.main_window = parent
         self.prediction = prediction
         self.set_default_size(400, 400)
         self.overview_component = PredictionPublicationExtTreeview(self,
@@ -29,43 +37,20 @@ class PredictionPublicationAddDialog(Gtk.Dialog):
 
         box.add(layout_grid)
 
-        row = 0
-        layout_grid.attach(Gtk.Label("Prediction's predpublication(s)"), 0, row, 1, 1)
+        predpub_label = LabelWidget("Prediction's predpublication(s)")
+        layout_grid.attach(predpub_label, 0, 0, 1, 1)
 
-        row += 1
+        publication_label = LabelWidget("Publication")
+        layout_grid.attach_next_to(publication_label, predpub_label, Gtk.PositionType.BOTTOM, 1, 1)
 
-        publication_label = Gtk.Label("Publication")
-        publication_label.set_justify(Gtk.Justification.LEFT)
-        layout_grid.attach(publication_label, 0, row, 1, 1)
-
-        row += 1
-
-        publisher_label = Gtk.Label("Publisher")
-        publisher_label.set_justify(Gtk.Justification.LEFT)
-        layout_grid.attach(publisher_label, 0, row, 1, 1)
-
-        publication_model = self.populate_publication_combobox_model()
-        self.publication_combobox = Gtk.ComboBox.new_with_model_and_entry(publication_model)
-        self.publication_combobox.set_entry_text_column(1)
-        layout_grid.attach(self.publication_combobox, 1, row, 1, 1)
-
-        row += 1
+        self.publications_combobox = PublicationPublisherComboBoxWidget("Publisher")
+        layout_grid.attach_next_to(self.publications_combobox, publication_label, Gtk.PositionType.BOTTOM, 1, 1)
 
         add_publication_button = Gtk.Button("Add", Gtk.STOCK_ADD)
-        layout_grid.attach(add_publication_button, 1, row, 1, 1)
         add_publication_button.connect("clicked", self.add_publication_action)
+        layout_grid.attach_next_to(add_publication_button, self.publications_combobox, Gtk.PositionType.BOTTOM, 1, 1)
 
-        row += 1
-
-        layout_grid.attach(self.overview_component, 0, row, 2, 1)
-
-    def populate_publication_combobox_model(self):
-        combobox_model = Gtk.ListStore(str, str)
-        publications = DAOList(PublicationPublisherV)
-        publications.load()
-        for p in publications:
-            combobox_model.append(["%s" % p.uuid, "%s %s %s" % (p.publisher_commonname, p.publication_date, p.publication_title)])
-        return combobox_model
+        layout_grid.attach_next_to(self.overview_component, add_publication_button, Gtk.PositionType.BOTTOM, 1, 1)
 
     @transactional
     def add_publication_action(self, widget):
@@ -73,17 +58,11 @@ class PredictionPublicationAddDialog(Gtk.Dialog):
         publication.load()
         self.prediction.add_publication(publication)
         self.prediction.save()
-        show_info_dialog(None, "Add successful")
+        show_info_dialog(self.main_window, "Add successful")
         self.overview_component.fill_treeview(0)
 
     def get_active_publication(self):
-        tree_iter = self.publication_combobox.get_active_iter()
-        if tree_iter is not None:
-            model = self.publication_combobox.get_model()
-            publication_uuid = model[tree_iter][0]
-            return publication_uuid
-        else:
-            show_info_dialog(None, "please choose a publication!")
+        return self.publications_combobox.get_active_entry()
 
     def noop(self, widget=None):
         pass
