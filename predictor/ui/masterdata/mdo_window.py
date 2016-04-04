@@ -17,7 +17,24 @@ class MDOWindow(Gtk.Grid):
         self.parent_callback = callback
 
     def create_layout(self):
-        raise NotImplementedError("create layout still not implemented")
+
+        placeholder_label = LabelWidget("")
+        self.attach(placeholder_label, 0, 0, 1, 1)
+
+        self.uuid_text_entry = TextEntryWidget("UUID", None, False)
+        self.attach_next_to(self.uuid_text_entry, placeholder_label, Gtk.PositionType.BOTTOM, 1, 1)
+
+        self.common_name_text_entry = TextEntryWidget("Common name", None, True)
+        self.attach_next_to(self.common_name_text_entry, self.uuid_text_entry, Gtk.PositionType.BOTTOM, 1, 1)
+
+        self.create_additional_widgets()
+
+        save_button = Gtk.Button("Save", Gtk.STOCK_SAVE)
+        save_button.connect("clicked", self.save_dao)
+        self.attach_next_to(save_button, None, Gtk.PositionType.BOTTOM, 1, 1)
+
+    def create_additional_widgets(self):
+        pass
 
     def load_dao(self):
         raise NotImplementedError("load dao still not implemented")

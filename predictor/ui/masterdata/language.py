@@ -15,21 +15,6 @@ class LanguageExtTreeview(ExtendedTreeView):
 
 class LanguageWindow(MDOWindow):
 
-    def create_layout(self):
-
-        placeholder_label = LabelWidget("")
-        self.attach(placeholder_label, 0, 0, 1, 1)
-
-        self.uuid_text_entry = TextEntryWidget("UUID", None, False)
-        self.attach_next_to(self.uuid_text_entry, placeholder_label, Gtk.PositionType.BOTTOM, 1, 1)
-
-        self.common_name_text_entry = TextEntryWidget("Common name", None, True)
-        self.attach_next_to(self.common_name_text_entry, self.uuid_text_entry, Gtk.PositionType.BOTTOM, 1, 1)
-
-        save_button = Gtk.Button("Save", Gtk.STOCK_SAVE)
-        save_button.connect("clicked", self.save_dao)
-        self.attach_next_to(save_button, self.common_name_text_entry, Gtk.PositionType.BOTTOM, 1, 1)
-
     def load_dao(self):
         self.uuid_text_entry.set_entry_value(self.dao.uuid)
         self.common_name_text_entry.set_entry_value(self.dao.commonname)

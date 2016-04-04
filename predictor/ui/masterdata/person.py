@@ -17,16 +17,7 @@ class PersonExtTreeview(ExtendedTreeView):
 
 class PersonWindow(MDOWindow):
 
-    def create_layout(self):
-
-        placeholder_label = Gtk.Label("")
-        self.attach(placeholder_label, 0, 0, 1, 1)
-
-        self.uuid_text_entry = TextEntryWidget("UUID", None, False)
-        self.attach_next_to(self.uuid_text_entry, placeholder_label, Gtk.PositionType.BOTTOM, 1, 1)
-
-        self.common_name_text_entry = TextEntryWidget("Common name", None, True)
-        self.attach_next_to(self.common_name_text_entry, self.uuid_text_entry, Gtk.PositionType.BOTTOM, 1, 1)
+    def create_additional_widgets(self):
 
         self.birth_date_widget = DateWidget("Birth date")
         self.attach_next_to(self.birth_date_widget, self.common_name_text_entry, Gtk.PositionType.BOTTOM, 1, 1)
@@ -61,10 +52,6 @@ class PersonWindow(MDOWindow):
 
         self.create_namepart_treeview()
         self.attach_next_to(self.nameparts_treeview, self.namepart_role_value_entry, Gtk.PositionType.BOTTOM, 4, 1)
-
-        save_button = Gtk.Button("Save", Gtk.STOCK_SAVE)
-        save_button.connect("clicked", self.save_dao)
-        self.attach_next_to(save_button, self.nameparts_treeview, Gtk.PositionType.BOTTOM, 1, 1)
 
     def load_dao(self):
         self.uuid_text_entry.set_entry_value(self.dao.uuid)
