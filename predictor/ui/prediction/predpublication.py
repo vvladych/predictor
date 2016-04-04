@@ -1,13 +1,6 @@
 from . import *
 
 
-class PublicationPublisherComboBoxWidget(DAOComboBoxWidget):
-    dao = PublicationPublisherV
-
-    def add_entry(self, p):
-        self.model.append(["%s" % p.uuid, "%s %s %s" % (p.publisher_commonname, p.publication_date, p.publication_title)])
-
-
 class PredictionPublicationAddDialog(Gtk.Dialog):
 
     def __init__(self, parent, prediction):
@@ -43,7 +36,9 @@ class PredictionPublicationAddDialog(Gtk.Dialog):
         publication_label = LabelWidget("Publication")
         layout_grid.attach_next_to(publication_label, predpub_label, Gtk.PositionType.BOTTOM, 1, 1)
 
-        self.publications_combobox = PublicationPublisherComboBoxWidget("Publisher")
+        self.publications_combobox = ComboBoxWidget("Publisher",
+                                                    DAOList(PublicationPublisherV, True),
+                                                    lambda x: ["%s" % x.uuid, "%s %s %s" % (x.publisher_commonname, x.publication_date, x.publication_title)])
         layout_grid.attach_next_to(self.publications_combobox, publication_label, Gtk.PositionType.BOTTOM, 1, 1)
 
         add_publication_button = Gtk.Button("Add", Gtk.STOCK_ADD)

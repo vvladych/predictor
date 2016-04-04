@@ -1,20 +1,6 @@
 from . import *
 
 
-class PublisherComboBoxWidget(DAOComboBoxWidget):
-    dao = PublisherDAO
-
-    def add_entry(self, publisher):
-        self.model.append(["%s" % publisher.uuid, "%s" % publisher.commonname])
-
-
-class LanguageComboBoxWidget(DAOComboBoxWidget):
-    dao = LanguageDAO
-
-    def add_entry(self, language):
-        self.model.append(["%s" % language.uuid, "%s" % language.commonname])
-
-
 class PublicationOverviewWindow(Gtk.Grid):
 
     def __init__(self, main_window, publication=None, callback=None):
@@ -36,13 +22,17 @@ class PublicationOverviewWindow(Gtk.Grid):
         main_label = LabelWidget("Publication")
         self.attach(main_label, 0, 0, 1, 1)
 
-        self.publisher_combobox_widget = PublisherComboBoxWidget("Publisher")
+        self.publisher_combobox_widget = ComboBoxWidget("Publisher",
+                                                        DAOList(PublisherDAO, True),
+                                                        lambda x: ["%s" % x.uuid, "%s" % x.commonname])
         self.attach_next_to(self.publisher_combobox_widget, main_label, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.publication_date_widget = DateWidget("Date")
         self.attach_next_to(self.publication_date_widget, self.publisher_combobox_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
-        self.language_combobox_widget = LanguageComboBoxWidget("Language")
+        self.language_combobox_widget = ComboBoxWidget("Language",
+                                                       DAOList(LanguageDAO, True),
+                                                       lambda x: ["%s" % x.uuid, "%s" % x.commonname])
         self.attach_next_to(self.language_combobox_widget, self.publication_date_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.publication_title_entry_widget = TextEntryWidget("Title")

@@ -169,15 +169,6 @@ class ComboBoxWidget(Gtk.Grid):
         return entry_key
 
 
-class DAOComboBoxWidget(ComboBoxWidget):
-    dao = None
-
-    def __init__(self, title):
-        daos = DAOList(self.__class__.dao)
-        daos.load()
-        ComboBoxWidget.__init__(self, title, daos)
-
-
 class TextEntryFileChooserWidget(TextEntryWidget):
 
     def __init__(self, title):

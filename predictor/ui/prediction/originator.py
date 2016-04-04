@@ -1,20 +1,6 @@
 from . import *
 
 
-class PersonOriginatorComboBoxWidget(DAOComboBoxWidget):
-    dao = PersonDAO
-
-    def add_entry(self, p):
-        self.model.append(["%s" % p.uuid, p.commonname])
-
-
-class OrganisationOriginatorComboBoxWidget(DAOComboBoxWidget):
-    dao = OrganisationDAO
-
-    def add_entry(self, p):
-        self.model.append(["%s" % p.uuid, p.commonname])
-
-
 class PredictionOriginatorExtTreeview(ExtendedTreeView):
 
     dao_type = PredictionOriginatorV
@@ -83,14 +69,18 @@ class OriginatorAddDialog(Gtk.Dialog):
         originator_label = LabelWidget("Originator")
         layout_grid.attach(originator_label, 0, 0, 1, 1)
 
-        self.person_originator_combobox = PersonOriginatorComboBoxWidget("Person")
+        self.person_originator_combobox = ComboBoxWidget("Person",
+                                                         DAOList(PersonDAO, True),
+                                                         lambda x: ["%s" % x.uuid, "%s" % x.commonname])
         layout_grid.attach_next_to(self.person_originator_combobox, originator_label, Gtk.PositionType.BOTTOM, 1, 1)
 
         add_person_button = Gtk.Button("Add", Gtk.STOCK_ADD)
         add_person_button.connect("clicked", self.add_originator, "person")
         layout_grid.attach_next_to(add_person_button, self.person_originator_combobox, Gtk.PositionType.RIGHT, 1, 1)
 
-        self.organisation_originator_combobox = OrganisationOriginatorComboBoxWidget("Organisation")
+        self.organisation_originator_combobox = ComboBoxWidget("Organisation",
+                                                               DAOList(OrganisationDAO, True),
+                                                               lambda x: ["%s" % x.uuid, "%s" % x.commonname])
         layout_grid.attach_next_to(self.organisation_originator_combobox, self.person_originator_combobox, Gtk.PositionType.BOTTOM, 1, 1)
 
         add_organisation_button = Gtk.Button("Add", Gtk.STOCK_ADD)

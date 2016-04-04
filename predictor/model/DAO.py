@@ -198,7 +198,7 @@ class DAOList(set):
             elems.append("%s" % e)
         return ",".join(elems)
 
-    def __init__(self, dao_list_type):
+    def __init__(self, dao_list_type, load=False):
         """
 
         :type dao_list_type: object of DAO type
@@ -206,6 +206,8 @@ class DAOList(set):
         super(DAOList, self).__init__()
         self.dao = dao_list_type
         self.entity = dao_list_type.entity
+        if load:
+            self.load()
 
     @typecheck
     def add(self, dao_to_add):

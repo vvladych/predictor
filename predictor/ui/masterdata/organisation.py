@@ -2,13 +2,6 @@ from . import *
 from predictor.model.predictor_model import OrganisationDAO, CountryDAO
 
 
-class CountryComboBoxWidget(DAOComboBoxWidget):
-    dao = CountryDAO
-
-    def add_entry(self, country):
-        self.model.append(["%s" % country.uuid, "%s" % country.commonname])
-
-
 class OrganisationExtTreeview(ExtendedTreeView):
 
     dao_type = OrganisationDAO
@@ -22,7 +15,9 @@ class OrganisationExtTreeview(ExtendedTreeView):
 class OrganisationWindow(MDOWindow):
 
     def create_additional_widgets(self):
-        self.country_combobox = CountryComboBoxWidget("Country")
+        self.country_combobox = ComboBoxWidget("Country",
+                                               DAOList(CountryDAO, True),
+                                               lambda x: ["%s" % x.uuid, "%s" % x.commonname])
         self.attach_next_to(self.country_combobox, self.common_name_text_entry, Gtk.PositionType.BOTTOM, 1, 1)
 
     def load_dao(self):
