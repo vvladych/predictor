@@ -113,6 +113,7 @@ class ComboBoxWidget(Gtk.Grid):
         self.populate_model(list_to_load)
         self.combobox = Gtk.ComboBox.new_with_model_and_entry(self.model)
         self.combobox.set_entry_text_column(1)
+        self.combobox.set_size_request(300, -1)
         self.attach(self.combobox, 1, 0, 1, 1)
 
     def populate_model(self, list_to_load):

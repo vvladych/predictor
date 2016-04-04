@@ -20,81 +20,55 @@ class PersonWindow(MDOWindow):
     def create_layout(self):
 
         placeholder_label = Gtk.Label("")
-        placeholder_label.set_size_request(1, 40)
-        self.attach(placeholder_label, 0, -1, 1, 1)
+        self.attach(placeholder_label, 0, 0, 1, 1)
 
-        row = 0
-        # Row 0: person uuid
         self.uuid_text_entry = TextEntryWidget("UUID", None, False)
-        self.attach(self.uuid_text_entry, 0, row, 2, 1)
+        self.attach_next_to(self.uuid_text_entry, placeholder_label, Gtk.PositionType.BOTTOM, 1, 1)
 
-        row += 1
-        # Row 1: common name
         self.common_name_text_entry = TextEntryWidget("Common name", None, True)
-        self.attach(self.common_name_text_entry, 0, row, 2, 1)
-
-        row += 1
+        self.attach_next_to(self.common_name_text_entry, self.uuid_text_entry, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.birth_date_widget = DateWidget("Birth date")
-        self.attach(self.birth_date_widget, 0, row, 2, 1)
+        self.attach_next_to(self.birth_date_widget, self.common_name_text_entry, Gtk.PositionType.BOTTOM, 1, 1)
 
-        row += 1
-
-        # Row: birth place
-        ##self.birth_place_text_entry = TextEntryWidget("Birth place", None, False)
-        ##self.attach(self.birth_place_text_entry, 0, row, 2, 1)
-
-        row += 1
-
-        self.attach(LabelWidget("Name"), 0, row, 1, 1)
-
-        row += 1
+        name_label = LabelWidget("Name")
+        self.attach_next_to(name_label, self.birth_date_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.name_role_combobox_widget = ComboBoxWidget("Name role",
                                                         enum_retrieve_valid_values("t_person_name_role"),
                                                         lambda x: ["%s" % x[0], "%s" % x[1]])
-        self.attach(self.name_role_combobox_widget, 0, row, 1, 1)
+        self.attach_next_to(self.name_role_combobox_widget, name_label, Gtk.PositionType.BOTTOM, 1, 1)
 
         name_add_button = Gtk.Button("Add", Gtk.STOCK_ADD)
         name_add_button.connect("clicked", self.add_name)
-        self.attach(name_add_button, 1, row, 1, 1)
-
-        row += 1
-
-        namepart_add_button = Gtk.Button("Add", Gtk.STOCK_ADD)
-        namepart_add_button.connect("clicked", self.add_name_part)
-        self.attach(namepart_add_button, 1, row, 1, 1)
-
-        namepart_delete_button = Gtk.Button("Delete", Gtk.STOCK_DELETE)
-        namepart_delete_button.connect("clicked", self.delete_name_part)
-        self.attach(namepart_delete_button, 2, row, 1, 1)
+        self.attach_next_to(name_add_button, self.name_role_combobox_widget, Gtk.PositionType.RIGHT, 1, 1)
 
         self.name_part_combobox_widget = ComboBoxWidget("Name role",
                                                         enum_retrieve_valid_values("t_person_name_part_role"),
                                                         lambda x: ["%s" % x[0], "%s" % x[1]])
+        self.attach_next_to(self.name_part_combobox_widget, self.name_role_combobox_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
-        self.attach(self.name_part_combobox_widget, 0, row, 1, 1)
+        namepart_add_button = Gtk.Button("Add", Gtk.STOCK_ADD)
+        namepart_add_button.connect("clicked", self.add_name_part)
+        self.attach_next_to(namepart_add_button, self.name_part_combobox_widget, Gtk.PositionType.RIGHT, 1, 1)
 
-        row += 1
-        # Row 3: name part value
+        namepart_delete_button = Gtk.Button("Delete", Gtk.STOCK_DELETE)
+        namepart_delete_button.connect("clicked", self.delete_name_part)
+        self.attach_next_to(namepart_delete_button, namepart_add_button, Gtk.PositionType.RIGHT, 1, 1)
+
         self.namepart_role_value_entry = TextEntryWidget(" ")
-        self.attach(self.namepart_role_value_entry, 0, row, 2, 1)
+        self.attach_next_to(self.namepart_role_value_entry, self.name_part_combobox_widget, Gtk.PositionType.BOTTOM, 2, 1)
 
-        row += 1
-        # Row 4: treeview
         self.create_namepart_treeview()
-        self.attach(self.nameparts_treeview, 0, row, 4, 1)
+        self.attach_next_to(self.nameparts_treeview, self.namepart_role_value_entry, Gtk.PositionType.BOTTOM, 4, 1)
 
-        row += 1
-        # Row 5
         save_button = Gtk.Button("Save", Gtk.STOCK_SAVE)
         save_button.connect("clicked", self.save_dao)
-        self.attach(save_button, 1, row, 1, 1)
+        self.attach_next_to(save_button, self.nameparts_treeview, Gtk.PositionType.BOTTOM, 1, 1)
 
     def load_dao(self):
         self.uuid_text_entry.set_entry_value(self.dao.uuid)
         self.common_name_text_entry.set_entry_value(self.dao.commonname)
-        ##self.birth_place_text_entry.set_entry_value(self.person.birth_place)
         if self.dao.birth_date is not None:
             self.birth_date_widget.set_date_from_string("%s-%s-%s" % (self.dao.birth_date.year,
                                                                       self.dao.birth_date.month,
@@ -149,23 +123,12 @@ class PersonWindow(MDOWindow):
         self.dao.load()
         self.parent_callback()
 
-    def get_active_name_role(self):
-        return self.name_role_combobox_widget.get_active_entry_visible()
-
-    def get_active_namepart_role(self):
-        return self.name_part_combobox_widget.get_active_entry_visible()
-
-    def get_active_name_treestore(self):
-        model, tree_iter = self.nameparts_treeview.get_selection().get_selected()
-        return tree_iter
-
     def add_name(self, widget):
-        name_role_value = self.get_active_name_role()
-        self.namepart_treestore.append(None, [None, name_role_value, None])
+        self.namepart_treestore.append(None, [None, self.name_role_combobox_widget.get_active_entry_visible(), None])
 
     def add_name_part(self,widget):
-        namepart_role_value = self.get_active_namepart_role()
-        tree_iter = self.get_active_name_treestore()
+        namepart_role_value = self.name_part_combobox_widget.get_active_entry_visible()
+        model, tree_iter = self.nameparts_treeview.get_selection().get_selected()
 
         if tree_iter is None:
             show_error_dialog(self.main_window, "Error: name part cannot be added as root element")
