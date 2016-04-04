@@ -265,12 +265,6 @@ class TmstatementDAO(DAO):
     data_fields = ["uuid", "text", "tmbegin", "tmend"]
     entity = "tmstatement"
 
-    def __init__(self, uuid=None, text=None, tmbegin=None, tmend=None):
-        super(TmstatementDAO, self).__init__(uuid)
-        setattr(self, "text", text)
-        setattr(self, "tmbegin", tmbegin)
-        setattr(self, "tmend", tmend)
-
 
 class PredictionStatementV(VDAO):
     data_fields = ["uuid", "tmstatement_uuid", "tmbegin", "tmend", "text"]

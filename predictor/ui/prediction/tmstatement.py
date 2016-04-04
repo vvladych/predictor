@@ -86,9 +86,9 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
     @transactional
     def add_statement_action(self, widget):
         tmstm = TmstatementDAO(None,
-                               self.prediction_model_textview_widget.get_textview_text(),
-                               self.state_begin_date_widget.get_date(),
-                               self.state_end_date_widget.get_date())
+                               {"text": self.prediction_model_textview_widget.get_textview_text(),
+                               "tmbegin": self.state_begin_date_widget.get_date(),
+                               "tmend": self.state_end_date_widget.get_date()})
         tmstm.save()
         self.prediction.add_tmstatement(tmstm)
         self.prediction.save()

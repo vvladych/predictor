@@ -75,7 +75,6 @@ class PredictionOverviewWindow(Gtk.Grid):
 
         self.attach_next_to(self.tmstatement_overview_component, statements_label, Gtk.PositionType.BOTTOM, 1, 1)
 
-
     def load_prediction(self):
         if self.prediction is not None:
             self.prediction_uuid_text_entry.set_entry_value(self.prediction.uuid)

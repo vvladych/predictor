@@ -100,9 +100,3 @@ class DAOtoDAOList(set):
     def save(self):
         for e in self:
             e.save()
-
-"""
-    @transactional
-    def remove(self, DAOtoDAO):
-        super(DAOtoDAOList, self).remove(DAOtoDAO)
-"""
