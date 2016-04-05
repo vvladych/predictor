@@ -32,22 +32,9 @@ class TextmodelStatementExtTreeview(ExtendedTreeView):
             self.fill_treeview(0)
 
 
-class TextmodelStatementAddDialog(Gtk.Dialog):
-    
-    def __init__(self, parent, prediction):
-        Gtk.Dialog.__init__(self, "Model Dialog", None, 0,
-            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-             Gtk.STOCK_OK, Gtk.ResponseType.OK))
-        
-        self.set_default_size(150, 400)
-        layout_grid = Gtk.Grid()
+class TextmodelStatementAddDialog(BaseAddDialog):
 
-        layout_grid.set_column_spacing(5)
-        layout_grid.set_row_spacing(3)
-        
-        self.prediction = prediction
-        self.main_window = parent
-
+    def set_overview_component(self):
         self.overview_component = TextmodelStatementExtTreeview(self,
                                                                  0,
                                                                  20,
@@ -56,9 +43,9 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
                                                                  self.noop,
                                                                  self.prediction)
 
-        box = self.get_content_area()
+    def create_layout(self):
 
-        box.add(layout_grid)
+        layout_grid = Gtk.Grid()
 
         stm_label = LabelWidget("Statement(s)")
         layout_grid.attach(stm_label, 0, 0, 1, 1)
@@ -81,7 +68,7 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
 
         layout_grid.attach_next_to(self.overview_component, add_statement_button, Gtk.PositionType.BOTTOM, 1, 1)
 
-        self.show_all()
+        return layout_grid
 
     @transactional
     def add_statement_action(self, widget):
@@ -94,9 +81,6 @@ class TextmodelStatementAddDialog(Gtk.Dialog):
         self.prediction.save()
         show_info_dialog(self.main_window, "Add successful")
         self.overview_component.fill_treeview(0)
-
-    def noop(self, widget):
-        pass
 
     def load_tmstatement(self, widget):
         row = self.overview_component.get_selected_row()

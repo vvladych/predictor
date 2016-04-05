@@ -1,17 +1,10 @@
 from . import *
 
 
-class PredictionNewDialog(Gtk.Dialog):
+class PredictionNewDialog(BaseAddDialog):
 
-    def __init__(self, parent):
-        Gtk.Dialog.__init__(self, "Create new prediction", parent, 0,
-                            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK))
-
-        self.set_default_size(400, 400)
-
-        box = self.get_content_area()
+    def create_layout(self):
         layout_grid = Gtk.Grid()
-        box.add(layout_grid)
 
         new_label = LabelWidget("Create new prediction")
         layout_grid.attach(new_label, 0, 0, 1, 1)
@@ -22,13 +15,16 @@ class PredictionNewDialog(Gtk.Dialog):
         self.desc_textview = TextViewWidget(None, None, "Short description")
         layout_grid.attach_next_to(self.desc_textview, self.prediction_name_entry_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
-        self.show_all()
+        return layout_grid
 
     @transactional
     def perform_insert(self):
         prediction = PredictionDAO(None, {'commonname':self.prediction_name_entry_widget.get_entry_value(),
                                           'short_description':self.desc_textview.get_textview_text()})
         prediction.save()
+
+    def set_overview_component(self):
+        pass
 
 
 class PredictionOverviewWindow(Gtk.Grid):
@@ -82,19 +78,19 @@ class PredictionOverviewWindow(Gtk.Grid):
             self.desc_textview_widget.set_text(self.prediction.short_description)
 
     def show_publication_dialog(self):
-        dialog = PredictionPublicationAddDialog(self.main_window, self.prediction)
+        dialog = PredictionPublicationAddDialog(self.main_window, self.prediction, "Publication Dialog")
         dialog.run()
         dialog.destroy()
         self.publication_overview_component.fill_treeview(0)
 
     def show_originator_dialog(self):
-        dialog = OriginatorAddDialog(self.main_window, self.prediction)
+        dialog = OriginatorAddDialog(self.main_window, self.prediction, "Originator Dialog")
         dialog.run()
         dialog.destroy()
         self.originator_overview_component.fill_treeview(0)
 
     def show_tmstatement_dialog(self):
-        dialog = TextmodelStatementAddDialog(self.main_window, self.prediction)
+        dialog = TextmodelStatementAddDialog(self.main_window, self.prediction, "Model Dialog")
         dialog.run()
         dialog.destroy()
         self.tmstatement_overview_component.fill_treeview(0)
@@ -114,7 +110,7 @@ class PredictionExtTreeview(ExtendedTreeView):
         self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.commonname, "%s" % row.created_date, "%s" % row.publication_title, "%s" % row.publisher_commonname])
 
     def on_menu_item_new(self, widget):
-        new_prediction_dialog = PredictionNewDialog(self.main_window)
+        new_prediction_dialog = PredictionNewDialog(self.main_window, None, "New Prediction")
         response = new_prediction_dialog.run()
 
         if response == Gtk.ResponseType.OK:

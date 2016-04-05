@@ -38,17 +38,9 @@ class PredictionOriginatorExtTreeview(ExtendedTreeView):
             self.fill_treeview(0)
 
 
-class OriginatorAddDialog(Gtk.Dialog):
+class OriginatorAddDialog(BaseAddDialog):
 
-    def __init__(self, parent, prediction):
-        Gtk.Dialog.__init__(self,
-                            "Originator Dialog",
-                            parent,
-                            0,
-                            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK))
-        self.prediction = prediction
-        self.set_default_size(400, 400)
-        self.main_window = parent
+    def set_overview_component(self):
         self.overview_component = PredictionOriginatorExtTreeview(self,
                                                                   0,
                                                                   20,
@@ -57,14 +49,8 @@ class OriginatorAddDialog(Gtk.Dialog):
                                                                   self.noop,
                                                                   self.prediction)
 
-        self.create_layout()
-        self.show_all()
-
     def create_layout(self):
-
-        box = self.get_content_area()
         layout_grid = Gtk.Grid()
-        box.add(layout_grid)
 
         originator_label = LabelWidget("Originator")
         layout_grid.attach(originator_label, 0, 0, 1, 1)
@@ -89,8 +75,7 @@ class OriginatorAddDialog(Gtk.Dialog):
 
         layout_grid.attach_next_to(self.overview_component, self.organisation_originator_combobox, Gtk.PositionType.BOTTOM, 2, 1)
 
-    def noop(self, widget=None):
-        pass
+        return layout_grid
 
     @transactional
     def add_originator(self, widget, originator_type):

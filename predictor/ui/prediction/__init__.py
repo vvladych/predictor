@@ -11,6 +11,7 @@ from predictor.model.predictor_model import PublicationPublisherV, PredictionPub
 from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
 from predictor.ui.base.abstract_mask import AbstractMask
 
+from predictor.ui.prediction.base_add_dialog import BaseAddDialog
 from predictor.ui.prediction.tmstatement import TextmodelStatementAddDialog, TextmodelStatementExtTreeview
 from predictor.ui.prediction.predpublication import PredictionPublicationAddDialog, PredictionPublicationExtTreeview
 from predictor.ui.prediction.originator import PredictionOriginatorExtTreeview, OriginatorAddDialog

@@ -1,17 +1,9 @@
 from . import *
 
 
-class PredictionPublicationAddDialog(Gtk.Dialog):
+class PredictionPublicationAddDialog(BaseAddDialog):
 
-    def __init__(self, parent, prediction):
-        Gtk.Dialog.__init__(self,
-                            "Publication Dialog",
-                            parent,
-                            0,
-                            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK))
-        self.main_window = parent
-        self.prediction = prediction
-        self.set_default_size(400, 400)
+    def set_overview_component(self):
         self.overview_component = PredictionPublicationExtTreeview(self,
                                                                    0,
                                                                    20,
@@ -20,15 +12,9 @@ class PredictionPublicationAddDialog(Gtk.Dialog):
                                                                    self.noop,
                                                                    self.prediction)
 
-        self.create_layout()
-        self.show_all()
-
     def create_layout(self):
-        box = self.get_content_area()
 
         layout_grid = Gtk.Grid()
-
-        box.add(layout_grid)
 
         predpub_label = LabelWidget("Prediction's predpublication(s)")
         layout_grid.attach(predpub_label, 0, 0, 1, 1)
@@ -47,20 +33,16 @@ class PredictionPublicationAddDialog(Gtk.Dialog):
 
         layout_grid.attach_next_to(self.overview_component, add_publication_button, Gtk.PositionType.BOTTOM, 1, 1)
 
+        return layout_grid
+
     @transactional
     def add_publication_action(self, widget):
-        publication = PublicationDAO(self.get_active_publication())
+        publication = PublicationDAO(self.publications_combobox.get_active_entry())
         publication.load()
         self.prediction.add_publication(publication)
         self.prediction.save()
         show_info_dialog(self.main_window, "Add successful")
         self.overview_component.fill_treeview(0)
-
-    def get_active_publication(self):
-        return self.publications_combobox.get_active_entry()
-
-    def noop(self, widget=None):
-        pass
 
 
 class PredictionPublicationExtTreeview(ExtendedTreeView):
