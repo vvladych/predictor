@@ -24,5 +24,5 @@ class BaseAddDialog(Gtk.Dialog):
     def create_layout(self):
         raise NotImplementedError("create layout not implemented")
 
-    def noop(self, widget):
+    def noop(self, widget=None):
         pass

@@ -297,3 +297,8 @@ class ConceptDAO(DAO):
     data_fields = ["uuid", "commonname", "uri", "datatype"]
     entity = "concept"
     sortkey = "commonname"
+
+
+class TmstatementFormstatementNumintV(VDAO):
+    data_fields = ["uuid"]
+    entity = "public.\"tmstatement_formstatement_numint_V\""

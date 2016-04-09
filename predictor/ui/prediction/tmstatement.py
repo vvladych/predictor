@@ -18,7 +18,7 @@ class TextmodelStatementExtTreeview(ExtendedTreeView):
                                         "%s" % row.text])
 
     def on_row_select_callback(self, dao_uuid):
-        pass
+        print("row selected hier!")
 
     @transactional
     def on_menu_item_delete(self, widget):
@@ -39,7 +39,7 @@ class TextmodelStatementAddDialog(BaseAddDialog):
                                                                  0,
                                                                  20,
                                                                  self.load_tmstatement,
-                                                                 self.noop,
+                                                                 self.add_formstatement,
                                                                  self.noop,
                                                                  self.prediction)
 
@@ -87,3 +87,7 @@ class TextmodelStatementAddDialog(BaseAddDialog):
         self.state_begin_date_widget.set_date_from_string(row[2])
         self.state_end_date_widget.set_date_from_string(row[3])
         self.prediction_model_textview_widget.set_text(row[4])
+
+    def add_formstatement(self):
+        tmstatement = self.overview_component.get_selected_row()
+        print("add formstatement")

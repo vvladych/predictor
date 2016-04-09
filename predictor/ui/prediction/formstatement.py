@@ -1,9 +1,9 @@
 from . import *
 
-"""
-class FormalStatementExtTreeview(ExtendedTreeView):
 
-    dao_type = FormStatementV
+class FormstatementExtTreeview(ExtendedTreeView):
+
+    dao_type = TmstatementFormstatementNumintV
     columns = [TreeviewColumn("formstatement_uuid", 0, True),
                TreeviewColumn("tmtatement_uuid", 1, True),
                TreeviewColumn("State PIT begin", 2, False),
@@ -22,7 +22,7 @@ class FormalStatementExtTreeview(ExtendedTreeView):
 
     @transactional
     def on_menu_item_delete(self, widget):
-        row = super(TextmodelStatementExtTreeview, self).get_selected_row()
+        row = super(FormstatementExtTreeview, self).get_selected_row()
         if row is not None:
             prediction = PredictionDAO(row[0])
             prediction.load()
@@ -31,7 +31,7 @@ class FormalStatementExtTreeview(ExtendedTreeView):
             prediction.save()
             self.fill_treeview(0)
 
-
+"""
 class TextmodelStatementAddDialog(BaseAddDialog):
 
     def set_overview_component(self):

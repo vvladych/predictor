@@ -33,7 +33,7 @@ class PredictionOverviewWindow(Gtk.Grid):
         Gtk.Grid.__init__(self)
         self.main_window = main_window
         self.publication_overview_component = PredictionPublicationExtTreeview(main_window, 0, 20, None, None, self.show_publication_dialog, prediction)
-        self.tmstatement_overview_component = TextmodelStatementExtTreeview(main_window, 0, 20, None, None, self.show_tmstatement_dialog, prediction)
+        self.tmstatement_overview_component = TextmodelStatementExtTreeview(main_window, 0, 20, self.on_tmstatement_row_select, None, self.show_tmstatement_dialog, prediction)
         self.originator_overview_component = PredictionOriginatorExtTreeview(main_window, 0, 20, None, None, self.show_originator_dialog, prediction)
         self.prediction = prediction
         self.create_layout()
@@ -94,6 +94,9 @@ class PredictionOverviewWindow(Gtk.Grid):
         dialog.run()
         dialog.destroy()
         self.tmstatement_overview_component.fill_treeview(0)
+
+    def on_tmstatement_row_select(self, tmstatement_uuid):
+        print("hier %s" % tmstatement_uuid)
 
 
 class PredictionExtTreeview(ExtendedTreeView):

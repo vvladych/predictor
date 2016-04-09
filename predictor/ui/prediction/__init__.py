@@ -8,6 +8,7 @@ from predictor.helpers.transaction_broker import transactional
 from predictor.model.predictor_model import PredictionOriginatorV, PredictionDAO, OriginatorDAO, PersonDAO
 from predictor.model.predictor_model import OrganisationDAO, PredictionPublicationPublisherV, PublicationDAO
 from predictor.model.predictor_model import PublicationPublisherV, PredictionPublisherV, PredictionStatementV, TmstatementDAO
+from predictor.model.predictor_model import TmstatementFormstatementNumintV
 from predictor.ui.base.exttreeview import ExtendedTreeView, TreeviewColumn
 from predictor.ui.base.abstract_mask import AbstractMask
 
