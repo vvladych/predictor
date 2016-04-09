@@ -34,7 +34,7 @@ class PersonWindow(MDOWindow):
         name_add_button.connect("clicked", self.add_name)
         self.attach_next_to(name_add_button, self.name_role_combobox_widget, Gtk.PositionType.RIGHT, 1, 1)
 
-        self.name_part_combobox_widget = ComboBoxWidget("Name role",
+        self.name_part_combobox_widget = ComboBoxWidget("Namepart",
                                                         enum_retrieve_valid_values("t_person_name_part_role"),
                                                         lambda x: ["%s" % x[0], "%s" % x[1]])
         self.attach_next_to(self.name_part_combobox_widget, self.name_role_combobox_widget, Gtk.PositionType.BOTTOM, 1, 1)

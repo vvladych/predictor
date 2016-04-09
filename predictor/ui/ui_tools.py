@@ -38,12 +38,17 @@ def show_error_dialog(main_window, message):
 
 class TextViewWidget(Gtk.Grid):
 
-    def __init__(self, textview=None, model_text=None, title=""):
+    def __init__(self, textview=None, model_text=None, title="", width=600, height=100, vexpand=False):
         Gtk.Grid.__init__(self)
+
+        self.width = width
+        self.height = height
+        self.vexpand = vexpand
 
         label = Gtk.Label(title)
         label.set_alignment(xalign=0, yalign=0.5)
         label.set_size_request(200, -1)
+
 
         if textview is None:
             self.textview = Gtk.TextView()
@@ -58,9 +63,9 @@ class TextViewWidget(Gtk.Grid):
 
     def create_textview_widget(self):
         scrolledwindow = Gtk.ScrolledWindow()
-        scrolledwindow.set_size_request(600, 100)
-        scrolledwindow.set_hexpand(True)
-        scrolledwindow.set_vexpand(True)
+        scrolledwindow.set_size_request(self.width, self.height)
+        #scrolledwindow.set_hexpand(True)
+        scrolledwindow.set_vexpand(self.vexpand)
 
         if self.model_text is not None:
             self.textview.get_buffer().set_text(self.model_text)
@@ -79,7 +84,7 @@ class TextViewWidget(Gtk.Grid):
 
 class TextEntryWidget(Gtk.Grid):
 
-    def __init__(self, title, text_entry_value=None, editable=True):
+    def __init__(self, title, text_entry_value=None, editable=True, width=300, height=-1):
         Gtk.Grid.__init__(self)
         label = Gtk.Label(title)
         label.set_alignment(xalign=0, yalign=0.5)
@@ -87,7 +92,7 @@ class TextEntryWidget(Gtk.Grid):
         self.set_entry_value(text_entry_value)
         self.textentry.set_editable(editable)
 
-        self.textentry.set_size_request(300, -1)
+        self.textentry.set_size_request(width, height)
         label.set_size_request(200, -1)
         self.attach(label, 0, 0, 1, 1)
         self.attach_next_to(self.textentry, label, Gtk.PositionType.RIGHT, 1, 1)

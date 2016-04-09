@@ -65,7 +65,7 @@ class PublicationOverviewWindow(Gtk.Grid):
         content_label = LabelWidget("Content")
         self.attach_next_to(content_label, choose_file_grid, Gtk.PositionType.BOTTOM, 1, 1)
 
-        self.textview_widget = TextViewWidget(None, None, "Text")
+        self.textview_widget = TextViewWidget(None, None, "Text", 600, 300, True)
         self.attach_next_to(self.textview_widget, content_label, Gtk.PositionType.BOTTOM, 1, 1)
 
         save_publication_button = Gtk.Button("Save", Gtk.STOCK_SAVE)

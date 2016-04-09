@@ -52,7 +52,7 @@ class PredictionOverviewWindow(Gtk.Grid):
         self.common_name_text_entry = TextEntryWidget("Common name", None, False)
         self.attach_next_to(self.common_name_text_entry, self.prediction_uuid_text_entry, Gtk.PositionType.BOTTOM, 1, 1)
 
-        self.desc_textview_widget = TextViewWidget(None, None, "Description")
+        self.desc_textview_widget = TextViewWidget(None, None, "Description", 600, 50)
         self.attach_next_to(self.desc_textview_widget, self.common_name_text_entry, Gtk.PositionType.BOTTOM, 1, 1)
 
         # originators

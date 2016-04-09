@@ -294,6 +294,6 @@ class LanguageDAO(DAO):
 
 
 class ConceptDAO(DAO):
-    data_fields = ["uuid", "commonname", "uri"]
+    data_fields = ["uuid", "commonname", "uri", "datatype"]
     entity = "concept"
     sortkey = "commonname"

@@ -30,15 +30,21 @@ class ConceptOverviewWindow(Gtk.Grid):
         self.uri_entry_widget = TextEntryWidget("URI", None, True)
         self.attach_next_to(self.uri_entry_widget, self.commonname_entry_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
+        self.concept_datatype_widget = ComboBoxWidget("Concept datatype",
+                                                      enum_retrieve_valid_values("t_concept_type"),
+                                                      lambda x: ["%s" % x[0], "%s" % x[1]])
+        self.attach_next_to(self.concept_datatype_widget, self.uri_entry_widget, Gtk.PositionType.BOTTOM, 1, 1)
+
         save_button = Gtk.Button("Save", Gtk.STOCK_SAVE)
         save_button.set_size_request(100, -1)
         save_button.connect("clicked", self.save_concept_action)
-        self.attach_next_to(save_button, self.uri_entry_widget, Gtk.PositionType.BOTTOM, 1, 1)
+        self.attach_next_to(save_button, self.concept_datatype_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
     def load_concept(self):
         self.concept_uuid_entry_widget.set_entry_value("%s" % self.concept.uuid)
         self.commonname_entry_widget.set_entry_value("%s" % self.concept.commonname)
         self.uri_entry_widget.set_entry_value("%s" % self.concept.uri)
+        self.concept_datatype_widget.set_active_entry(self.concept_datatype_widget.get_entry_key_for_value(self.concept.datatype))
 
     @transactional
     def save_concept_action(self, widget):
@@ -51,8 +57,10 @@ class ConceptOverviewWindow(Gtk.Grid):
 
         concept = ConceptDAO(concept_uuid,
                              {"commonname": concept_commonname,
-                              "url": concept_uri})
+                              "url": concept_uri,
+                              "datatype":self.concept_datatype_widget.get_active_entry_visible()})
         concept.save()
+
         show_info_dialog(self.main_window, "Concept inserted")
         self.concept = concept
         self.concept.load()

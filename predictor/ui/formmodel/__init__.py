@@ -6,3 +6,4 @@ from predictor.ui.ui_tools import show_info_dialog, TextViewWidget, LabelWidget,
 
 from predictor.model.predictor_model import ConceptDAO
 from predictor.helpers.transaction_broker import transactional
+from predictor.helpers.db_connection import enum_retrieve_valid_values
