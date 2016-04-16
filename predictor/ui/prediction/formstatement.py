@@ -158,7 +158,9 @@ class FormStatementAddDialog(BaseAddDialog):
         elif concept.datatype == "literal":
             print("literal")
         elif concept.datatype == "boolean":
-            print("boolean")
+            fsboolean = Fsboolean(None, {"value": self.bool_combobox_widget.get_active_entry_visible()})
+            fsboolean.save()
+            fstate.add_fsboolean(fsboolean)
         else:
             print("unknown concept.datatype %s" % concept.datatype)
 
@@ -169,11 +171,5 @@ class FormStatementAddDialog(BaseAddDialog):
         self.overview_component.reset_treemodel()
 
     def load_formstatement(self, widget):
-        """
-        row = self.overview_component.get_selected_row()
-        self.state_begin_date_widget.set_date_from_string(row[2])
-        self.state_end_date_widget.set_date_from_string(row[3])
-        self.prediction_model_textview_widget.set_text(row[4])
-        """
         print("in load_statement")
 

@@ -324,6 +324,11 @@ class Fsnumint(DAO):
     entity = "fsnumint"
 
 
+class Fsboolean(DAO):
+    data_fields = ["uuid", "value"]
+    entity = "fsboolean"
+
+
 class FstateToConcept(DAOtoDAO):
     entity = "fstate_to_concept"
     primDAO_PK = "fstate_uuid"
@@ -334,6 +339,12 @@ class FstateToFsnumint(DAOtoDAO):
     entity = "fstate_to_fsnumint"
     primDAO_PK = "fstate_uuid"
     secDAO_PK = "fsnumint_uuid"
+
+
+class FstateToFsboolean(DAOtoDAO):
+    entity = "fstate_to_fsboolean"
+    primDAO_PK = "fstate_uuid"
+    secDAO_PK = "fsboolean_uuid"
 
 
 class FstateToTmstatement(DAOtoDAO):
@@ -347,6 +358,7 @@ class FstateDAO(DAO):
     entity = "fstate"
     join_objects = {"FstateToConcept": FstateToConcept,
                     "FstateToFsnumint": FstateToFsnumint,
+                    "FstateToFsboolean": FstateToFsboolean,
                     "FstateToTmstatement": FstateToTmstatement}
 
     def add_tmstatement(self, tmstatement):
@@ -360,6 +372,12 @@ class FstateDAO(DAO):
 
     def remove_fsnumint(self, fsnumint):
         self.FstateToFsnumint.remove(FstateToFsnumint(self.uuid, fsnumint.uuid))
+
+    def add_fsboolean(self, fsboolean):
+        self.FstateToFsboolean.add(FstateToFsboolean(self.uuid, fsboolean.uuid))
+
+    def remove_fsnumint(self, fsboolean):
+        self.FstateToFsboolean.remove(FstateToFsboolean(self.uuid, fsboolean.uuid))
 
     def add_concept(self, concept):
         self.FstateToConcept.add(FstateToConcept(self.uuid, concept.uuid))
