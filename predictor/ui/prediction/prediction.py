@@ -35,6 +35,7 @@ class PredictionOverviewWindow(Gtk.Grid):
         self.publication_overview_component = PredictionPublicationExtTreeview(main_window, 0, 20, None, None, self.show_publication_dialog, prediction)
         self.tmstatement_overview_component = TextmodelStatementExtTreeview(main_window, 0, 20, self.on_tmstatement_row_select, None, self.show_tmstatement_dialog, prediction)
         self.originator_overview_component = PredictionOriginatorExtTreeview(main_window, 0, 20, None, None, self.show_originator_dialog, prediction)
+        self.formstatement_overview_component = FormstatementExtTreeview(main_window, 0, 20, None, None, self.show_formstatement_dialog, prediction)
         self.prediction = prediction
         self.create_layout()
         self.load_prediction()
@@ -71,6 +72,11 @@ class PredictionOverviewWindow(Gtk.Grid):
 
         self.attach_next_to(self.tmstatement_overview_component, statements_label, Gtk.PositionType.BOTTOM, 1, 1)
 
+        formstatements_label = LabelWidget("Formstatements")
+        self.attach_next_to(formstatements_label, self.tmstatement_overview_component, Gtk.PositionType.BOTTOM, 1, 1)
+
+        self.attach_next_to(self.formstatement_overview_component, formstatements_label, Gtk.PositionType.BOTTOM, 1, 1)
+
     def load_prediction(self):
         if self.prediction is not None:
             self.prediction_uuid_text_entry.set_entry_value(self.prediction.uuid)
@@ -90,10 +96,16 @@ class PredictionOverviewWindow(Gtk.Grid):
         self.originator_overview_component.fill_treeview(0)
 
     def show_tmstatement_dialog(self):
-        dialog = TextmodelStatementAddDialog(self.main_window, self.prediction, "Model Dialog")
+        dialog = TextmodelStatementAddDialog(self.main_window, self.prediction, "Text statements")
         dialog.run()
         dialog.destroy()
         self.tmstatement_overview_component.fill_treeview(0)
+
+    def show_formstatement_dialog(self):
+        dialog = FormStatementAddDialog(self.main_window, self.prediction, "Formal statements dialog")
+        dialog.run()
+        dialog.destroy()
+        self.formstatement_overview_component.fill_treeview(0)
 
     def on_tmstatement_row_select(self, tmstatement_uuid):
         print("hier %s" % tmstatement_uuid)

@@ -147,24 +147,6 @@ class PublicationPublisherV(VDAO):
     entity = "public.\"publication_publisher_V\""
 
 
-class PredictiontoPublication(DAOtoDAO):
-    entity = "prediction_to_publication"
-    primDAO_PK = "prediction_uuid"
-    secDAO_PK = "publication_uuid"
-
-
-class PredictiontoTextmodel(DAOtoDAO):
-    entity = "prediction_to_textmodel"
-    primDAO_PK = "prediction_uuid"
-    secDAO_PK = "textmodel_uuid"
-
-
-class PredictiontoTmstatement(DAOtoDAO):
-    entity = "prediction_to_tmstatement"
-    primDAO_PK = "prediction_uuid"
-    secDAO_PK = "tmstatement_uuid"
-
-
 class OriginatortoPerson(DAOtoDAO):
     entity = "originator_to_person"
     primDAO_PK = "originator_uuid"
@@ -196,6 +178,30 @@ class OriginatorDAO(DAO):
         self.OriginatortoOrganisation.remove(OriginatortoOrganisation(self.uuid, organisation.uuid))
 
 
+class PredictiontoPublication(DAOtoDAO):
+    entity = "prediction_to_publication"
+    primDAO_PK = "prediction_uuid"
+    secDAO_PK = "publication_uuid"
+
+
+class PredictiontoTextmodel(DAOtoDAO):
+    entity = "prediction_to_textmodel"
+    primDAO_PK = "prediction_uuid"
+    secDAO_PK = "textmodel_uuid"
+
+
+class PredictiontoTmstatement(DAOtoDAO):
+    entity = "prediction_to_tmstatement"
+    primDAO_PK = "prediction_uuid"
+    secDAO_PK = "tmstatement_uuid"
+
+
+class PredictiontoFstate(DAOtoDAO):
+    entity = "prediction_to_fstate"
+    primDAO_PK = "prediction_uuid"
+    secDAO_PK = "fstate_uuid"
+
+
 class PredictiontoOriginator(DAOtoDAO):
     entity = "prediction_to_originator"
     primDAO_PK = "prediction_uuid"
@@ -207,7 +213,8 @@ class PredictionDAO(DAO):
     entity = "prediction"
     join_objects = {"PredictiontoPublication": PredictiontoPublication,
                     "PredictiontoTmstatement": PredictiontoTmstatement,
-                    "PredictiontoOriginator": PredictiontoOriginator }
+                    "PredictiontoOriginator": PredictiontoOriginator,
+                    "PredictiontoFstate": PredictiontoFstate }
     sortkey = "commonname"
 
     def add_publication(self, publication):
@@ -231,6 +238,12 @@ class PredictionDAO(DAO):
 
     def remove_originator(self, originator):
         self.PredictiontoOriginator.remove(PredictiontoOriginator(self.uuid, originator.uuid))
+
+    def add_fstate(self, fstate):
+        self.PredictiontoFstate.add(PredictiontoFstate(self.uuid, fstate.uuid))
+
+    def remove_fstate(self, fstate):
+        self.PredictiontoFstate.remove(PredictiontoFstate(self.uuid, fstate.uuid))
 
 
 class PredictionPublisherV(VDAO):
@@ -261,11 +274,6 @@ class TextmodelDAO(DAO):
         self.TextmodelToTmstatement.remove(TextmodelToTmstatement(self.uuid, tmstatement.uuid))
 
 
-class TmstatementDAO(DAO):
-    data_fields = ["uuid", "text", "tmbegin", "tmend"]
-    entity = "tmstatement"
-
-
 class PredictionStatementV(VDAO):
     data_fields = ["uuid", "tmstatement_uuid", "tmbegin", "tmend", "text"]
     entity = "public.\"prediction_tmstatement_V\""
@@ -276,15 +284,20 @@ class PredictionTextmodelV(VDAO):
     entity = "public.\"prediction_textmodel_V\""
 
 
+class PredictionPublicationPublisherV(VDAO):
+    data_fields = ["uuid", "commonname", "created_date", "publication_title", "publication_date", "publisher_commonname"]
+    entity = "public.\"prediction_publication_publisher_V\""
+
+
 class CountryDAO(DAO):
     data_fields = ["uuid", "commonname"]
     entity = "country"
     sortkey = "commonname"
 
 
-class PredictionPublicationPublisherV(VDAO):
-    data_fields = ["uuid", "commonname", "created_date", "publication_title", "publication_date", "publisher_commonname"]
-    entity = "public.\"prediction_publication_publisher_V\""
+class TmstatementDAO(DAO):
+    data_fields = ["uuid", "text", "tmbegin", "tmend"]
+    entity = "tmstatement"
 
 
 class LanguageDAO(DAO):
@@ -299,6 +312,57 @@ class ConceptDAO(DAO):
     sortkey = "commonname"
 
 
-class TmstatementFormstatementNumintV(VDAO):
-    data_fields = ["uuid"]
-    entity = "public.\"tmstatement_formstatement_numint_V\""
+class PredictionFormstatementV(VDAO):
+    data_fields = ["uuid", "fstate_uuid", "fstate_probability", "fsnumint_uuid",
+                   "fsvalue", "fstatebegin", "fstateend", "concept_uuid", "concept_commonname", "concept_datatype",
+                   "tmstatement_uuid", "tmbegin", "tmend"]
+    entity = "prediction_formstm_v"
+
+
+class Fsnumint(DAO):
+    data_fields = ["uuid", "value"]
+    entity = "fsnumint"
+
+
+class FstateToConcept(DAOtoDAO):
+    entity = "fstate_to_concept"
+    primDAO_PK = "fstate_uuid"
+    secDAO_PK = "concept_uuid"
+
+
+class FstateToFsnumint(DAOtoDAO):
+    entity = "fstate_to_fsnumint"
+    primDAO_PK = "fstate_uuid"
+    secDAO_PK = "fsnumint_uuid"
+
+
+class FstateToTmstatement(DAOtoDAO):
+    entity = "fstate_to_tmstatement"
+    primDAO_PK = "fstate_uuid"
+    secDAO_PK = "tmstatement_uuid"
+
+
+class FstateDAO(DAO):
+    data_fields = ["uuid", "fstatedate", "probability", "fstatebegin", "fstateend"]
+    entity = "fstate"
+    join_objects = {"FstateToConcept": FstateToConcept,
+                    "FstateToFsnumint": FstateToFsnumint,
+                    "FstateToTmstatement": FstateToTmstatement}
+
+    def add_tmstatement(self, tmstatement):
+        self.FstateToTmstatement.add(FstateToTmstatement(self.uuid, tmstatement.uuid))
+
+    def remove_tmstatement(self, tmstatement):
+        self.FstateToTmstatement.remove(FstateToTmstatement(self.uuid, tmstatement.uuid))
+
+    def add_fsnumint(self, fsnumint):
+        self.FstateToFsnumint.add(FstateToFsnumint(self.uuid, fsnumint.uuid))
+
+    def remove_fsnumint(self, fsnumint):
+        self.FstateToFsnumint.remove(FstateToFsnumint(self.uuid, fsnumint.uuid))
+
+    def add_concept(self, concept):
+        self.FstateToConcept.add(FstateToConcept(self.uuid, concept.uuid))
+
+    def remove_concept(self, concept):
+        self.FstateToConcept.remove(FstateToConcept(self.uuid, concept.uuid))
