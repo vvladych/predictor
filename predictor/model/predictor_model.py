@@ -317,6 +317,7 @@ class PredictionFormstatementV(VDAO):
                    "fsvalue", "fstatebegin", "fstateend", "concept_uuid", "concept_commonname", "concept_datatype",
                    "tmstatement_uuid", "tmbegin", "tmend"]
     entity = "prediction_formstm_v"
+    sortkey = "concept_commonname"
 
 
 class Fsnumint(DAO):
@@ -327,6 +328,11 @@ class Fsnumint(DAO):
 class Fsboolean(DAO):
     data_fields = ["uuid", "value"]
     entity = "fsboolean"
+
+
+class Fsliteral(DAO):
+    data_fields = ["uuid", "value"]
+    entity = "fsliteral"
 
 
 class FstateToConcept(DAOtoDAO):
@@ -347,6 +353,12 @@ class FstateToFsboolean(DAOtoDAO):
     secDAO_PK = "fsboolean_uuid"
 
 
+class FstateToFsliteral(DAOtoDAO):
+    entity = "fstate_to_fsliteral"
+    primDAO_PK = "fstate_uuid"
+    secDAO_PK = "fsliteral_uuid"
+
+
 class FstateToTmstatement(DAOtoDAO):
     entity = "fstate_to_tmstatement"
     primDAO_PK = "fstate_uuid"
@@ -359,6 +371,7 @@ class FstateDAO(DAO):
     join_objects = {"FstateToConcept": FstateToConcept,
                     "FstateToFsnumint": FstateToFsnumint,
                     "FstateToFsboolean": FstateToFsboolean,
+                    "FstateToFsliteral": FstateToFsliteral,
                     "FstateToTmstatement": FstateToTmstatement}
 
     def add_tmstatement(self, tmstatement):
@@ -378,6 +391,12 @@ class FstateDAO(DAO):
 
     def remove_fsnumint(self, fsboolean):
         self.FstateToFsboolean.remove(FstateToFsboolean(self.uuid, fsboolean.uuid))
+
+    def add_fsliteral(self, fsliteral):
+        self.FstateToFsliteral.add(FstateToFsliteral(self.uuid, fsliteral.uuid))
+
+    def remove_fsliteral(self, fsliteral):
+        self.FstateToFsliteral.remove(FstateToFsliteral(self.uuid, fsliteral.uuid))
 
     def add_concept(self, concept):
         self.FstateToConcept.add(FstateToConcept(self.uuid, concept.uuid))

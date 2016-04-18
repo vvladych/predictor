@@ -156,7 +156,10 @@ class FormStatementAddDialog(BaseAddDialog):
             fsnumint.save()
             fstate.add_fsnumint(fsnumint)
         elif concept.datatype == "literal":
-            print("literal")
+            fsliteral = Fsliteral(None, {"value": self.literal_value_widget.get_entry_value()})
+            fsliteral.save()
+            fstate.add_fsliteral(fsliteral)
+
         elif concept.datatype == "boolean":
             fsboolean = Fsboolean(None, {"value": self.bool_combobox_widget.get_active_entry_visible()})
             fsboolean.save()
