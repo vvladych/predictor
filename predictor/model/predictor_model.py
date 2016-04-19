@@ -307,7 +307,7 @@ class LanguageDAO(DAO):
 
 
 class ConceptDAO(DAO):
-    data_fields = ["uuid", "commonname", "uri", "datatype"]
+    data_fields = ["uuid", "commonname", "uri", "datatype", "dimension"]
     entity = "concept"
     sortkey = "commonname"
 
@@ -315,7 +315,7 @@ class ConceptDAO(DAO):
 class PredictionFormstatementV(VDAO):
     data_fields = ["uuid", "fstate_uuid", "fstate_probability", "fsnumint_uuid",
                    "fsvalue", "fstatebegin", "fstateend", "concept_uuid", "concept_commonname", "concept_datatype",
-                   "tmstatement_uuid", "tmbegin", "tmend"]
+                   "concept_dimension", "tmstatement_uuid", "tmbegin", "tmend"]
     entity = "prediction_formstm_v"
     sortkey = "concept_commonname"
 

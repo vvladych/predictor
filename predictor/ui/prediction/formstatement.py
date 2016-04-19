@@ -9,11 +9,12 @@ class FormstatementExtTreeview(ExtendedTreeView):
                TreeviewColumn("tmstatement_uuid", 2, True),
                TreeviewColumn("concept", 3, False),
                TreeviewColumn("datatype", 4, False),
-               TreeviewColumn("fsvalue", 5, False),
-               TreeviewColumn("fstatebegin", 6, False),
-               TreeviewColumn("fstateend", 7, False),
-               TreeviewColumn("PIT begin", 8, False),
-               TreeviewColumn("PIT end", 9, False)]
+               TreeviewColumn("dimension", 5, False),
+               TreeviewColumn("fsvalue", 6, False),
+               TreeviewColumn("fstatebegin", 7, False),
+               TreeviewColumn("fstateend", 8, False),
+               TreeviewColumn("PIT begin", 9, False),
+               TreeviewColumn("PIT end", 10, False)]
 
     def append_treedata_row(self, row):
         self.treeview.treemodel.append(["%s" % row.uuid,
@@ -21,6 +22,7 @@ class FormstatementExtTreeview(ExtendedTreeView):
                                         "%s" % row.tmstatement_uuid,
                                         "%s" % row.concept_commonname,
                                         "%s" % row.concept_datatype,
+                                        "%s" % row.concept_dimension,
                                         "%s" % row.fsvalue,
                                         "%s" % row.fstatebegin,
                                         "%s" % row.fstateend,
@@ -66,8 +68,11 @@ class FormStatementAddDialog(BaseAddDialog):
         self.concept_datatype_entry = TextEntryWidget("Datatype", False)
         layout_grid.attach_next_to(self.concept_datatype_entry, self.concept_combobox, Gtk.PositionType.BOTTOM, 1, 1)
 
+        self.concept_dimension_entry = TextEntryWidget("Dimension", False)
+        layout_grid.attach_next_to(self.concept_dimension_entry, self.concept_datatype_entry, Gtk.PositionType.BOTTOM, 1, 1)
+
         self.probability_entry = TextEntryWidget("Probability")
-        layout_grid.attach_next_to(self.probability_entry, self.concept_datatype_entry, Gtk.PositionType.BOTTOM, 1, 1)
+        layout_grid.attach_next_to(self.probability_entry, self.concept_dimension_entry, Gtk.PositionType.BOTTOM, 1, 1)
 
         pit_label = LabelWidget("Point-in-time")
         layout_grid.attach_next_to(pit_label, self.probability_entry, Gtk.PositionType.BOTTOM, 1, 1)
@@ -100,6 +105,7 @@ class FormStatementAddDialog(BaseAddDialog):
     def concept_combobox_on_changed(self, widget=None):
         concept = self.get_selected_concept()
         self.concept_datatype_entry.set_entry_value(concept.datatype)
+        self.concept_dimension_entry.set_entry_value(concept.dimension)
         self.clean_concept_workarea()
         if concept.datatype == "numeric":
             self.add_numeric_workarea()
