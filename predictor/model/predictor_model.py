@@ -122,6 +122,12 @@ class PublicationDAO(DAO):
         return self.get_joined_dao("PublicationtoLanguage", LanguageDAO)
 
 
+class PublicationUnassignedV(VDAO):
+    data_fields = ["uuid", "date", "title", "url"]
+    entity = "publication_unassigned_v"
+    sortkey = "date DESC"
+
+
 class PublishertoCountry(DAOtoDAO):
     entity = "publisher_to_country"
     primDAO_PK = "publisher_uuid"

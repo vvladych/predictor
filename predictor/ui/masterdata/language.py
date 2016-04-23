@@ -38,9 +38,8 @@ class LanguageWindow(MDOWindow):
 
 class LanguageMask(AbstractMask):
 
-    dao_type = LanguageDAO
-    exttreeview = LanguageExtTreeview
-    overview_window = LanguageWindow
+    def __init__(self, main_window, dao=None):
+        super(LanguageMask, self).__init__(main_window, dao, LanguageExtTreeview, LanguageWindow, LanguageDAO)
 
     def new_callback(self):
         self.clear_main_middle_pane()

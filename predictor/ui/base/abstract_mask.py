@@ -9,41 +9,64 @@ from gi.repository import Gtk
 
 class AbstractMask(Gtk.Paned):
 
-    dao_type = None
-    overview_window = None
-    exttreeview = None
     treecolumns = []
     default_height = 300
     default_width = 200
-    
-    def __init__(self, main_window, dao=None):
+
+    def __init__(self, main_window, dao=None, exttreeview=None, overview_window=None, dao_type=None):
         Gtk.Paned.__init__(self)
 
         self.main_window = main_window
-
         self.dao = dao
-
-        self.overview_treeview = self.__class__.exttreeview(self.main_window,
-                                                            0,
-                                                            20,
-                                                            self.on_row_select,
-                                                            self.new_callback,
-                                                            self.edit_callback,
-                                                            self.dao)
+        self.exttreeview = exttreeview
+        self.overview_window = overview_window
+        self.dao_type = dao_type
 
         # the middle pane: working area
         self.main_middle_pane = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         main_window_width = self.main_window.get_size()[0]
         overview_width = main_window_width / 4
-        self.overview_treeview.set_size_request(overview_width , -1)
+        self.left_pane = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.populate_left_pane()
+
         self.main_middle_pane.set_size_request(main_window_width - overview_width , -1)
-                       
-        self.pack1(self.overview_treeview, True, True)
+        self.pack1(self.left_pane, True, True)
         self.pack2(self.main_middle_pane, True, True)
+
+    def replace_exttreeview(self, exttreeview_class):
+        self.left_pane.remove(self.overview_treeview)
+        self.overview_treeview = exttreeview_class(self.main_window,
+                                                   0,
+                                                   20,
+                                                   self.on_row_select,
+                                                   self.new_callback,
+                                                   self.edit_callback,
+                                                   self.dao)
+        self.left_pane.add(self.overview_treeview)
+        self.left_pane.show_all()
+
+    def populate_left_pane(self):
+        self.add_left_pane_filter()
+        self.overview_treeview = self.exttreeview(self.main_window,
+                                                  0,
+                                                  20,
+                                                  self.on_row_select,
+                                                  self.new_callback,
+                                                  self.edit_callback,
+                                                  self.dao)
+        self.left_pane.add(self.overview_treeview)
+
+        main_window_width = self.main_window.get_size()[0]
+        overview_width = main_window_width / 4
+        self.overview_treeview.set_size_request(overview_width, -1)
+
+
+    def add_left_pane_filter(self):
+        pass
         
     def clear_main_middle_pane(self):
         for child in self.main_middle_pane.get_children():
-            self.main_middle_pane.remove(child)        
+            self.main_middle_pane.remove(child)
 
     def new_callback(self):
         pass
@@ -53,12 +76,12 @@ class AbstractMask(Gtk.Paned):
 
     def on_row_select(self, uuid):
         self.clear_main_middle_pane()
-        dao = self.__class__.dao_type(uuid)
+        dao = self.dao_type(uuid)
         dao.load()
-        if self.__class__.overview_window is not None:
-            self.main_middle_pane.pack_start(self.__class__.overview_window(self.main_window,
-                                                                            dao,
-                                                                            self.overview_treeview.reset_treemodel),
+        if self.overview_window is not None:
+            self.main_middle_pane.pack_start(self.overview_window(self.main_window,
+                                                                  dao,
+                                                                  self.overview_treeview.reset_treemodel),
                                              False,
                                              False,
                                              0)

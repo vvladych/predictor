@@ -165,11 +165,34 @@ class PublicationExtTreeview(ExtendedTreeView):
         self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.title, "%s" % row.date, "%s" % row.url])
 
 
+class PublUnassignedExtTreeview(ExtendedTreeView):
+
+    dao_type = PublicationUnassignedV
+    columns = [TreeviewColumn("uuid", 0, True),
+               TreeviewColumn("Title", 1, False),
+               TreeviewColumn("Date", 2, False),
+               TreeviewColumn("URL", 3, False)]
+
+    def append_treedata_row(self, row):
+        self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.title, "%s" % row.date, "%s" % row.url])
+
+
 class PublicationMask(AbstractMask):
 
-    dao_type = PublicationDAO
-    exttreeview = PublicationExtTreeview
-    overview_window = PublicationOverviewWindow
+    def __init__(self, main_window, dao=None):
+        super(PublicationMask, self).__init__(main_window, dao, PublicationExtTreeview, PublicationOverviewWindow, PublicationDAO)
+        self.filter_combobox_widget.set_active_entry("All")
+
+    def add_left_pane_filter(self):
+        self.filter_combobox_widget = ComboBoxWidget("Filter", ["All", "Assigned", "Unassigned"], lambda x: ["%s" % x, "%s" % x], self.on_filter_combobox_change, 50, 50)
+        self.left_pane.add(self.filter_combobox_widget)
+
+    def on_filter_combobox_change(self, widget=None):
+        active_filter = self.filter_combobox_widget.get_active_entry()
+        if active_filter == "Unassigned":
+            self.replace_exttreeview(PublUnassignedExtTreeview)
+        else:
+            self.replace_exttreeview(PublicationExtTreeview)
 
     def new_callback(self):
         self.clear_main_middle_pane()

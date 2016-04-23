@@ -107,10 +107,10 @@ class TextEntryWidget(Gtk.Grid):
 
 class ComboBoxWidget(Gtk.Grid):
 
-    def __init__(self, title, list_to_load, append_func=None, on_changed=None):
+    def __init__(self, title, list_to_load, append_func=None, on_changed=None, label_size=200, combobox_size=300):
         Gtk.Grid.__init__(self)
         title_label = Gtk.Label(title)
-        title_label.set_size_request(200, -1)
+        title_label.set_size_request(label_size, -1)
         title_label.set_alignment(xalign=0, yalign=0.5)
         self.attach(title_label, 0, 0, 1 ,1)
         self.model = Gtk.ListStore(str, str)
@@ -118,7 +118,7 @@ class ComboBoxWidget(Gtk.Grid):
         self.populate_model(list_to_load)
         self.combobox = Gtk.ComboBox.new_with_model_and_entry(self.model)
         self.combobox.set_entry_text_column(1)
-        self.combobox.set_size_request(300, -1)
+        self.combobox.set_size_request(combobox_size, -1)
         self.attach(self.combobox, 1, 0, 1, 1)
         if on_changed is not None:
             self.combobox.connect("changed", on_changed)

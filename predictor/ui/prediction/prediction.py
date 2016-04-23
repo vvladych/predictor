@@ -141,6 +141,5 @@ class PredictionExtTreeview(ExtendedTreeView):
 
 class PredictionMask(AbstractMask):
 
-    dao_type = PredictionDAO
-    overview_window = PredictionOverviewWindow
-    exttreeview = PredictionExtTreeview
+    def __init__(self, main_window, dao=None):
+        super(PredictionMask, self).__init__(main_window, dao, PredictionExtTreeview, PredictionOverviewWindow, PredictionDAO)

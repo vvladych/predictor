@@ -91,9 +91,8 @@ class ConceptExtTreeview(ExtendedTreeView):
 
 class ConceptMask(AbstractMask):
 
-    dao_type = ConceptDAO
-    exttreeview = ConceptExtTreeview
-    overview_window = ConceptOverviewWindow
+    def __init__(self, main_window, dao=None):
+        super(ConceptMask, self).__init__(main_window, dao, ConceptExtTreeview, ConceptOverviewWindow, ConceptDAO)
 
     def new_callback(self):
         self.clear_main_middle_pane()

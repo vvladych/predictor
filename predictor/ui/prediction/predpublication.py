@@ -81,14 +81,8 @@ class PredictionPublicationExtTreeview(ExtendedTreeView):
 
 class PredictionPublicationMask(AbstractMask):
 
-    dao_type = PredictionPublisherV
-    exttreeview = PredictionPublicationExtTreeview
-
-    default_height = 80
-    default_width = 400
-
-    def __init__(self, main_window, prediction):
-        super(PredictionPublicationMask, self).__init__(main_window, prediction)
+    def __init__(self, main_window, prediction, dao=None):
+        super(PredictionPublicationMask, self).__init__(main_window, dao, PredictionPublicationExtTreeview, None, PredictionPublisherV)
         self.prediction = prediction
 
     def new_callback(self):

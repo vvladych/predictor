@@ -38,9 +38,8 @@ class CountryWindow(MDOWindow):
 
 class CountryMask(AbstractMask):
 
-    dao_type = CountryDAO
-    exttreeview = CountryExtTreeview
-    overview_window = CountryWindow
+    def __init__(self, main_window, dao=None):
+        super(CountryMask, self).__init__(main_window, dao, CountryExtTreeview, CountryWindow, CountryDAO)
 
     def new_callback(self):
         self.clear_main_middle_pane()

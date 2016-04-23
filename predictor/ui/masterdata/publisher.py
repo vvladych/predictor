@@ -46,9 +46,8 @@ class PublisherWindow(MDOWindow):
 
 class PublisherMask(AbstractMask):
 
-    dao_type = PublisherDAO
-    exttreeview = PublisherExtTreeview
-    overview_window = PublisherWindow
+    def __init__(self, main_window, dao=None):
+        super(PublisherMask, self).__init__(main_window, dao, PublisherExtTreeview, PublisherWindow, PublisherDAO)
 
     def new_callback(self):
         self.clear_main_middle_pane()

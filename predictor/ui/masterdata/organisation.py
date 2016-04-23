@@ -52,9 +52,8 @@ class OrganisationWindow(MDOWindow):
 
 class OrganisationMask(AbstractMask):
 
-    dao_type = OrganisationDAO
-    exttreeview = OrganisationExtTreeview
-    overview_window = OrganisationWindow
+    def __init__(self, main_window, dao=None):
+        super(OrganisationMask, self).__init__(main_window, dao, OrganisationExtTreeview, OrganisationWindow, OrganisationDAO)
 
     def new_callback(self):
         self.clear_main_middle_pane()

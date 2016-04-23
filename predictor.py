@@ -54,7 +54,7 @@ class MainWindow(Gtk.Window):
         for child in self.working_area.get_children():
             self.working_area.remove(child)
 
-    def set_working_area(self, widget=None, action="masterdata"):
+    def set_working_area(self, widget=None, action="publication"):
         self.clean_working_area()
         if action == "masterdata":
             self.working_area.pack_start(MDMask(self), True, True, 0)

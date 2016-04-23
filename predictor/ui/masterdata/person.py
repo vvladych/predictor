@@ -155,9 +155,8 @@ class PersonWindow(MDOWindow):
 
 class PersonMask(AbstractMask):
 
-    dao_type = PersonDAO
-    exttreeview = PersonExtTreeview
-    overview_window = PersonWindow
+    def __init__(self, main_window, dao=None):
+        super(PersonMask, self).__init__(main_window, dao, PersonExtTreeview, PersonWindow, PersonDAO)
 
     def new_callback(self):
         self.clear_main_middle_pane()
