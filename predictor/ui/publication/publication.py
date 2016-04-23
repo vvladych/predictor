@@ -177,6 +177,18 @@ class PublUnassignedExtTreeview(ExtendedTreeView):
         self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.title, "%s" % row.date, "%s" % row.url])
 
 
+class PublAssignedExtTreeview(ExtendedTreeView):
+
+    dao_type = PublicationAssignedV
+    columns = [TreeviewColumn("uuid", 0, True),
+               TreeviewColumn("Title", 1, False),
+               TreeviewColumn("Date", 2, False),
+               TreeviewColumn("URL", 3, False)]
+
+    def append_treedata_row(self, row):
+        self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.title, "%s" % row.date, "%s" % row.url])
+
+
 class PublicationMask(AbstractMask):
 
     def __init__(self, main_window, dao=None):
@@ -191,6 +203,8 @@ class PublicationMask(AbstractMask):
         active_filter = self.filter_combobox_widget.get_active_entry()
         if active_filter == "Unassigned":
             self.replace_exttreeview(PublUnassignedExtTreeview)
+        elif active_filter == "Assigned":
+            self.replace_exttreeview(PublAssignedExtTreeview)
         else:
             self.replace_exttreeview(PublicationExtTreeview)
 

@@ -128,6 +128,12 @@ class PublicationUnassignedV(VDAO):
     sortkey = "date DESC"
 
 
+class PublicationAssignedV(VDAO):
+    data_fields = ["uuid", "date", "title", "url"]
+    entity = "publication_assigned_v"
+    sortkey = "date DESC"
+
+
 class PublishertoCountry(DAOtoDAO):
     entity = "publisher_to_country"
     primDAO_PK = "publisher_uuid"
