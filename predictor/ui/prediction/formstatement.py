@@ -160,9 +160,6 @@ class FormStatementAddDialog(BaseAddDialog):
         if concept.datatype == "numeric":
             lower_border = self.numeric_start_widget.get_entry_value()
             upper_border = self.numeric_end_widget.get_entry_value()
-            if upper_border < lower_border:
-                show_error_dialog(self.main_window, "Upper border cannot be lesser than lower border")
-                return
             if lower_border == upper_border:
                 upper_border = float(upper_border) * 1.0001
             fsnumint = Fsnumint(None, {"value": "(%s,%s)" % (lower_border, upper_border)})
