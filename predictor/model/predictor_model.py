@@ -268,6 +268,11 @@ class PredictionOriginatorV(VDAO):
     entity = "public.\"prediction_originator_V\""
 
 
+class PersonOrganisationOriginatorV(VDAO):
+    data_fields = ["uuid", "common_name", "is_person", "is_organisation"]
+    entity = "person_organisation_originator_V"
+
+
 class TextmodelToTmstatement(DAOtoDAO):
     entity = "textmodel_to_tmstatement"
     primDAO_PK = "textmodel_uuid"
