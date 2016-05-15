@@ -71,8 +71,11 @@ class FormStatementAddDialog(BaseAddDialog):
         self.concept_dimension_entry = TextEntryWidget("Dimension", False)
         layout_grid.attach_next_to(self.concept_dimension_entry, self.concept_datatype_entry, Gtk.PositionType.BOTTOM, 1, 1)
 
+        self.originator_combobox = ComboBoxWidget("Originator", DAOList(PersonOrganisationOriginatorV, True), lambda x: ["%s" % x.uuid, "%s" % x.common_name], None)
+        layout_grid.attach_next_to(self.originator_combobox, self.concept_dimension_entry, Gtk.PositionType.BOTTOM, 1, 1)
+
         self.probability_entry = TextEntryWidget("Probability")
-        layout_grid.attach_next_to(self.probability_entry, self.concept_dimension_entry, Gtk.PositionType.BOTTOM, 1, 1)
+        layout_grid.attach_next_to(self.probability_entry, self.originator_combobox, Gtk.PositionType.BOTTOM, 1, 1)
 
         pit_label = LabelWidget("Point-in-time")
         layout_grid.attach_next_to(pit_label, self.probability_entry, Gtk.PositionType.BOTTOM, 1, 1)
