@@ -49,7 +49,6 @@ class TextViewWidget(Gtk.Grid):
         label.set_alignment(xalign=0, yalign=0.5)
         label.set_size_request(200, -1)
 
-
         if textview is None:
             self.textview = Gtk.TextView()
         else:
@@ -134,17 +133,18 @@ class ComboBoxWidget(Gtk.Grid):
             raise NotImplementedError("add_entry still not implemented!")
 
     def set_active_entry(self, entry_key):
-        model_iter = self.model.get_iter_first()
+        if entry_key is not None:
+            model_iter = self.model.get_iter_first()
 
-        found = False
-        while model_iter is not None and self.model.iter_is_valid(model_iter):
-            if entry_key == self.model.get_value(model_iter,0):
-                self.combobox.set_active_iter(model_iter)
-                found = True
-                break
-            model_iter = self.model.iter_next(model_iter)
-        if not found:
-            print("entry_key %s not in model!" % entry_key)
+            found = False
+            while model_iter is not None and self.model.iter_is_valid(model_iter):
+                if entry_key == self.model.get_value(model_iter,0):
+                    self.combobox.set_active_iter(model_iter)
+                    found = True
+                    break
+                model_iter = self.model.iter_next(model_iter)
+            if not found:
+                print("entry_key %s not in model!" % entry_key)
 
     def get_active_entry(self):
         tree_iter = self.combobox.get_active_iter()

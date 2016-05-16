@@ -1,4 +1,7 @@
+import gi
+gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
+
 
 #from predictor.ui.masterdata.masterdata_mask import MasterdataMask
 from predictor.ui.masterdata.main_mask import MDMask
