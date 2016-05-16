@@ -1,5 +1,6 @@
 from gi.repository import Gtk
 
+from .button_widget import ButtonWidget
 from .combobox_widget import ComboBoxWidget
 from .date_widget import DateWidget
 from .label_widget import LabelWidget

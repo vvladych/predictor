@@ -1,6 +1,4 @@
-
 from gi.repository import Gtk
-from predictor.model.DAO import DAOList
 
 
 class TreeviewColumn(object):
@@ -34,8 +32,6 @@ def show_error_dialog(main_window, message):
     error_dialog = Gtk.MessageDialog(main_window, 0, Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message)
     error_dialog.run()
     error_dialog.destroy()
-
-
 
 
 def toolbutton_factory(stock_item=None, tooltip_text="", clicked_action=None, data=None) -> Gtk.ToolButton:
