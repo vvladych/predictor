@@ -7,7 +7,7 @@ setup (
   name = 'predictor',
   version = '0.1',
   packages = find_packages(),
-  install_requires=['psycopg2'],
+  install_requires=['psycopg2', 'gi'],
   author = 'vvladych',
   author_email = '',
   summary = 'Predictions management',
