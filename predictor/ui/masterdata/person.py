@@ -17,41 +17,41 @@ class PersonExtTreeview(ExtendedTreeView):
 
 class PersonWindow(MDOWindow):
 
-    def create_additional_widgets(self):
+    def create_additional_widgets(self, additional_widgets_grid):
 
         self.birth_date_widget = DateWidget("Birth date")
-        self.attach_next_to(self.birth_date_widget, self.common_name_text_entry, Gtk.PositionType.BOTTOM, 1, 1)
+        additional_widgets_grid.attach(self.birth_date_widget, 0, 0, 1, 1)
 
         name_label = LabelWidget("Name")
-        self.attach_next_to(name_label, self.birth_date_widget, Gtk.PositionType.BOTTOM, 1, 1)
+        additional_widgets_grid.attach_next_to(name_label, self.birth_date_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.name_role_combobox_widget = ComboBoxWidget("Name role",
                                                         enum_retrieve_valid_values("t_person_name_role"),
                                                         lambda x: ["%s" % x[0], "%s" % x[1]])
-        self.attach_next_to(self.name_role_combobox_widget, name_label, Gtk.PositionType.BOTTOM, 1, 1)
+        additional_widgets_grid.attach_next_to(self.name_role_combobox_widget, name_label, Gtk.PositionType.BOTTOM, 1, 1)
 
         name_add_button = Gtk.Button("Add", Gtk.STOCK_ADD)
         name_add_button.connect("clicked", self.add_name)
-        self.attach_next_to(name_add_button, self.name_role_combobox_widget, Gtk.PositionType.RIGHT, 1, 1)
+        additional_widgets_grid.attach_next_to(name_add_button, self.name_role_combobox_widget, Gtk.PositionType.RIGHT, 1, 1)
 
         self.name_part_combobox_widget = ComboBoxWidget("Namepart",
                                                         enum_retrieve_valid_values("t_person_name_part_role"),
                                                         lambda x: ["%s" % x[0], "%s" % x[1]])
-        self.attach_next_to(self.name_part_combobox_widget, self.name_role_combobox_widget, Gtk.PositionType.BOTTOM, 1, 1)
+        additional_widgets_grid.attach_next_to(self.name_part_combobox_widget, self.name_role_combobox_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
         namepart_add_button = Gtk.Button("Add", Gtk.STOCK_ADD)
         namepart_add_button.connect("clicked", self.add_name_part)
-        self.attach_next_to(namepart_add_button, self.name_part_combobox_widget, Gtk.PositionType.RIGHT, 1, 1)
+        additional_widgets_grid.attach_next_to(namepart_add_button, self.name_part_combobox_widget, Gtk.PositionType.RIGHT, 1, 1)
 
         namepart_delete_button = Gtk.Button("Delete", Gtk.STOCK_DELETE)
         namepart_delete_button.connect("clicked", self.delete_name_part)
-        self.attach_next_to(namepart_delete_button, namepart_add_button, Gtk.PositionType.RIGHT, 1, 1)
+        additional_widgets_grid.attach_next_to(namepart_delete_button, namepart_add_button, Gtk.PositionType.RIGHT, 1, 1)
 
         self.namepart_role_value_entry = TextEntryWidget(" ")
-        self.attach_next_to(self.namepart_role_value_entry, self.name_part_combobox_widget, Gtk.PositionType.BOTTOM, 2, 1)
+        additional_widgets_grid.attach_next_to(self.namepart_role_value_entry, self.name_part_combobox_widget, Gtk.PositionType.BOTTOM, 2, 1)
 
         self.create_namepart_treeview()
-        self.attach_next_to(self.nameparts_treeview, self.namepart_role_value_entry, Gtk.PositionType.BOTTOM, 4, 1)
+        additional_widgets_grid.attach_next_to(self.nameparts_treeview, self.namepart_role_value_entry, Gtk.PositionType.BOTTOM, 4, 1)
 
     def load_dao(self):
         self.uuid_text_entry.set_entry_value(self.dao.uuid)

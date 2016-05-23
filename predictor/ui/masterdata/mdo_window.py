@@ -27,13 +27,15 @@ class MDOWindow(Gtk.Grid):
         self.common_name_text_entry = TextEntryWidget("Common name", None, True)
         self.attach_next_to(self.common_name_text_entry, self.uuid_text_entry, Gtk.PositionType.BOTTOM, 1, 1)
 
-        self.create_additional_widgets()
+        add_widgets_grid = Gtk.Grid()
+        self.create_additional_widgets(add_widgets_grid)
 
-        save_button = Gtk.Button("Save", Gtk.STOCK_SAVE)
-        save_button.connect("clicked", self.save_dao)
-        self.attach_next_to(save_button, None, Gtk.PositionType.BOTTOM, 1, 1)
+        self.attach_next_to(add_widgets_grid, self.common_name_text_entry, Gtk.PositionType.BOTTOM, 1, 1)
 
-    def create_additional_widgets(self):
+        save_button = ButtonWidget("Save", Gtk.STOCK_SAVE, self.save_dao)
+        self.attach_next_to(save_button, add_widgets_grid, Gtk.PositionType.BOTTOM, 1, 1)
+
+    def create_additional_widgets(self, additional_widgets_grid):
         pass
 
     def load_dao(self):

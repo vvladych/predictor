@@ -4,7 +4,7 @@ Created on 17.08.2015
 @author: vvladych
 """
 
-from gi.repository import Gtk
+from . import *
 
 
 class AbstractMask(Gtk.Paned):

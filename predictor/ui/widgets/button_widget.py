@@ -3,7 +3,7 @@ from . import *
 
 class ButtonWidget(Gtk.Grid):
 
-    def __init__(self, title, clicked_action=None):
+    def __init__(self, title, stock=None, clicked_action=None):
         Gtk.Grid.__init__(self)
         button = Gtk.Button(title)
         button.set_size_request(100, -1)

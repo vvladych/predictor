@@ -1,6 +1,4 @@
-from gi.repository import Gtk
-from gi.repository import Pango
-
+from . import *
 from predictor.model.DAO import DAOListl
 from predictor.helpers.transaction_broker import transactional
 from predictor.ui.ui_tools import show_info_dialog

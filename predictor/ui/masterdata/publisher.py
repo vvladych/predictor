@@ -16,9 +16,9 @@ class PublisherExtTreeview(ExtendedTreeView):
 
 class PublisherWindow(MDOWindow):
 
-    def create_additional_widgets(self):
+    def create_additional_widgets(self, additional_widgets_grid):
         self.url_text_entry = TextEntryWidget("URL", None, True)
-        self.attach_next_to(self.url_text_entry, self.common_name_text_entry, Gtk.PositionType.BOTTOM, 1, 1)
+        additional_widgets_grid.attach(self.url_text_entry, 0, 0, 1, 1)
 
 
     def load_dao(self):

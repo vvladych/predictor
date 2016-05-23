@@ -1,6 +1,4 @@
-
 from . import *
-from predictor.model.predictor_model import CountryDAO
 
 
 class CountryExtTreeview(ExtendedTreeView):
