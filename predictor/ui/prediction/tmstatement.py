@@ -62,8 +62,7 @@ class TextmodelStatementAddDialog(BaseAddDialog):
         self.prediction_model_textview_widget = TextViewWidget(None, None, "Statement")
         layout_grid.attach_next_to(self.prediction_model_textview_widget, self.state_end_date_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
-        add_statement_button = Gtk.Button("Add", Gtk.STOCK_ADD)
-        add_statement_button.connect("clicked", self.add_statement_action)
+        add_statement_button = ButtonWidget("Add", Gtk.STOCK_ADD, self.add_statement_action)
         layout_grid.attach_next_to(add_statement_button, self.prediction_model_textview_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
         layout_grid.attach_next_to(self.overview_component, add_statement_button, Gtk.PositionType.BOTTOM, 1, 1)

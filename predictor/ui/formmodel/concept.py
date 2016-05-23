@@ -40,9 +40,7 @@ class ConceptOverviewWindow(Gtk.Grid):
                                                        lambda x: ["%s" % x[0], "%s" % x[1]])
         self.attach_next_to(self.concept_dimension_widget, self.concept_datatype_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
-        save_button = Gtk.Button("Save", Gtk.STOCK_SAVE)
-        save_button.set_size_request(100, -1)
-        save_button.connect("clicked", self.save_concept_action)
+        save_button = ButtonWidget("Save", Gtk.STOCK_SAVE, self.save_concept_action)
         self.attach_next_to(save_button, self.concept_dimension_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
     def load_concept(self):

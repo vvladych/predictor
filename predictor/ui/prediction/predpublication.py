@@ -27,8 +27,7 @@ class PredictionPublicationAddDialog(BaseAddDialog):
                                                     lambda x: ["%s" % x.uuid, "%s %s %s" % (x.publisher_commonname, x.publication_date, x.publication_title)])
         layout_grid.attach_next_to(self.publications_combobox, publication_label, Gtk.PositionType.BOTTOM, 1, 1)
 
-        add_publication_button = Gtk.Button("Add", Gtk.STOCK_ADD)
-        add_publication_button.connect("clicked", self.add_publication_action)
+        add_publication_button = ButtonWidget("Add", Gtk.STOCK_ADD, self.add_publication_action)
         layout_grid.attach_next_to(add_publication_button, self.publications_combobox, Gtk.PositionType.BOTTOM, 1, 1)
 
         layout_grid.attach_next_to(self.overview_component, add_publication_button, Gtk.PositionType.BOTTOM, 1, 1)

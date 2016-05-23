@@ -56,6 +56,7 @@ class FormStatementAddDialog(BaseAddDialog):
                                                            self.prediction)
 
     def create_layout(self):
+        self.set_default_size(700, 800)
 
         layout_grid = Gtk.Grid()
 
@@ -89,11 +90,8 @@ class FormStatementAddDialog(BaseAddDialog):
         self.concept_workarea = Gtk.Grid()
         layout_grid.attach_next_to(self.concept_workarea, self.state_end_date_widget, Gtk.PositionType.BOTTOM, 1, 1)
         self.concept_workarea.attach(Gtk.Label(""), 0, 0, 1, 1)
-        self.concept_workarea.attach(Gtk.Label(""), 0, 1, 1, 1)
-        self.concept_workarea.attach(Gtk.Label(""), 0, 2, 1, 1)
 
-        add_statement_button = Gtk.Button("Add", Gtk.STOCK_ADD)
-        add_statement_button.connect("clicked", self.add_statement_action)
+        add_statement_button = ButtonWidget("Add", Gtk.STOCK_ADD, self.add_statement_action)
         layout_grid.attach_next_to(add_statement_button, self.concept_workarea , Gtk.PositionType.BOTTOM, 1, 1)
 
         layout_grid.attach_next_to(self.overview_component, add_statement_button, Gtk.PositionType.BOTTOM, 1, 1)

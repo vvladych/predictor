@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="55dd191c-26d7-44ee-bb6e-9e18ad298529" name="Default" comment="">
+<<<<<<< Updated upstream
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/predictor.iml" afterPath="$PROJECT_DIR$/.idea/predictor.iml" />
@@ -16,6 +17,12 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/predictor/ui/masterdata/person.py" afterPath="$PROJECT_DIR$/predictor/ui/masterdata/person.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/predictor/ui/masterdata/publisher.py" afterPath="$PROJECT_DIR$/predictor/ui/masterdata/publisher.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/predictor/ui/widgets/button_widget.py" afterPath="$PROJECT_DIR$/predictor/ui/widgets/button_widget.py" />
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/predictor.py" afterPath="$PROJECT_DIR$/predictor.py" />
+    </list>
+    <list id="d152f1f3-baf1-4bcf-a1cb-7886e9ce847b" name="New changelist" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+>>>>>>> Stashed changes
     </list>
     <ignored path="predictor.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,6 +43,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+<<<<<<< Updated upstream
       <file leaf-file-name="button_widget.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/predictor/ui/widgets/button_widget.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -54,20 +62,37 @@
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
+=======
+      <file leaf-file-name="publication.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/predictor/ui/publication/publication.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="181" column="27" selection-start-line="181" selection-start-column="27" selection-end-line="181" selection-end-column="27" />
+              <folding />
+>>>>>>> Stashed changes
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< Updated upstream
       <file leaf-file-name="person.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/person.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="53" column="31" selection-start-line="53" selection-start-column="31" selection-end-line="53" selection-end-column="31" />
+=======
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/predictor/ui/publication/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="9" column="34" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="34" />
+>>>>>>> Stashed changes
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< Updated upstream
       <file leaf-file-name="publisher.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/publisher.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -75,11 +100,21 @@
               <caret line="20" column="64" selection-start-line="20" selection-start-column="64" selection-end-line="20" selection-end-column="64" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
+=======
+      <file leaf-file-name="predictor_model.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/predictor/model/predictor_model.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="272" column="46" selection-start-line="272" selection-start-column="14" selection-end-line="272" selection-end-column="46" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+>>>>>>> Stashed changes
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< Updated upstream
       <file leaf-file-name="country.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/country.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -95,21 +130,37 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="49" column="40" selection-start-line="49" selection-start-column="40" selection-end-line="49" selection-end-column="40" />
+=======
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/predictor/ui/prediction/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="2" column="70" selection-start-line="2" selection-start-column="70" selection-end-line="2" selection-end-column="70" />
+>>>>>>> Stashed changes
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< Updated upstream
       <file leaf-file-name="mdo_window.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/mdo_window.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="35" column="88" selection-start-line="35" selection-start-column="88" selection-end-line="35" selection-end-column="88" />
+=======
+      <file leaf-file-name="formstatement.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/predictor/ui/prediction/formstatement.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="73" column="164" selection-start-line="73" selection-start-column="164" selection-end-line="73" selection-end-column="164" />
+>>>>>>> Stashed changes
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< Updated upstream
       <file leaf-file-name="abstract_mask.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/predictor/ui/base/abstract_mask.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -135,6 +186,13 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+=======
+      <file leaf-file-name="predictor.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/predictor.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.21428572">
+              <caret line="9" column="54" selection-start-line="9" selection-start-column="54" selection-end-line="9" selection-end-column="54" />
+>>>>>>> Stashed changes
               <folding />
             </state>
           </provider>
@@ -153,7 +211,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="formstatement-branch" />
       </map>
     </option>
     <option name="PUSH_TAGS">
@@ -166,6 +224,7 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+<<<<<<< Updated upstream
         <option value="$PROJECT_DIR$/predictor/ui/masterdata/masterdata_abstract_window.py" />
         <option value="$PROJECT_DIR$/predictor/ui/masterdata/organisation/organisation.py" />
         <option value="$PROJECT_DIR$/predictor/ui/masterdata/masterdata_mask.py" />
@@ -217,6 +276,59 @@
         <option value="$PROJECT_DIR$/predictor/ui/masterdata/organisation.py" />
         <option value="$PROJECT_DIR$/predictor/ui/masterdata/person.py" />
         <option value="$PROJECT_DIR$/predictor/ui/masterdata/publisher.py" />
+=======
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/textmodel/statement/exttreeview.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/textmodel/statement/add_dialog.py" />
+        <option value="$PROJECT_DIR$/predictor/helpers/db_connection.py" />
+        <option value="$PROJECT_DIR$/modeltest.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/widgets/date_widget.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/publication/main_mask.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/publication/overview_window.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/overview_window.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/main_mask.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/add_dialog.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/publication/main_mask.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/publication/add_dialog.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/publication/exttreeview.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/publication/predpublication.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/publication/__init__.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/originator/exttreeview.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/originator/add_dialog.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/originator/originator.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/predpublication/predpublication.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/textmodel/tmstatement.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/masterdata/pkg.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/masterdata/main_mask.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/textmodel/__init__.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/predpublication/__init__.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/originator/__init__.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/masterdata/mdo_window.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/masterdata/__init__.py" />
+        <option value="$PROJECT_DIR$/predictor/model/DAOtoDAO.py" />
+        <option value="$PROJECT_DIR$/predictor/model/DAO.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/originator.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/base/exttreeview.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/formmodel/__init__.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/base_add_dialog.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/tmstatement.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/__init__.py" />
+        <option value="$PROJECT_DIR$/config/config.predictor.conf" />
+        <option value="$PROJECT_DIR$/predictor/ui/ui_tools.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/base/abstract_mask.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/prediction.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/masterdata/language.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/masterdata/country.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/masterdata/organisation.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/masterdata/person.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/masterdata/publisher.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/formmodel/concept.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/predpublication.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/publication/publication.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/publication/__init__.py" />
+        <option value="$PROJECT_DIR$/predictor/model/predictor_model.py" />
+        <option value="$PROJECT_DIR$/predictor/ui/prediction/formstatement.py" />
+        <option value="$PROJECT_DIR$/predictor.py" />
+>>>>>>> Stashed changes
       </list>
     </option>
   </component>
@@ -251,6 +363,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+<<<<<<< Updated upstream
+=======
+      <pane id="Scope" />
+>>>>>>> Stashed changes
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -293,6 +409,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+<<<<<<< Updated upstream
               <option name="myItemId" value="predictor" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -443,13 +560,18 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+=======
+>>>>>>> Stashed changes
               <option name="myItemId" value="config" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+<<<<<<< Updated upstream
       <pane id="Scope" />
+=======
+>>>>>>> Stashed changes
       <pane id="Scratches" />
     </panes>
   </component>
@@ -476,11 +598,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/predictor/ui/prediction" />
       <recent name="$PROJECT_DIR$/predictor/ui/prediction/textmodel" />
       <recent name="$PROJECT_DIR$/predictor/ui/masterdata" />
       <recent name="$PROJECT_DIR$/predictor/ui/base" />
       <recent name="$PROJECT_DIR$/predictor/ui/masterdata/publisher" />
-      <recent name="$PROJECT_DIR$/predictor/ui/masterdata/organisation" />
     </key>
   </component>
   <component name="RunManager" selected="Python.predictor">
@@ -514,6 +636,23 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="predictor" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/modeltest.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="overview_window" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/predictor/ui/publication" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="predictor" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/predictor/ui/publication/overview_window.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -640,14 +779,22 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <list size="2">
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Python.predictor" />
       <item index="1" class="java.lang.String" itemvalue="Python.modeltest" />
+      <item index="2" class="java.lang.String" itemvalue="Python.overview_window" />
     </list>
     <recent_temporary>
+<<<<<<< Updated upstream
       <list size="2">
         <item index="0" class="java.lang.String" itemvalue="Python.predictor" />
         <item index="1" class="java.lang.String" itemvalue="Python.modeltest" />
+=======
+      <list size="3">
+        <item index="0" class="java.lang.String" itemvalue="Python.predictor" />
+        <item index="1" class="java.lang.String" itemvalue="Python.overview_window" />
+        <item index="2" class="java.lang.String" itemvalue="Python.modeltest" />
+>>>>>>> Stashed changes
       </list>
     </recent_temporary>
   </component>
@@ -658,244 +805,16 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="55dd191c-26d7-44ee-bb6e-9e18ad298529" name="Default" comment="" />
+      <changelist id="d152f1f3-baf1-4bcf-a1cb-7886e9ce847b" name="New changelist" comment="" />
       <created>1456003020171</created>
       <option name="number" value="Default" />
       <updated>1456003020171</updated>
     </task>
+<<<<<<< Updated upstream
     <task id="LOCAL-00016" summary="project structure refactoring: created separated packages for masterdata, fix for publisher overview">
       <created>1457560229074</created>
       <option name="number" value="00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1457560229074</updated>
-    </task>
-    <task id="LOCAL-00017" summary="project structure refactoring: consistent naming for ui dialogs and windows">
-      <created>1457560396057</created>
-      <option name="number" value="00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1457560396057</updated>
-    </task>
-    <task id="LOCAL-00018" summary="masterdata refactoring: person exttreeview based implementation, beginning">
-      <created>1457563305795</created>
-      <option name="number" value="00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1457563305795</updated>
-    </task>
-    <task id="LOCAL-00019" summary="fixed person birth date, refactoring datewidget">
-      <created>1457610851289</created>
-      <option name="number" value="00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1457610851289</updated>
-    </task>
-    <task id="LOCAL-00020" summary="implemented DAO check for update / insert">
-      <created>1457618168801</created>
-      <option name="number" value="00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1457618168801</updated>
-    </task>
-    <task id="LOCAL-00021" summary="name and namepart handling for person">
-      <created>1457644558360</created>
-      <option name="number" value="00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1457644558360</updated>
-    </task>
-    <task id="LOCAL-00022" summary="removed outdated person module">
-      <created>1457648623199</created>
-      <option name="number" value="00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1457648623199</updated>
-    </task>
-    <task id="LOCAL-00023" summary="added organisation to masterdata">
-      <created>1457649616172</created>
-      <option name="number" value="00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1457649616172</updated>
-    </task>
-    <task id="LOCAL-00024" summary="added publisher to masterdata, removed outdated files">
-      <created>1457686879863</created>
-      <option name="number" value="00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1457686879863</updated>
-    </task>
-    <task id="LOCAL-00025" summary="bugfix person: insert hasn't working without realname">
-      <created>1457689232067</created>
-      <option name="number" value="00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1457689232067</updated>
-    </task>
-    <task id="LOCAL-00026" summary="bugfix publication: success dialog crashed">
-      <created>1457691646832</created>
-      <option name="number" value="00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1457691646832</updated>
-    </task>
-    <task id="LOCAL-00027" summary="bugfix textmodel: dao construction fixed">
-      <created>1457692147433</created>
-      <option name="number" value="00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1457692147433</updated>
-    </task>
-    <task id="LOCAL-00028" summary="replaced outdated date handling with datewidget">
-      <created>1457692627690</created>
-      <option name="number" value="00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1457692627690</updated>
-    </task>
-    <task id="LOCAL-00029" summary="replaced outdated date handling with datewidget">
-      <created>1457785444983</created>
-      <option name="number" value="00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1457785444984</updated>
-    </task>
-    <task id="LOCAL-00030" summary="masterdata refactoring: create organisation module">
-      <created>1457785495253</created>
-      <option name="number" value="00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1457785495253</updated>
-    </task>
-    <task id="LOCAL-00031" summary="organisation module refactoring">
-      <created>1457785556522</created>
-      <option name="number" value="00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1457785556522</updated>
-    </task>
-    <task id="LOCAL-00032" summary="publisher module refactoring">
-      <created>1457785605002</created>
-      <option name="number" value="00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1457785605002</updated>
-    </task>
-    <task id="LOCAL-00033" summary="publisher module refactoring">
-      <created>1457785643198</created>
-      <option name="number" value="00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1457785643198</updated>
-    </task>
-    <task id="LOCAL-00034" summary="publisher module refactoring">
-      <created>1457785664192</created>
-      <option name="number" value="00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1457785664192</updated>
-    </task>
-    <task id="LOCAL-00035" summary="publisher module refactoring">
-      <created>1457785760324</created>
-      <option name="number" value="00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1457785760324</updated>
-    </task>
-    <task id="LOCAL-00036" summary="person module refactoring">
-      <created>1457785803144</created>
-      <option name="number" value="00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1457785803144</updated>
-    </task>
-    <task id="LOCAL-00037" summary="person module refactoring">
-      <created>1457785859381</created>
-      <option name="number" value="00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1457785859381</updated>
-    </task>
-    <task id="LOCAL-00038" summary="masterdata refactoring">
-      <created>1457786010315</created>
-      <option name="number" value="00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1457786010315</updated>
-    </task>
-    <task id="LOCAL-00039" summary="publication refactoring: date widget simplified">
-      <created>1457786827963</created>
-      <option name="number" value="00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1457786827963</updated>
-    </task>
-    <task id="LOCAL-00040" summary="datewidget refactoring: removed entries as parameters">
-      <created>1457807256756</created>
-      <option name="number" value="00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1457807256756</updated>
-    </task>
-    <task id="LOCAL-00041" summary="textmodel statement: module refactoring">
-      <created>1457868694373</created>
-      <option name="number" value="00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1457868694373</updated>
-    </task>
-    <task id="LOCAL-00042" summary="textmodel statement: module refactoring">
-      <created>1457868823483</created>
-      <option name="number" value="00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1457868823483</updated>
-    </task>
-    <task id="LOCAL-00043" summary="masterdata refactoring: &quot;overview&quot; removed from class names">
-      <created>1457879182256</created>
-      <option name="number" value="00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1457879182256</updated>
-    </task>
-    <task id="LOCAL-00044" summary="masterdata refactoring: created an abstract class for mdo windows">
-      <created>1457901416082</created>
-      <option name="number" value="00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1457901416082</updated>
-    </task>
-    <task id="LOCAL-00045" summary="ui refactorging: widget sizing">
-      <created>1457906640478</created>
-      <option name="number" value="00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1457906640478</updated>
-    </task>
-    <task id="LOCAL-00046" summary="added new widget for combobox, refactoring publication">
-      <created>1457909911394</created>
-      <option name="number" value="00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1457909911394</updated>
-    </task>
-    <task id="LOCAL-00047" summary="added mask reload after insert">
-      <created>1457910267604</created>
-      <option name="number" value="00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1457910267604</updated>
-    </task>
-    <task id="LOCAL-00048" summary="widgets refactoring: entries as widget; date widget">
-      <created>1458338194879</created>
-      <option name="number" value="00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1458338194879</updated>
-    </task>
-    <task id="LOCAL-00049" summary="added country to organisation">
-      <created>1458338956430</created>
-      <option name="number" value="00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1458338956430</updated>
-    </task>
-    <task id="LOCAL-00050" summary="bugfix: orphaned gtk dialogs for masterdata fixed">
-      <created>1458339302849</created>
-      <option name="number" value="00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1458339302850</updated>
-    </task>
-    <task id="LOCAL-00051" summary="bugfix: tmstatement dialog fixed, date label">
-      <created>1458339907720</created>
-      <option name="number" value="00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1458339907720</updated>
-    </task>
-    <task id="LOCAL-00052" summary="refactoring joined dao objects: simplified access to joined daos">
-      <created>1458340951527</created>
-      <option name="number" value="00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1458340951527</updated>
-    </task>
-    <task id="LOCAL-00053" summary="prediction exttreeview: based on a view, not just prediction dao">
-      <created>1458341913701</created>
-      <option name="number" value="00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1458341913701</updated>
-    </task>
-    <task id="LOCAL-00054" summary="added ellipsizing to the treeview by default">
-      <created>1458343055449</created>
-      <option name="number" value="00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1458343055449</updated>
-    </task>
+=======
     <task id="LOCAL-00055" summary="package refactoring: added &quot;pkg&quot; to masterdata">
       <created>1458403215918</created>
       <option name="number" value="00055" />
@@ -917,6 +836,7 @@
     <task id="LOCAL-00058" summary="refactoring publication UI">
       <created>1458603148648</created>
       <option name="number" value="00058" />
+>>>>>>> Stashed changes
       <option name="project" value="LOCAL" />
       <updated>1458603148648</updated>
     </task>
@@ -938,6 +858,259 @@
       <option name="project" value="LOCAL" />
       <updated>1458866707930</updated>
     </task>
+    <task id="LOCAL-00062" summary="added bytea fields to the DAO">
+      <created>1459021143934</created>
+      <option name="number" value="00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1459021143936</updated>
+    </task>
+    <task id="LOCAL-00063" summary="added publication file to the UI">
+      <created>1459029632885</created>
+      <option name="number" value="00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1459029632885</updated>
+    </task>
+    <task id="LOCAL-00064" summary="external file functionality for publications implemented, pdf only">
+      <created>1459031366335</created>
+      <option name="number" value="00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1459031366335</updated>
+    </task>
+    <task id="LOCAL-00065" summary="binary file viewer via config">
+      <created>1459112992038</created>
+      <option name="number" value="00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1459112992039</updated>
+    </task>
+    <task id="LOCAL-00066" summary="added language to the publication">
+      <created>1459282403653</created>
+      <option name="number" value="00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1459282403654</updated>
+    </task>
+    <task id="LOCAL-00067" summary="publication and language: bugfix; changed &quot;common_name&quot; in person to &quot;commonname&quot;">
+      <created>1459492757444</created>
+      <option name="number" value="00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1459492757446</updated>
+    </task>
+    <task id="LOCAL-00068" summary="ui_tools-refactoring: extracted datewidget into widgets module, added widgets module">
+      <created>1459495444042</created>
+      <option name="number" value="00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1459495444042</updated>
+    </task>
+    <task id="LOCAL-00069" summary="publication package refactoring">
+      <created>1459495680493</created>
+      <option name="number" value="00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1459495680493</updated>
+    </task>
+    <task id="LOCAL-00070" summary="prediction package refactoring">
+      <created>1459496068571</created>
+      <option name="number" value="00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1459496068571</updated>
+    </task>
+    <task id="LOCAL-00071" summary="prediction package refactoring">
+      <created>1459496492609</created>
+      <option name="number" value="00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1459496492609</updated>
+    </task>
+    <task id="LOCAL-00072" summary="prediction package refactoring: textmodel removed, deprecated">
+      <created>1459496620494</created>
+      <option name="number" value="00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1459496620494</updated>
+    </task>
+    <task id="LOCAL-00073" summary="removed &quot;add_dialog&quot; from prediction package">
+      <created>1459497077209</created>
+      <option name="number" value="00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1459497077209</updated>
+    </task>
+    <task id="LOCAL-00074" summary="refactoring prediction publication package">
+      <created>1459498971971</created>
+      <option name="number" value="00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1459498971971</updated>
+    </task>
+    <task id="LOCAL-00075" summary="removed outdated classes for masterdata handling">
+      <created>1459499267205</created>
+      <option name="number" value="00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1459499267205</updated>
+    </task>
+    <task id="LOCAL-00076" summary="bugfix overview size">
+      <created>1459500544190</created>
+      <option name="number" value="00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1459500544190</updated>
+    </task>
+    <task id="LOCAL-00077" summary="bugfix prediction originator package">
+      <created>1459500821784</created>
+      <option name="number" value="00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1459500821784</updated>
+    </task>
+    <task id="LOCAL-00078" summary="added publisher to the prediction publication add dialog">
+      <created>1459501903891</created>
+      <option name="number" value="00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1459501903891</updated>
+    </task>
+    <task id="LOCAL-00079" summary="masterdata package refactoring: from pkg to init">
+      <created>1459538429162</created>
+      <option name="number" value="00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1459538429162</updated>
+    </task>
+    <task id="LOCAL-00080" summary="predpublication added">
+      <created>1459538475213</created>
+      <option name="number" value="00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1459538475213</updated>
+    </task>
+    <task id="LOCAL-00081" summary="refactoring prediction package: removed sub-packages">
+      <created>1459539093399</created>
+      <option name="number" value="00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1459539093399</updated>
+    </task>
+    <task id="LOCAL-00082" summary="added concepts, first version">
+      <created>1459550218888</created>
+      <option name="number" value="00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1459550218893</updated>
+    </task>
+    <task id="LOCAL-00083" summary="removed statusbar from main window, not in use">
+      <created>1459550319575</created>
+      <option name="number" value="00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1459550319575</updated>
+    </task>
+    <task id="LOCAL-00084" summary="concepts: implementation">
+      <created>1459551339393</created>
+      <option name="number" value="00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1459551339393</updated>
+    </task>
+    <task id="LOCAL-00085" summary="bugfix: dialog without parent window in publication fixed">
+      <created>1459551394394</created>
+      <option name="number" value="00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1459551394394</updated>
+    </task>
+    <task id="LOCAL-00086" summary="refactoring: gtk grid: &quot;attach_next_to&quot; instead of &quot;attach&quot;; added custom widgets">
+      <created>1459710493218</created>
+      <option name="number" value="00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1459710493218</updated>
+    </task>
+    <task id="LOCAL-00087" summary="refactoring: gtk grid: &quot;attach_next_to&quot; instead of &quot;attach&quot;; added custom widgets">
+      <created>1459803077850</created>
+      <option name="number" value="00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1459803077851</updated>
+    </task>
+    <task id="LOCAL-00088" summary="mdo: create_layout is integrated in the parent class">
+      <created>1459803838100</created>
+      <option name="number" value="00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1459803838100</updated>
+    </task>
+    <task id="LOCAL-00089" summary="daocombobox widget removed">
+      <created>1459805230233</created>
+      <option name="number" value="00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1459805230233</updated>
+    </task>
+    <task id="LOCAL-00090" summary="added &quot;load&quot; flag to the daolist">
+      <created>1459805702895</created>
+      <option name="number" value="00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1459805702895</updated>
+    </task>
+    <task id="LOCAL-00091" summary="prediction refactoring: base widget for dialogs added">
+      <created>1459890747237</created>
+      <option name="number" value="00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1459890747238</updated>
+    </task>
+    <task id="LOCAL-00092" summary="exttreeviews are sortable by clicking">
+      <created>1459893858913</created>
+      <option name="number" value="00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1459893858914</updated>
+    </task>
+    <task id="LOCAL-00093" summary="exttreeviews are sortable by clicking">
+      <created>1459893881933</created>
+      <option name="number" value="00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1459893881933</updated>
+    </task>
+    <task id="LOCAL-00094" summary="textview widget: size configurable, vert. expansion can be set">
+      <created>1460236935279</created>
+      <option name="number" value="00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1460236935280</updated>
+    </task>
+    <task id="LOCAL-00095" summary="formstatement: added a view to model, new exttreeview added">
+      <created>1460240084218</created>
+      <option name="number" value="00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1460240084218</updated>
+    </task>
+    <task id="LOCAL-00096" summary="fstate: data model bugfixes, ui extensions, implementation for numint">
+      <created>1460845482573</created>
+      <option name="number" value="00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1460845482574</updated>
+    </task>
+    <task id="LOCAL-00097" summary="fstate: added fsboolean">
+      <created>1460846779710</created>
+      <option name="number" value="00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1460846779710</updated>
+    </task>
+    <task id="LOCAL-00098" summary="added fsliteral, formalstatements finalized">
+      <created>1461019318390</created>
+      <option name="number" value="00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1461019318393</updated>
+    </task>
+    <task id="LOCAL-00099" summary="added dimension to concept, bugfixes">
+      <created>1461051613505</created>
+      <option name="number" value="00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1461051613514</updated>
+    </task>
+    <task id="LOCAL-00100" summary="fix: displaying of float numbers">
+      <created>1461101312531</created>
+      <option name="number" value="00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1461101312531</updated>
+    </task>
+    <task id="LOCAL-00101" summary="abstract_mask refactoring; added filter to publications">
+      <created>1461448815948</created>
+      <option name="number" value="00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1461448815950</updated>
+    </task>
+    <task id="LOCAL-00102" summary="added &quot;assigned&quot; publications to publications view">
+      <created>1461450702976</created>
+      <option name="number" value="00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1461450702976</updated>
+    </task>
+    <task id="LOCAL-00103" summary="plausibility check for fsnumint removed">
+      <created>1462222399806</created>
+      <option name="number" value="00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1462222399808</updated>
+    </task>
+<<<<<<< Updated upstream
     <task id="LOCAL-00062" summary="code cosmetic, added gtk version check, added none check for textentry widget">
       <created>1463380871109</created>
       <option name="number" value="00062" />
@@ -957,30 +1130,41 @@
       <updated>1463382836317</updated>
     </task>
     <option name="localTasksCounter" value="65" />
+=======
+    <option name="localTasksCounter" value="104" />
+>>>>>>> Stashed changes
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="false" />
     <layout>
+<<<<<<< Updated upstream
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23426062" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+=======
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17447917" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+>>>>>>> Stashed changes
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32912722" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27970558" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39957938" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+<<<<<<< Updated upstream
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31496063" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+=======
+>>>>>>> Stashed changes
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32755905" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39957938" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="UnknownFeatures">
@@ -998,6 +1182,7 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+<<<<<<< Updated upstream
     <MESSAGE value="publication refactoring: date widget simplified" />
     <MESSAGE value="datewidget refactoring: removed entries as parameters" />
     <MESSAGE value="textmodel statement: module refactoring" />
@@ -1024,6 +1209,34 @@
     <MESSAGE value="package refactoring: moved widgets to specific package, imports changed" />
     <MESSAGE value="added new widget: button_widget" />
     <option name="LAST_COMMIT_MESSAGE" value="added new widget: button_widget" />
+=======
+    <MESSAGE value="bugfix prediction originator package" />
+    <MESSAGE value="added publisher to the prediction publication add dialog" />
+    <MESSAGE value="masterdata package refactoring: from pkg to init" />
+    <MESSAGE value="predpublication added" />
+    <MESSAGE value="refactoring prediction package: removed sub-packages" />
+    <MESSAGE value="added concepts, first version" />
+    <MESSAGE value="removed statusbar from main window, not in use" />
+    <MESSAGE value="concepts: implementation" />
+    <MESSAGE value="bugfix: dialog without parent window in publication fixed" />
+    <MESSAGE value="refactoring: gtk grid: &quot;attach_next_to&quot; instead of &quot;attach&quot;; added custom widgets" />
+    <MESSAGE value="mdo: create_layout is integrated in the parent class" />
+    <MESSAGE value="daocombobox widget removed" />
+    <MESSAGE value="added &quot;load&quot; flag to the daolist" />
+    <MESSAGE value="prediction refactoring: base widget for dialogs added" />
+    <MESSAGE value="exttreeviews are sortable by clicking" />
+    <MESSAGE value="textview widget: size configurable, vert. expansion can be set" />
+    <MESSAGE value="formstatement: added a view to model, new exttreeview added" />
+    <MESSAGE value="fstate: data model bugfixes, ui extensions, implementation for numint" />
+    <MESSAGE value="fstate: added fsboolean" />
+    <MESSAGE value="added fsliteral, formalstatements finalized" />
+    <MESSAGE value="added dimension to concept, bugfixes" />
+    <MESSAGE value="fix: displaying of float numbers" />
+    <MESSAGE value="abstract_mask refactoring; added filter to publications" />
+    <MESSAGE value="added &quot;assigned&quot; publications to publications view" />
+    <MESSAGE value="plausibility check for fsnumint removed" />
+    <option name="LAST_COMMIT_MESSAGE" value="plausibility check for fsnumint removed" />
+>>>>>>> Stashed changes
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1034,11 +1247,12 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="21" />
+      <option name="time" value="28" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< Updated upstream
     <entry file="file://$PROJECT_DIR$/predictor/helpers/db_connection.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1068,15 +1282,66 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/predictor/ui/ui_tools.py">
+=======
+    <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/main_mask.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/formmodel/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="31" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/publication/publication.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="189" column="0" selection-start-line="189" selection-start-column="0" selection-end-line="213" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/publication/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="7" selection-end-column="159" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/model/predictor_model.py">
+>>>>>>> Stashed changes
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="303" column="22" selection-start-line="303" selection-start-column="22" selection-end-line="303" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+<<<<<<< Updated upstream
+    <entry file="file://$PROJECT_DIR$/predictor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+=======
+    <entry file="file://$PROJECT_DIR$/predictor/ui/prediction/predpublication.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="129" column="0" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/prediction/prediction.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/predictor.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
+>>>>>>> Stashed changes
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
@@ -1151,6 +1416,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< Updated upstream
     <entry file="file://$PROJECT_DIR$/config/config.predictor.conf">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1176,12 +1442,40 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+=======
+    <entry file="file://$PROJECT_DIR$/predictor/helpers/type_guard.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modeltest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="50" column="22" selection-start-line="50" selection-start-column="22" selection-end-line="50" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/helpers/transaction_broker.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.11029412">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/model/DAOtoDAO.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.6233766">
+          <caret line="102" column="0" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
+>>>>>>> Stashed changes
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/predictor/helpers/db_connection.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
+<<<<<<< Updated upstream
           <caret line="29" column="12" selection-start-line="29" selection-start-column="12" selection-end-line="29" selection-end-column="12" />
         </state>
       </provider>
@@ -1204,18 +1498,47 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.41769043">
           <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="20" selection-end-column="15" />
+=======
+          <caret line="55" column="38" selection-start-line="44" selection-start-column="12" selection-end-line="55" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/formmodel/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.13677812">
+          <caret line="6" column="54" selection-start-line="6" selection-start-column="54" selection-end-line="6" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/base/exttreeview.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="6" selection-start-line="24" selection-start-column="6" selection-end-line="24" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/prediction/base_add_dialog.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="3" column="6" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="6" />
+>>>>>>> Stashed changes
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/predictor/ui/widgets/date_widget.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
+<<<<<<< Updated upstream
           <caret line="0" column="15" selection-start-line="0" selection-start-column="15" selection-end-line="0" selection-end-column="15" />
+=======
+          <caret line="76" column="8" selection-start-line="76" selection-start-column="8" selection-end-line="76" selection-end-column="8" />
+>>>>>>> Stashed changes
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/predictor/ui/widgets/textentry_widget.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
         <state vertical-scroll-proportion="0.041769043">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
         </state>
@@ -1281,12 +1604,80 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="8" column="34" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
+=======
+        <state vertical-scroll-proportion="0.0">
+          <caret line="3" column="112" selection-start-line="3" selection-start-column="112" selection-end-line="3" selection-end-column="112" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/model/DAO.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.06838906">
+          <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/config.predictor.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.25075987">
+          <caret line="11" column="22" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/predictor/ui/ui_tools.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
+          <caret line="120" column="52" selection-start-line="120" selection-start-column="52" selection-end-line="120" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/base/abstract_mask.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/prediction/prediction.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="142" column="0" selection-start-line="142" selection-start-column="0" selection-end-line="142" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/language.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="42" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/country.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="41" selection-end-column="106" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/organisation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="55" selection-end-column="126" />
+>>>>>>> Stashed changes
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/ui_tools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+<<<<<<< Updated upstream
           <caret line="7" column="19" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
         </state>
       </provider>
@@ -1366,26 +1757,100 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.1878089">
           <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding />
+=======
+          <caret line="157" column="0" selection-start-line="157" selection-start-column="0" selection-end-line="158" selection-end-column="102" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/language.py">
+    <entry file="file://$PROJECT_DIR$/predictor/ui/formmodel/concept.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.612462">
+          <caret line="92" column="0" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/main_mask.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="49" column="40" selection-start-line="49" selection-start-column="40" selection-end-line="49" selection-end-column="40" />
-          <folding />
+          <caret line="67" column="34" selection-start-line="67" selection-start-column="34" selection-end-line="67" selection-end-column="34" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/mdo_window.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="35" column="88" selection-start-line="35" selection-start-column="88" selection-end-line="35" selection-end-column="88" />
+          <caret line="3" column="6" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/prediction/originator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/publisher.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6580547">
+          <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="49" selection-end-column="114" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/prediction/predpublication.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="83" column="44" selection-start-line="83" selection-start-column="44" selection-end-line="83" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/prediction/tmstatement.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.22796352">
+          <caret line="10" column="53" selection-start-line="10" selection-start-column="53" selection-end-line="10" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/publication/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="34" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="34" />
+>>>>>>> Stashed changes
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< Updated upstream
+    <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/language.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="49" column="40" selection-start-line="49" selection-start-column="40" selection-end-line="49" selection-end-column="40" />
+=======
+    <entry file="file://$PROJECT_DIR$/predictor/ui/prediction/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="70" selection-start-line="2" selection-start-column="70" selection-end-line="2" selection-end-column="70" />
+>>>>>>> Stashed changes
+          <folding />
+        </state>
+      </provider>
+    </entry>
+<<<<<<< Updated upstream
+    <entry file="file://$PROJECT_DIR$/predictor/ui/masterdata/mdo_window.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="35" column="88" selection-start-line="35" selection-start-column="88" selection-end-line="35" selection-end-column="88" />
+=======
+    <entry file="file://$PROJECT_DIR$/predictor/ui/publication/publication.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="181" column="27" selection-start-line="181" selection-start-column="27" selection-end-line="181" selection-end-column="27" />
+>>>>>>> Stashed changes
+          <folding />
+        </state>
+      </provider>
+    </entry>
+<<<<<<< Updated upstream
     <entry file="file://$PROJECT_DIR$/predictor/ui/base/abstract_mask.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1398,14 +1863,37 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="15" selection-start-line="0" selection-start-column="15" selection-end-line="0" selection-end-column="15" />
+=======
+    <entry file="file://$PROJECT_DIR$/predictor/model/predictor_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="272" column="46" selection-start-line="272" selection-start-column="14" selection-end-line="272" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor/ui/prediction/formstatement.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="73" column="164" selection-start-line="73" selection-start-column="164" selection-end-line="73" selection-end-column="164" />
+>>>>>>> Stashed changes
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< Updated upstream
     <entry file="file://$PROJECT_DIR$/predictor/ui/base/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+=======
+    <entry file="file://$PROJECT_DIR$/predictor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.21428572">
+          <caret line="9" column="54" selection-start-line="9" selection-start-column="54" selection-end-line="9" selection-end-column="54" />
+>>>>>>> Stashed changes
           <folding />
         </state>
       </provider>

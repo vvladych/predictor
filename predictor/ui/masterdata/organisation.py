@@ -14,11 +14,11 @@ class OrganisationExtTreeview(ExtendedTreeView):
 
 class OrganisationWindow(MDOWindow):
 
-    def create_additional_widgets(self, addition_widgets_grid):
+    def create_additional_widgets(self, additional_widgets_grid):
         self.country_combobox = ComboBoxWidget("Country",
                                                DAOList(CountryDAO, True),
                                                lambda x: ["%s" % x.uuid, "%s" % x.commonname])
-        self.attach(addition_widgets_grid, 0, 0, 1, 1)
+        additional_widgets_grid.attach(self.country_combobox, 0, 0, 1, 1)
 
     def load_dao(self):
         self.uuid_text_entry.set_entry_value(self.dao.uuid)

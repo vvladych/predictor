@@ -68,9 +68,7 @@ class PublicationOverviewWindow(Gtk.Grid):
         self.textview_widget = TextViewWidget(None, None, "Text", 600, 300, True)
         self.attach_next_to(self.textview_widget, content_label, Gtk.PositionType.BOTTOM, 1, 1)
 
-        save_publication_button = Gtk.Button("Save", Gtk.STOCK_SAVE)
-        save_publication_button.set_size_request(100, -1)
-        save_publication_button.connect("clicked", self.save_publication_action)
+        save_publication_button = ButtonWidget("Save", Gtk.STOCK_SAVE, self.save_publication_action)
         self.attach_next_to(save_publication_button, self.textview_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
     def load_publication(self):
