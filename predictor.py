@@ -27,12 +27,15 @@ class MainWindow(Gtk.Window):
         self.main_grid.attach(menubar, 0, 0, 1, 1)
 
         toolbar = self.create_toolbar()
-        self.main_grid.attach(toolbar, 0, 1, 1, 1)
+        self.main_grid.attach_next_to(toolbar, menubar, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.working_area=Gtk.Grid()
         self.working_area.set_orientation(Gtk.Orientation.VERTICAL)
-        self.main_grid.attach(self.working_area, 0, 2, 1, 1)
+        self.main_grid.attach_next_to(self.working_area, toolbar, Gtk.PositionType.BOTTOM, 1, 1)
         self.set_working_area(action="publication")
+
+        self.statusbar = Gtk.Statusbar()
+        self.main_grid.attach_next_to(self.statusbar, self.working_area, Gtk.PositionType.BOTTOM, 1, 1)
 
     def create_toolbar(self) -> Gtk.Toolbar:
         toolbar = Gtk.Toolbar()

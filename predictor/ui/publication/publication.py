@@ -1,4 +1,5 @@
 from . import *
+from predictor.ui.ui_tools import attach_next_to_bottom_position_expander
 
 
 class PublicationOverviewWindow(Gtk.Grid):
@@ -99,14 +100,14 @@ class PublicationOverviewWindow(Gtk.Grid):
                                              1,
                                              1)
 
-        content_label = LabelWidget("Content")
-        self.main_layout_grid.attach_next_to(content_label, choose_file_grid, Gtk.PositionType.BOTTOM, 1, 1)
-
         self.textview_widget = TextViewWidget(None, None, "Text", 600, 200, True)
-        self.main_layout_grid.attach_next_to(self.textview_widget, content_label, Gtk.PositionType.BOTTOM, 1, 1)
+        exp_t_w = attach_next_to_bottom_position_expander(self.main_layout_grid,
+                                                          self.textview_widget,
+                                                          choose_file_grid,
+                                                          "Content")
 
         save_publication_button = ButtonWidget("Save", Gtk.STOCK_SAVE, self.save_publication_action)
-        self.main_layout_grid.attach_next_to(save_publication_button, self.textview_widget, Gtk.PositionType.BOTTOM, 1, 1)
+        self.main_layout_grid.attach_next_to(save_publication_button, exp_t_w, Gtk.PositionType.BOTTOM, 1, 1)
 
     def load_publication(self):
         self.publication_title_entry_widget.set_entry_value(self.publication.title)
