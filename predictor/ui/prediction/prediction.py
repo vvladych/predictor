@@ -1,4 +1,5 @@
 from . import *
+from predictor.ui.ui_tools import attach_next_to_bottom_position_expander
 
 
 class PredictionNewDialog(BaseAddDialog):
@@ -57,25 +58,29 @@ class PredictionOverviewWindow(Gtk.Grid):
         self.attach_next_to(self.desc_textview_widget, self.common_name_text_entry, Gtk.PositionType.BOTTOM, 1, 1)
 
         # originators
-        originators_label = LabelWidget("Originators")
-        self.attach_next_to(originators_label, self.desc_textview_widget, Gtk.PositionType.BOTTOM, 1, 1)
+        expander_orig = attach_next_to_bottom_position_expander(self,
+                                                                self.originator_overview_component,
+                                                                self.desc_textview_widget,
+                                                                "originators")
 
-        self.attach_next_to(self.originator_overview_component, originators_label, Gtk.PositionType.BOTTOM, 1, 1)
+        # publications
+        expander_publications = attach_next_to_bottom_position_expander(self,
+                                                                        self.publication_overview_component,
+                                                                        expander_orig,
+                                                                        "publications")
 
-        publications_label = LabelWidget("Publications")
-        self.attach_next_to(publications_label, self.originator_overview_component, Gtk.PositionType.BOTTOM, 1, 1)
 
-        self.attach_next_to(self.publication_overview_component, publications_label, Gtk.PositionType.BOTTOM, 1, 1)
+        # statements
+        expander_stmts = attach_next_to_bottom_position_expander(self,
+                                                                 self.tmstatement_overview_component,
+                                                                 expander_publications,
+                                                                 "statements")
 
-        statements_label = LabelWidget("Statements")
-        self.attach_next_to(statements_label, self.publication_overview_component, Gtk.PositionType.BOTTOM, 1, 1)
-
-        self.attach_next_to(self.tmstatement_overview_component, statements_label, Gtk.PositionType.BOTTOM, 1, 1)
-
-        formstatements_label = LabelWidget("Formstatements")
-        self.attach_next_to(formstatements_label, self.tmstatement_overview_component, Gtk.PositionType.BOTTOM, 1, 1)
-
-        self.attach_next_to(self.formstatement_overview_component, formstatements_label, Gtk.PositionType.BOTTOM, 1, 1)
+        # formstatements
+        expander_formstmts = attach_next_to_bottom_position_expander(self,
+                                                                     self.formstatement_overview_component,
+                                                                     expander_stmts,
+                                                                     "formstatements")
 
     def load_prediction(self):
         if self.prediction is not None:
