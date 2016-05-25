@@ -16,4 +16,4 @@ from predictor.ui.prediction.base_add_dialog import BaseAddDialog
 from predictor.ui.prediction.tmstatement import TextmodelStatementAddDialog, TextmodelStatementExtTreeview
 from predictor.ui.prediction.predpublication import PredictionPublicationAddDialog, PredictionPublicationExtTreeview
 from predictor.ui.prediction.formstatement import FormstatementExtTreeview, FormStatementAddDialog
-from predictor.ui.prediction.originator import PredictionOriginatorExtTreeview
+from predictor.ui.prediction.originator import PredictionOriginatorExtTreeview, OriginatorAddDialog

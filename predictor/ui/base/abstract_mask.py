@@ -23,10 +23,12 @@ class AbstractMask(Gtk.Paned):
         self.dao_type = dao_type
 
         # the middle pane: working area
-        self.main_middle_pane = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        self.main_middle_pane = Gtk.Grid()
+        self.main_middle_pane.set_orientation(Gtk.Orientation.HORIZONTAL)
         main_window_width = self.main_window.get_size()[0]
         overview_width = main_window_width / 4
-        self.left_pane = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.left_pane = Gtk.Grid()
+        self.left_pane.set_orientation(Gtk.Orientation.VERTICAL)
         self.populate_left_pane()
 
         self.main_middle_pane.set_size_request(main_window_width - overview_width , -1)
@@ -54,7 +56,7 @@ class AbstractMask(Gtk.Paned):
                                                   self.new_callback,
                                                   self.edit_callback,
                                                   self.dao)
-        self.left_pane.add(self.overview_treeview)
+        self.left_pane.attach(self.overview_treeview, 0, 0, 1, 1)
 
         main_window_width = self.main_window.get_size()[0]
         overview_width = main_window_width / 4
@@ -79,10 +81,8 @@ class AbstractMask(Gtk.Paned):
         dao = self.dao_type(uuid)
         dao.load()
         if self.overview_window is not None:
-            self.main_middle_pane.pack_start(self.overview_window(self.main_window,
+            self.main_middle_pane.attach(self.overview_window(self.main_window,
                                                                   dao,
                                                                   self.overview_treeview.reset_treemodel),
-                                             False,
-                                             False,
-                                             0)
+                                         0, 0, 1, 1)
             self.main_middle_pane.show_all()

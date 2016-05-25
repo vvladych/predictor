@@ -33,10 +33,15 @@ class PredictionOverviewWindow(Gtk.Grid):
     def __init__(self, main_window, prediction=None, callback=None):
         Gtk.Grid.__init__(self)
         self.main_window = main_window
-        self.publication_overview_component = PredictionPublicationExtTreeview(main_window, 0, 20, None, None, self.show_publication_dialog, prediction)
-        self.tmstatement_overview_component = TextmodelStatementExtTreeview(main_window, 0, 20, self.on_tmstatement_row_select, None, self.show_tmstatement_dialog, prediction)
-        self.originator_overview_component = PredictionOriginatorExtTreeview(main_window, 0, 20, None, None, self.show_originator_dialog, prediction)
-        self.formstatement_overview_component = FormstatementExtTreeview(main_window, 0, 20, None, None, self.show_formstatement_dialog, prediction)
+        self.publication_overview_component = PredictionPublicationExtTreeview(main_window, 0, 20, None, None,
+                                                                               self.show_publication_dialog, prediction)
+        self.tmstatement_overview_component = TextmodelStatementExtTreeview(main_window, 0, 20,
+                                                                            self.on_tmstatement_row_select, None,
+                                                                            self.show_tmstatement_dialog, prediction)
+        self.originator_overview_component = PredictionOriginatorExtTreeview(main_window, 0, 20,
+                                                                             None, None, self.show_originator_dialog, prediction)
+        self.formstatement_overview_component = FormstatementExtTreeview(main_window, 0, 20, None, None,
+                                                                         self.show_formstatement_dialog, prediction)
         self.prediction = prediction
         self.create_layout()
         self.load_prediction()

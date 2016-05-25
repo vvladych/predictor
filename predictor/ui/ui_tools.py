@@ -1,15 +1,6 @@
 from gi.repository import Gtk
 
 
-class TreeviewColumn(object):
-    
-    def __init__(self, column_name, order_number, hidden=True, fixed_size=False):
-        self.column_name = column_name
-        self.ordernum = order_number
-        self.hidden = hidden
-        self.fixed_size = fixed_size
-
-
 def add_column_to_treeview(columnname, counter, hidden, fixed_size=False):
     column = Gtk.TreeViewColumn(columnname)
     if hidden:

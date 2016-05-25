@@ -21,7 +21,15 @@ class TreedataContainer(object):
 
 
 class ExtendedTreeView(Gtk.Grid):
+    """
+    class TreeviewColumn(object):
 
+        def __init__(self, column_name, order_number, hidden=True, fixed_size=False):
+            self.column_name = column_name
+            self.ordernum = order_number
+            self.hidden = hidden
+            self.fixed_size = fixed_size
+    """
     columns = []
 
     def __init__(self, main_window, start_row, rows_per_page, on_row_select_callback, on_new_callback, on_edit_callback, concrete_dao):
