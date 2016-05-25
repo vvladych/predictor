@@ -5,11 +5,15 @@ class PublicationOverviewWindow(Gtk.Grid):
 
     def __init__(self, main_window, publication=None, callback=None):
         Gtk.Grid.__init__(self)
-        self.set_row_spacing(3)
-        self.set_column_spacing(3)
+
+        self.main_layout_grid = Gtk.Grid()
+        self.main_layout_grid.set_row_spacing(3)
+        self.main_layout_grid.set_column_spacing(3)
+        self.attach(self.main_layout_grid, 0, 0, 1, 1)
 
         self.main_window = main_window
         self.publication = publication
+
         self.create_layout()
 
         if publication is not None:
@@ -17,38 +21,67 @@ class PublicationOverviewWindow(Gtk.Grid):
 
         self.parent_callback = callback
 
+
     def create_layout(self):
 
         main_label = LabelWidget("Publication")
-        self.attach(main_label, 0, 0, 1, 1)
+        self.main_layout_grid.attach(main_label, 0, 0, 1, 1)
 
         self.publisher_combobox_widget = ComboBoxWidget("Publisher",
-                                                        DAOList(PublisherDAO, True),
-                                                        lambda x: ["%s" % x.uuid, "%s" % x.commonname])
-        self.attach_next_to(self.publisher_combobox_widget, main_label, Gtk.PositionType.BOTTOM, 1, 1)
+                                                         DAOList(PublisherDAO, True),
+                                                         lambda x: ["%s" % x.uuid, "%s" % x.commonname])
+        self.main_layout_grid.attach_next_to(self.publisher_combobox_widget, main_label, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.publication_date_widget = DateWidget("Date")
-        self.attach_next_to(self.publication_date_widget, self.publisher_combobox_widget, Gtk.PositionType.BOTTOM, 1, 1)
+        self.main_layout_grid.attach_next_to(self.publication_date_widget,
+                                             self.publisher_combobox_widget,
+                                             Gtk.PositionType.BOTTOM,
+                                             1,
+                                             1)
 
         self.language_combobox_widget = ComboBoxWidget("Language",
-                                                       DAOList(LanguageDAO, True),
-                                                       lambda x: ["%s" % x.uuid, "%s" % x.commonname])
-        self.attach_next_to(self.language_combobox_widget, self.publication_date_widget, Gtk.PositionType.BOTTOM, 1, 1)
+                                                        DAOList(LanguageDAO, True),
+                                                        lambda x: ["%s" % x.uuid, "%s" % x.commonname])
+        self.main_layout_grid.attach_next_to(self.language_combobox_widget,
+                                             self.publication_date_widget,
+                                             Gtk.PositionType.BOTTOM,
+                                             1,
+                                             1)
 
         self.publication_title_entry_widget = TextEntryWidget("Title")
-        self.attach_next_to(self.publication_title_entry_widget, self.language_combobox_widget, Gtk.PositionType.BOTTOM, 1, 1)
+        self.main_layout_grid.attach_next_to(self.publication_title_entry_widget,
+                                             self.language_combobox_widget,
+                                             Gtk.PositionType.BOTTOM,
+                                             1,
+                                             1)
 
         self.publication_url_entry_widget = TextEntryWidget("URL")
-        self.attach_next_to(self.publication_url_entry_widget, self.publication_title_entry_widget, Gtk.PositionType.BOTTOM, 1, 1)
+        self.main_layout_grid.attach_next_to(self.publication_url_entry_widget,
+                                             self.publication_title_entry_widget,
+                                             Gtk.PositionType.BOTTOM,
+                                             1,
+                                             1)
 
         pubfile_label = LabelWidget("Publication File")
-        self.attach_next_to(pubfile_label, self.publication_url_entry_widget, Gtk.PositionType.BOTTOM, 1, 1)
+        self.main_layout_grid.attach_next_to(pubfile_label,
+                                             self.publication_url_entry_widget,
+                                             Gtk.PositionType.BOTTOM,
+                                             1,
+                                             1)
 
         self.publication_file_entry_widget = TextEntryFileChooserWidget("File")
-        self.attach_next_to(self.publication_file_entry_widget, pubfile_label, Gtk.PositionType.BOTTOM, 1, 1)
+        self.main_layout_grid.attach_next_to(self.publication_file_entry_widget,
+                                             pubfile_label,
+                                             Gtk.PositionType.BOTTOM,
+                                             1,
+                                             1)
 
         self.binaryfile_uuid_entry_widget = TextEntryWidget("File UUID", None, False)
-        self.attach_next_to(self.binaryfile_uuid_entry_widget, self.publication_file_entry_widget, Gtk.PositionType.BOTTOM, 1, 1)
+        self.main_layout_grid.attach_next_to(self.binaryfile_uuid_entry_widget,
+                                             self.publication_file_entry_widget,
+                                             Gtk.PositionType.BOTTOM,
+                                             1,
+                                             1)
 
         choose_file_grid = Gtk.Grid()
 
@@ -60,16 +93,20 @@ class PublicationOverviewWindow(Gtk.Grid):
         preview_file_button.connect("clicked", self.preview_file)
         choose_file_grid.attach(preview_file_button, 1, 0, 1, 1)
 
-        self.attach_next_to(choose_file_grid, self.binaryfile_uuid_entry_widget, Gtk.PositionType.BOTTOM, 1, 1)
+        self.main_layout_grid.attach_next_to(choose_file_grid,
+                                             self.binaryfile_uuid_entry_widget,
+                                             Gtk.PositionType.BOTTOM,
+                                             1,
+                                             1)
 
         content_label = LabelWidget("Content")
-        self.attach_next_to(content_label, choose_file_grid, Gtk.PositionType.BOTTOM, 1, 1)
+        self.main_layout_grid.attach_next_to(content_label, choose_file_grid, Gtk.PositionType.BOTTOM, 1, 1)
 
-        self.textview_widget = TextViewWidget(None, None, "Text", 600, 300, True)
-        self.attach_next_to(self.textview_widget, content_label, Gtk.PositionType.BOTTOM, 1, 1)
+        self.textview_widget = TextViewWidget(None, None, "Text", 600, 200, True)
+        self.main_layout_grid.attach_next_to(self.textview_widget, content_label, Gtk.PositionType.BOTTOM, 1, 1)
 
         save_publication_button = ButtonWidget("Save", Gtk.STOCK_SAVE, self.save_publication_action)
-        self.attach_next_to(save_publication_button, self.textview_widget, Gtk.PositionType.BOTTOM, 1, 1)
+        self.main_layout_grid.attach_next_to(save_publication_button, self.textview_widget, Gtk.PositionType.BOTTOM, 1, 1)
 
     def load_publication(self):
         self.publication_title_entry_widget.set_entry_value(self.publication.title)

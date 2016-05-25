@@ -18,20 +18,21 @@ class MainWindow(Gtk.Window):
         self.set_default_size(1200, 800)
 
         # The main area, grid
-        self.grid = Gtk.Grid()
-        self.grid.set_orientation(Gtk.Orientation.VERTICAL)
+        self.main_grid = Gtk.Grid()
+        self.main_grid.set_orientation(Gtk.Orientation.VERTICAL)
 
-        self.add(self.grid)
+        self.add(self.main_grid)
 
         menubar = self.create_menubar()
-        self.grid.add(menubar)
+        self.main_grid.attach(menubar, 0, 0, 1, 1)
 
         toolbar = self.create_toolbar()
-        self.grid.add(toolbar)
+        self.main_grid.attach(toolbar, 0, 1, 1, 1)
 
-        self.working_area=Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.grid.add(self.working_area)
-        self.set_working_area("prediction")
+        self.working_area=Gtk.Grid()
+        self.working_area.set_orientation(Gtk.Orientation.VERTICAL)
+        self.main_grid.attach(self.working_area, 0, 2, 1, 1)
+        self.set_working_area(action="publication")
 
     def create_toolbar(self) -> Gtk.Toolbar:
         toolbar = Gtk.Toolbar()
@@ -60,13 +61,13 @@ class MainWindow(Gtk.Window):
     def set_working_area(self, widget=None, action="publication"):
         self.clean_working_area()
         if action == "masterdata":
-            self.working_area.pack_start(MDMask(self), True, True, 0)
+            self.working_area.attach(MDMask(self), 0, 0, 1, 1)
         elif action == "prediction":
-            self.working_area.pack_start(PredictionMask(self), True, True, 0)
+            self.working_area.attach(PredictionMask(self), 0, 0, 1, 1)
         elif action == "publication":
-            self.working_area.pack_start(PublicationMask(self), True, True, 0)
+            self.working_area.attach(PublicationMask(self), 0, 0, 1, 1)
         elif action == "concept":
-            self.working_area.pack_start(ConceptMask(self), True, True, 0)
+            self.working_area.attach(ConceptMask(self), 0, 0, 1, 1)
         else:
             print("unimplemented")
 
