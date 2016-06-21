@@ -36,7 +36,7 @@ def attach_next_to_bottom_position(grid, widget_to_attach, widget_next_to):
     grid.attach_next_to(widget_to_attach, widget_next_to, Gtk.PositionType.BOTTOM, 1, 1)
 
 
-def attach_next_to_bottom_position_expander(grid, widget_to_attach, widget_next_to, expander_label=None) -> Gtk.Expander:
+def attach_next_to_bottom_position_expander(grid, widget_to_attach, widget_next_to, expander_label=None):
     expander = Gtk.Expander()
     expander.set_label(expander_label)
     expander.add(widget_to_attach)

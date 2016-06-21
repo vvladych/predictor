@@ -155,9 +155,8 @@ class PredictionMask(AbstractMask):
         super(PredictionMask, self).__init__(main_window, dao, PredictionExtTreeview, PredictionOverviewWindow, PredictionDAO)
 
     def add_left_pane_filter(self):
-        self.filter_combobox_widget = ComboBoxWidget("Filter", ["All", "Passed", "Expected"],
-                                                     lambda x: ["%s" % x, "%s" % x], self.on_filter_combobox_change, 50, 50)
-        self.left_pane.attach(self.filter_combobox_widget, 0, 1, 1, 1)
+        return ComboBoxWidget("Filter", ["All", "Passed", "Expected"],
+                               lambda x: ["%s" % x, "%s" % x], self.on_filter_combobox_change, 50, 50)
 
     def on_filter_combobox_change(self, widget=None):
         active_filter = self.filter_combobox_widget.get_active_entry()

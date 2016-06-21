@@ -22,7 +22,6 @@ class PublicationOverviewWindow(Gtk.Grid):
 
         self.parent_callback = callback
 
-
     def create_layout(self):
 
         main_label = LabelWidget("Publication")
@@ -236,7 +235,8 @@ class PublicationMask(AbstractMask):
                                                      ["All", "Assigned", "Unassigned"],
                                                      lambda x: ["%s" % x, "%s" % x],
                                                      self.on_filter_combobox_change, 50, 50)
-        self.left_pane.attach(self.filter_combobox_widget, 0, 1, 1, 1)
+        return self.filter_combobox_widget
+
 
     def on_filter_combobox_change(self, widget=None):
         active_filter = self.filter_combobox_widget.get_active_entry()
