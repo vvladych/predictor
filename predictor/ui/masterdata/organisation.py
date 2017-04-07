@@ -57,8 +57,6 @@ class OrganisationMask(AbstractMask):
 
     def new_callback(self):
         self.clear_main_middle_pane()
-        self.main_middle_pane.pack_start(OrganisationWindow(self.main_window, None, self.overview_treeview.reset_treemodel),
-                                         False,
-                                         False,
-                                         0)
+        self.main_middle_pane.attach(OrganisationWindow(self.main_window, None, self.overview_treeview.reset_treemodel), 0, 0, 1, 1)
         self.main_middle_pane.show_all()
+
