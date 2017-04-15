@@ -25,10 +25,11 @@ class dbcursor_wrapper:
 def get_db_connection():
     global dbInstance
     if dbInstance is None:
-        dbInstance = psycopg2.connect("""dbname=%s user=%s password=%s""" %
-                                      (config.get(dbconn, 'dbname'),
-                                       config.get(dbconn, 'user'),
-                                       config.get(dbconn, 'password')))
+        dbInstance = psycopg2.connect(host="%s" % config.get(dbconn, 'host'),
+                                      port="%s" % config.get(dbconn, 'port'),
+                                      dbname="%s" % config.get(dbconn, 'dbname'),
+                                      user="%s" % config.get(dbconn, 'user'),
+                                      password="%s" % config.get(dbconn, 'password'))
     return dbInstance
 
     
