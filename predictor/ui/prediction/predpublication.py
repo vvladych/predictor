@@ -44,6 +44,7 @@ class PredictionPublicationAddDialog(BaseAddDialog):
         self.overview_component.fill_treeview(0)
 
 
+
 class PredictionPublicationExtTreeview(ExtendedTreeView):
 
     dao_type = PredictionPublisherV
@@ -76,6 +77,10 @@ class PredictionPublicationExtTreeview(ExtendedTreeView):
             prediction.remove_publication(publication)
             prediction.save()
             self.fill_treeview(0)
+            
+    def on_menu_item_new(self, widget):
+        pass
+            
 
 
 class PredictionPublicationMask(AbstractMask):

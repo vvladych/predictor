@@ -34,6 +34,7 @@ class ExtendedTreeView(Gtk.Grid):
 
     def __init__(self, main_window, start_row, rows_per_page, on_row_select_callback, on_new_callback, on_edit_callback, concrete_dao):
         super(ExtendedTreeView, self).__init__()
+        self.concrete_dao = concrete_dao
         self.main_window = main_window
         self.treedata = TreedataContainer(self.__class__.dao_type, concrete_dao)
         self.rows_per_page = rows_per_page
@@ -103,13 +104,15 @@ class ExtendedTreeView(Gtk.Grid):
         if tree_iter is not None:
             uuid = model.get_value(tree_iter, 0)
             nd = Gtk.Dialog("Really delete?",
-                            None,
+                            self.main_window,
                             0,
                             ("OK", Gtk.ResponseType.OK, "CANCEL", Gtk.ResponseType.CANCEL))
             ret = nd.run()
             nd.destroy()
             if ret == Gtk.ResponseType.OK:
                 dao = self.__class__.dao_type(uuid)
+                print(uuid)
+                print(self.__class__.dao_type)
                 dao.delete()
                 self.reset_treemodel()
             else:

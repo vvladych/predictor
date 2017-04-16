@@ -36,6 +36,9 @@ class PredictionOriginatorExtTreeview(ExtendedTreeView):
             originator.delete()
             prediction.save()
             self.fill_treeview(0)
+            
+    def on_menu_item_new(self, widget):
+        pass
 
 
 class OriginatorAddDialog(BaseAddDialog):
@@ -79,9 +82,9 @@ class OriginatorAddDialog(BaseAddDialog):
 
     @transactional
     def add_originator(self, widget, originator_type):
-        originator = OriginatorDAO(None, {"short_description":None})
+        originator = OriginatorDAO(None, {'short_description':None})
         originator.save()
-        originator.load()
+            
         if originator_type == "person":
             person = PersonDAO(self.person_originator_combobox.get_active_entry())
             person.load()
