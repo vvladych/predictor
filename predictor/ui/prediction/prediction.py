@@ -147,24 +147,13 @@ class PredictionExtTreeview(ExtendedTreeView):
 
         new_prediction_dialog.destroy()
         self.reset_treemodel()
-        
-    @transactional
-    def on_menu_item_delete(self, widget):
+
+    def get_selected_dao_type(self):
         (model, tree_iter) = self.treeview.get_selection().get_selected()
         if tree_iter is not None:
             uuid = model.get_value(tree_iter, 0)
-            nd = Gtk.Dialog("Really delete?",
-                            self.main_window,
-                            0,
-                            ("OK", Gtk.ResponseType.OK, "CANCEL", Gtk.ResponseType.CANCEL))
-            ret = nd.run()
-            nd.destroy()
-            if ret == Gtk.ResponseType.OK:
-                dao = PredictionDAO(uuid)
-                dao.delete()
-                self.reset_treemodel()
-            else:
-                show_info_dialog(self.main_window, "Canceled")        
+            dao = PredictionDAO(uuid)
+            return dao
 
 
 class PredictionMask(AbstractMask):

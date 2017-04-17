@@ -110,13 +110,17 @@ class ExtendedTreeView(Gtk.Grid):
             ret = nd.run()
             nd.destroy()
             if ret == Gtk.ResponseType.OK:
-                dao = self.__class__.dao_type(uuid)
-                print(uuid)
-                print(self.__class__.dao_type)
+                if self.get_selected_dao_type() is None:
+                    dao = self.__class__.dao_type(uuid)
+                else:
+                    dao = self.get_selected_dao_type()
                 dao.delete()
                 self.reset_treemodel()
             else:
                 show_info_dialog(self.main_window, "Canceled")
+
+    def get_selected_dao_type(self):
+        return None
 
     def reset_treemodel(self):
         self.treeview = self.create_treeview()
