@@ -3,13 +3,17 @@ from . import *
 
 class ComboBoxWidget(Gtk.Grid):
 
-    def __init__(self, title, list_to_load, append_func=None, on_changed=None, label_size=200, combobox_size=300):
+    def __init__(self, title, list_to_load, append_func=None, on_changed=None, label_size=200, combobox_size=300, sorted=False):
         Gtk.Grid.__init__(self)
         title_label = Gtk.Label(title)
         title_label.set_size_request(label_size, -1)
         title_label.set_alignment(xalign=0, yalign=0.5)
         self.attach(title_label, 0, 0, 1, 1)
-        self.model = Gtk.ListStore(str, str)
+        if sorted==True:
+            self.model = Gtk.ListStore(str, str, str)
+            self.model.set_sort_column_id(2, Gtk.SortType.DESCENDING)
+        else:
+            self.model = Gtk.ListStore(str, str)
         self.append_func = append_func
         self.populate_model(list_to_load)
         self.combobox = Gtk.ComboBox.new_with_model_and_entry(self.model)

@@ -24,7 +24,9 @@ class PredictionPublicationAddDialog(BaseAddDialog):
 
         self.publications_combobox = ComboBoxWidget("Publisher",
                                                     DAOList(PublicationPublisherV, True),
-                                                    lambda x: ["%s" % x.uuid, "%s %s %s" % (x.publisher_commonname, x.publication_date, x.publication_title)])
+                                                    lambda x: ["%s" % x.uuid, "%s %s %s" % (x.publisher_commonname, x.publication_date, x.publication_title), "%s" % x.publication_date],
+                                                    sorted=True)
+
         layout_grid.attach_next_to(self.publications_combobox, publication_label, Gtk.PositionType.BOTTOM, 1, 1)
 
         add_publication_button = ButtonWidget("Add", Gtk.STOCK_ADD, self.add_publication_action)
