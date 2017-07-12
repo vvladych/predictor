@@ -64,8 +64,22 @@ class AbstractMask(Gtk.Paned):
             self.left_pane.attach_next_to(self.filter_combobox_widget, self.overview_treeview, Gtk.PositionType.BOTTOM, 1, 1)
 
     def add_left_pane_filter(self):
-        pass
-        
+        self.overview_treeview = self.__class__.exttreeview(self.main_window,
+                                                            0,
+                                                            20,
+                                                            self.on_row_select,
+                                                            self.new_callback,
+                                                            self.edit_callback,
+                                                            self.dao)
+
+        self.overview_treeview.window.set_size_request(self.__class__.default_width, self.__class__.default_height)
+
+        # the middle pane: working area
+        self.main_middle_pane = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+                       
+        self.pack1(self.overview_treeview, True, True)
+        self.pack2(self.main_middle_pane, True, True)
+
     def clear_main_middle_pane(self):
         for child in self.main_middle_pane.get_children():
             self.main_middle_pane.remove(child)

@@ -200,7 +200,7 @@ class PublicationExtTreeview(ExtendedTreeView):
         self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.title, "%s" % row.date, "%s" % row.url])
 
 
-class PublUnassignedExtTreeview(ExtendedTreeView):
+class PublUnassignedExtTreeview(PublicationExtTreeview):
 
     dao_type = PublicationUnassignedV
     columns = [TreeviewColumn("uuid", 0, True),
@@ -208,20 +208,14 @@ class PublUnassignedExtTreeview(ExtendedTreeView):
                TreeviewColumn("Date", 2, False),
                TreeviewColumn("URL", 3, False)]
 
-    def append_treedata_row(self, row):
-        self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.title, "%s" % row.date, "%s" % row.url])
 
-
-class PublAssignedExtTreeview(ExtendedTreeView):
+class PublAssignedExtTreeview(PublicationExtTreeview):
 
     dao_type = PublicationAssignedV
     columns = [TreeviewColumn("uuid", 0, True),
                TreeviewColumn("Title", 1, False),
                TreeviewColumn("Date", 2, False),
                TreeviewColumn("URL", 3, False)]
-
-    def append_treedata_row(self, row):
-        self.treeview.treemodel.append(["%s" % row.uuid, "%s" % row.title, "%s" % row.date, "%s" % row.url])
 
 
 class PublicationMask(AbstractMask):
