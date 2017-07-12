@@ -201,21 +201,11 @@ class PublicationExtTreeview(ExtendedTreeView):
 
 
 class PublUnassignedExtTreeview(PublicationExtTreeview):
-
     dao_type = PublicationUnassignedV
-    columns = [TreeviewColumn("uuid", 0, True),
-               TreeviewColumn("Title", 1, False),
-               TreeviewColumn("Date", 2, False),
-               TreeviewColumn("URL", 3, False)]
 
 
 class PublAssignedExtTreeview(PublicationExtTreeview):
-
     dao_type = PublicationAssignedV
-    columns = [TreeviewColumn("uuid", 0, True),
-               TreeviewColumn("Title", 1, False),
-               TreeviewColumn("Date", 2, False),
-               TreeviewColumn("URL", 3, False)]
 
 
 class PublicationMask(AbstractMask):
