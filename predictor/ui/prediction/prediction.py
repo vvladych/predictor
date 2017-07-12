@@ -155,24 +155,29 @@ class PredictionExtTreeview(ExtendedTreeView):
             dao = PredictionDAO(uuid)
             return dao
 
+class PredictionArchivedExtTreeview(PredictionExtTreeview):
+    dao_type = PredictionPublicationPublisherArchivedV
+
+
+class PredictionActiveExtTreeview(PredictionExtTreeview):
+    dao_type = PredictionPublicationPublisherActiveV
+
 
 class PredictionMask(AbstractMask):
 
     def __init__(self, main_window, dao=None):
         super(PredictionMask, self).__init__(main_window, dao, PredictionExtTreeview, PredictionOverviewWindow, PredictionDAO)
+        self.filter_combobox_widget.set_active_entry("Active")
 
     def add_left_pane_filter(self):
-        return ComboBoxWidget("Filter", ["All", "Passed", "Expected"],
+        return ComboBoxWidget("Filter", ["All", "Archived", "Active"],
                                lambda x: ["%s" % x, "%s" % x], self.on_filter_combobox_change, 50, 50)
 
     def on_filter_combobox_change(self, widget=None):
         active_filter = self.filter_combobox_widget.get_active_entry()
-        if active_filter == "Passed":
-            print("in passed")
-            #self.replace_exttreeview(PublUnassignedExtTreeview)
-        elif active_filter == "Expected":
-            print("in expected")
-            #self.replace_exttreeview(PublAssignedExtTreeview)
+        if active_filter == "Archived":
+            self.replace_exttreeview(PredictionArchivedExtTreeview)
+        elif active_filter == "Active":
+            self.replace_exttreeview(PredictionActiveExtTreeview)
         else:
-            print("in all")
-            #self.replace_exttreeview(PublicationExtTreeview)
+            self.replace_exttreeview(PredictionExtTreeview)
