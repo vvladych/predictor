@@ -305,13 +305,11 @@ class PredictionPublicationPublisherV(VDAO):
     data_fields = ["uuid", "commonname", "created_date", "publication_title", "publication_date", "publisher_commonname", "prediction_archived"]
     entity = "public.\"prediction_publication_publisher_V\""
 
-class PredictionPublicationPublisherArchivedV(VDAO):
-    data_fields = ["uuid", "commonname", "created_date", "publication_title", "publication_date", "publisher_commonname", "prediction_archived"]
+class PredictionPublicationPublisherArchivedV(PredictionPublicationPublisherV):
     entity = "public.\"prediction_publication_publisher_archived_V\""
 
 
-class PredictionPublicationPublisherActiveV(VDAO):
-    data_fields = ["uuid", "commonname", "created_date", "publication_title", "publication_date", "publisher_commonname", "prediction_archived"]
+class PredictionPublicationPublisherActiveV(PredictionPublicationPublisherV):
     entity = "public.\"prediction_publication_publisher_active_V\""
 
 
