@@ -95,7 +95,7 @@ class PublicationDAO(DAO):
                     "PublicationtoBinaryfile": PublicationtoBinaryfile,
                     "PublicationtoLanguage": PublicationtoLanguage}
 
-    sortkey = "date"
+    sortkey = "date DESC"
 
     def add_publicationtext(self, publicationtext):
         self.PublicationtoPublicationtext.add(PublicationtoPublicationtext(self.uuid, publicationtext.uuid))
